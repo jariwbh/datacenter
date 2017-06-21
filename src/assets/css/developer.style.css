@@ -1,0 +1,33 @@
+
+
+
+/* 21-6-2017 Start*/
+.stat-item+.stat-item {
+    padding-left: 15px;
+    border-left: 1px solid #eee;
+  }
+  
+  .stat-item {
+    display: inline-block;
+    padding-right: 15px;
+  }
+
+  .img-circle{
+        border-radius: 50%;
+  }
+
+  .img-width-130{
+      width: 130px;
+  }
+
+  .user-bg .overlay-box {
+    /*background: cornflowerblue;*/
+    opacity: .9;
+    /*position: absolute;*/
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    text-align: center;
+}
+/* 21-6-2017 End*/
