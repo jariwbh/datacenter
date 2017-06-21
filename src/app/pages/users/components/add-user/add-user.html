@@ -1,107 +1,145 @@
-<section class="adduser">
+<section class="addAdmin">
+  <div class="col-sm-4 col-6">
+    <button type="button" class="btn btn-success btn-raised">Add New Field</button> 
+    <button style="margin-left: 10px;" type="button" class="btn btn-success btn-raised">Add New Section</button>
+  </div>  
   <div class="row">
-                  <div class="col-lg-2 col-sm-4 col-xs-12"><button class="btn btn-block btn-success btn-rounded">Add New Feild</button></div>
-                  <div class="col-lg-2 col-sm-4 col-xs-12"><button class="btn btn-block btn-success btn-rounded">Add New Section</button></div>
-               </div>
-               <div class="row">
-                  <div class="col-sm-12">
-                     <div class="white-box">
-                        <h3 class="box-title m-b-0">Create A New Admin</h3>
-                        <p class="text-muted m-b-30 font-13"> Please Complete Full User Information</p>
-                        <div id="exampleValidator" class="wizard">
-                           <ul role="tablist" class="wizard-steps">
-                              <li role="tab" class="active">
-                                 <h4><span><i class="ti-user"></i></span>Information</h4>
-                              </li>
-                              <li role="tab">
-                                 <h4><span><i class="ti-credit-card"></i></span>Username & Password</h4>
-                              </li>
-                              <li role="tab">
-                                 <h4><span><i class="ti-check"></i></span>Access Control Level</h4>
-                              </li>
-                           </ul>
-                           <form id="validation" class="form-horizontal">
-                              <div class="wizard-content">
-                                 <div role="tabpanel" class="wizard-pane active">
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">Full Name</label>
-                                       <div class="col-xs-5"><input type="text" name="fullname" class="form-control"></div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">Edection</label>
-                                       <div class="col-xs-5"><input type="text" name="edection" class="form-control"></div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">City</label>
-                                       <div class="col-xs-5"><input type="text" name="city" class="form-control"></div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">State</label>
-                                       <div class="col-xs-5"><input type="text" name="state" class="form-control"></div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">Birthday</label>
-                                       <div class="col-xs-5"><input type="text" name="birthday" class="form-control"></div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">Phone Number</label>
-                                       <div class="col-xs-5"><input type="text" name="number" class="form-control"></div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">Upload Profile Image</label>
-                                       <div class="col-xs-5">
-                                          <div class="fileupload btn btn-info waves-effect waves-light"><span><i class="ion-upload m-r-5"></i>Upload</span><input type="file" class="upload"></div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div role="tabpanel" class="wizard-pane">
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">Email address</label>
-                                       <div class="col-xs-5"><input type="text" name="email" class="form-control"></div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">Username</label>
-                                       <div class="col-xs-5"><input type="text" name="username" class="form-control"></div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">Password</label>
-                                       <div class="col-xs-5"><input type="password" name="password" class="form-control"></div>
-                                    </div>
-                                 </div>
-                                 <div role="tabpanel" class="wizard-pane">
-                                    <div class="form-group">
-                                       <label class="col-xs-3 control-label">ACL</label>
-                                       <div class="col-12">
-                                          <div class="checkbox checkbox-success"><input id="checkbox1" type="checkbox"><label for="checkbox1"> Create a new admin</label></div>
-                                          <div class="checkbox checkbox-success"><input id="checkbox2" type="checkbox"><label for="checkbox2"> Create a new person</label></div>
-                                          <div class="checkbox checkbox-success"><input id="checkbox3" type="checkbox"><label for="checkbox3">Create a new activity</label></div>
-                                          <div class="checkbox checkbox-success"><input id="checkbox4" type="checkbox"><label for="checkbox4">View User History</label></div>
-                                          <div class="checkbox checkbox-success"><input id="checkbox5" type="checkbox"><label for="checkbox5">View report page</label></div>
-                                          <div class="checkbox checkbox-success"><input id="checkbox6" type="checkbox"><label for="checkbox6">View Manage person page</label></div>
-                                       </div>
-                                       <div class="form-group">
-                                          <label class="col-xs-3 control-label">This admin can create and view just in this state or city category</label>
-                                          <div class="col-12">
-                                             <select multiple="multiple" data-placeholder="Choose" class="select2 m-b-10 select2-multiple">
-                                                <optgroup label="Alaskan/Hawaiian Time Zone">
-                                                   <option value="AK">Alaska</option>
-                                                   <option value="HI">Hawaii</option>
-                                                </optgroup>
-                                                <optgroup label="Pacific Time Zone">
-                                                   <option value="CA">California</option>
-                                                   <option value="NV">Nevada</option>
-                                                   <option value="OR">Oregon</option>
-                                                   <option value="WA">Washington</option>
-                                                </optgroup>
-                                             </select>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </form>
-                        </div>
-                     </div>
+    <div class="col-md-12">
+      <ba-card title="CREATE A NEW ADMIN" baCardClass="with-scroll">
+        <h4 class="grid-h">Please Complete Full User Information</h4>
+        <div class="row show-grid">
+          <div class="col-12 col-sm-4" (click)="switchbox('information')">
+            <div> <img src="assets/img/theme/icon/kameleon/Boss-3.svg"> Information</div>
+          </div>
+          <div class="col-12 col-sm-4" (click)="switchbox('usernamepassword')">
+            <div> <img src="assets/img/theme/icon/kameleon/Checklist.svg"> Username & Password</div>
+          </div>
+          <div class="col-12 col-sm-4" (click)="switchbox('controlaccess')">
+            <div> <img src="assets/img/theme/icon/kameleon/Key.svg"> Control Access</div>
+          </div>
+          
+        </div>
+      </ba-card>
+      <div *ngIf="informationVisibilty">
+        <ba-card title="Information Form" baCardClass="with-scroll">
+          <form>
+            <div class="form-group">
+              <label for="exampleInputname1">Full Name</label>
+              <input type="text" class="form-control" id="exampleInputfullname" placeholder="Full Name">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEduction">Eduction</label>
+              <input type="text" class="form-control" id="exampleInputeduction" placeholder="Eduction">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">City</label>
+              <input type="text" class="form-control" id="exampleInputcity" placeholder="City">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">State</label>
+              <input type="text" class="form-control" id="exampleInputstate" placeholder="State">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">Birthday</label>
+              <input type="text" class="form-control" id="exampleInputbirthday" placeholder="Birthday">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">Phone Number</label>
+              <input type="text" class="form-control" id="exampleInputphonenumber" placeholder="Phone Number">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">Upload Profile Image</label>
+              <ba-file-uploader [fileUploaderOptions]="fileUploaderOptions"></ba-file-uploader>
+            </div>
+            <button type="submit" class="btn btn-danger">Submit</button>
+          </form>
+        </ba-card>
+      </div>
+      <div *ngIf="usernamepasswordVisibilty">
+        <ba-card title="Username & password Form" baCardClass="with-scroll">
+          <form>
+            <div class="form-group">
+              <label for="exampleInputname1">Email</label>
+              <input type="email" class="form-control" id="exampleInputemail" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEduction">Username</label>
+              <input type="text" class="form-control" id="exampleInputusername" placeholder="Username">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">Password</label>
+              <input type="password" class="form-control" id="exampleInputpassword" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-danger">Submit</button>
+          </form>
+        </ba-card>
+      </div>
+      <div *ngIf="accesscontrolVisibilty">
+        <ba-card title="Username & password Form" baCardClass="with-scroll">
+          <form>
+            <div class="form-group">
+              <label for="exampleInputcity">ACL</label>
+              <div class="input-demo checkbox-demo row">
+                <div class="input-demo radio-demo row">
+                    <div class="col-md-4">
+                      <label class="checkbox-inline custom-checkbox nowrap">
+                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="Create a new admin">
+                        <span translate>Create a new admin</span>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="checkbox-inline custom-checkbox nowrap">
+                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio2" value="Create a new person">
+                        <span>Create a new person</span>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="checkbox-inline custom-checkbox nowrap">
+                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio3" value="Create a new activity">
+                        <span>Create a new activity</span>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="checkbox-inline custom-checkbox nowrap">
+                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio3" value="View User History">
+                        <span>View User History</span>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="checkbox-inline custom-checkbox nowrap">
+                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio3" value="View report page">
+                        <span>View report page</span>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="checkbox-inline custom-checkbox nowrap">
+                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio3" value="View Manage person page">
+                        <span>View Manage person page</span>
+                      </label>
+                    </div>
                   </div>
-               </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">This admin can create and view just in this state or city category</label>
+              <select class="form-control" multiple>
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                  <option>Alaska</option>
+                  <option>Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                  <option>California</option>
+                  <option>Nevada</option>
+                  <option>Oregon</option>
+                  <option>Washington</option>
+                </optgroup>
+              </select>
+            </div>
+            
+            <button type="submit" class="btn btn-danger">Submit</button>
+          </form>
+        </ba-card>
+      </div>
+    </div>
+  </div>
 </section>

@@ -1,4 +1,7 @@
+<p-growl [(value)]="msgs"></p-growl>
 <section class="addactivity">
+     
+     
   <div class="row">
     <div class="col-sm-12">
         <div class="white-box">
@@ -16,6 +19,7 @@
                     <h4><span><i class="ti-credit-card"></i></span>About</h4>
                 </li>
             </ul>
+            <button type="button" pButton (click)="showInfo()" label="Info" class="ui-button-info"> Info </button>
             <form id="validation" class="form-horizontal">
                 <div class="wizard-content">
                     <div role="tabpanel" class="wizard-pane active">

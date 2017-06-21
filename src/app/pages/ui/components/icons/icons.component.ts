@@ -16,5 +16,6 @@ export class Icons {
 
   ngOnInit() {
     this.icons = this._iconsService.getAll();
+    console.log(this.icons);
   }
 }

@@ -1,64 +1,76 @@
-<section class="myprofile">
+<section class="usernameprofile">
+  <div class="widgets">
+
   <div class="row">
-    <div class="col-sm-12">
-      <div class="white-box">
-        <h3 class="box-title m-b-0">Jhon Wick Profile</h3>
-        <div class="row">
-          <div class="col-md-12">
-             <form class="form-horizontal">
-                <div class="form-group row">
-                  <label for="inputEmail3" class="col-sm-2 form-control-label">Full Name</label>
-                  <div class="col-sm-4">
-                    <input type="text" class="form-control" id="inputEmail3" placeholder="Full Name">
-                  </div>
+    <div class="col-md-10">
+      <ba-card title="USER PROFILE" baCardClass="with-scroll">
+          <form class="form-horizontal">
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-4 form-control-label">Full Name</label>
+                <div class="col-sm-4">
+                  <span *ngIf="!fullnameVisiblity" style="cursor: pointer" (click)="edit('fullname')"> {{fullnameValue}} </span>
+                  <input type="text" id="fullnameField" *ngIf="fullnameVisiblity" [value]="fullnameValue" class="form-control" placeholder="Full Name">
+                  <button *ngIf="fullnameVisiblity" (click)="editSave('fullname')" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
+                  <button *ngIf="fullnameVisiblity" (click)="editCancel('fullname')" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
                 </div>
-                <div class="form-group row">
-                  <label for="inputEmail3" class="col-sm-2 form-control-label">Email</label>
-                  <div class="col-sm-4">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="email">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="inputPassword3" class="col-sm-2 form-control-label">City</label>
-                  <div class="col-sm-4">
-                    <input type="text" class="form-control" id="inputPassword3" placeholder="city">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="inputPassword3" class="col-sm-2 form-control-label">State</label>
-                  <div class="col-sm-4">
-                    <input type="text" class="form-control" id="inputPassword3" placeholder="State">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="inputPassword3" class="col-sm-2 form-control-label">Gender</label>
-                  <div class="col-sm-4">
-                    <input type="text" class="form-control" id="inputPassword3" placeholder="gender">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="inputPassword3" class="col-sm-2 form-control-label">Date</label>
-                  <div class="col-sm-4">
-                    <input type="text" class="form-control" id="inputPassword3" placeholder="date">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="offset-sm-2 col-sm-4">
-                    <button type="submit" class="btn btn-warning">Sign in</button>
-                  </div>
-                </div>
-              </form>
-          </div>          
-        </div>
-        <div class="row">
-            <div class="col-sm-6 ol-md-6 col-xs-12">
-              <div class="white-box">
-                  <h3 class="box-title">File Upload2</h3>
-                  <label for="input-file-now-custom-1">You can add a default value</label><input id="input-file-now-custom-1" type="file" data-default-file="../plugins/bower_components/dropify/src/images/test-image-1.jpg" class="dropify">
               </div>
-            </div>
-        </div>
-      </div>
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-4 form-control-label">Email</label>
+                <div class="col-sm-6">
+                  <span *ngIf="!emailVisiblity" style="cursor: pointer" (click)="edit('email')"> {{emailValue}} </span>
+                  <input type="email" id="emailField" *ngIf="emailVisiblity" [value]="emailValue" class="form-control" placeholder="email">
+                  <button *ngIf="emailVisiblity" (click)="editSave('email')" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
+                  <button *ngIf="emailVisiblity" (click)="editCancel('email')" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-4 form-control-label">City</label>
+                <div class="col-sm-6">
+                  <span *ngIf="!cityVisiblity" style="cursor: pointer" (click)="edit('city')"> {{cityValue}} </span>
+                  <input type="text" id="cityField" *ngIf="cityVisiblity" [value]="cityValue" class="form-control" placeholder="city">
+                  <button *ngIf="cityVisiblity" (click)="editSave('city')" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
+                  <button *ngIf="cityVisiblity" (click)="editCancel('city')" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-4 form-control-label">State</label>
+                <div class="col-sm-6">
+                  <span *ngIf="!stateVisiblity" style="cursor: pointer" (click)="edit('state')"> {{stateValue}} </span>
+                  <input type="text" id="stateField" *ngIf="stateVisiblity" [value]="stateValue" class="form-control" placeholder="State">
+                  <button *ngIf="stateVisiblity" (click)="editSave('state')" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
+                  <button *ngIf="stateVisiblity" (click)="editCancel('state')" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-4 form-control-label">Gender</label>
+                <div class="col-sm-6">
+                  <span *ngIf="!genderVisiblity" style="cursor: pointer" (click)="edit('gender')"> {{genderValue}} </span>
+                  <input type="text" id="genderField" *ngIf="genderVisiblity" [value]="genderValue" class="form-control" placeholder="gender">
+                  <button *ngIf="genderVisiblity" (click)="editSave('gender')" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
+                  <button *ngIf="genderVisiblity" (click)="editCancel('gender')" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-4 form-control-label">Date</label>
+                <div class="col-sm-6">
+                  <span *ngIf="!dateVisiblity" style="cursor: pointer" (click)="edit('date')"> {{dateValue}} </span>
+                  <input type="text"  id="dateField" *ngIf="dateVisiblity" [value]="dateValue" class="form-control" placeholder="date">
+                  <button *ngIf="dateVisiblity" (click)="editSave('date')" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
+                  <button *ngIf="dateVisiblity" (click)="editCancel('date')" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
+                </div>
+              </div>
+          </form>
+      </ba-card>
     </div>
   </div>
+  <div class="row">
+      <div class="col-sm-6 ol-md-6 col-xs-12">
+        <div class="white-box">
+            <h3 class="box-title">File Upload2</h3>
+            <label for="input-file-now-custom-1">You can add a default value</label><input id="input-file-now-custom-1" type="file" data-default-file="../plugins/bower_components/dropify/src/images/test-image-1.jpg" class="dropify">
+        </div>
+      </div>
+  </div>
+
+</div>
 </section>
