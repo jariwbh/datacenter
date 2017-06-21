@@ -1,21 +1,34 @@
 import { Component } from '@angular/core';
-import { Message } from 'primeng/primeng';
 
 @Component({
   selector: 'nga-add-activity',
   templateUrl: './add-activity.html',
+  styleUrls: ['./grid.scss'],
 })
 
 export class AddActivityComponent {
-  
-  msgs: Message[] = [];
 
-  constructor() {
-  }
+activityTypeVisibilty = true;
+howActivityVisibilty = false;
+aboutVisibilty = false;
 
-  showInfo() {
-        this.msgs = [];
-        this.msgs.push( { severity: 'info', summary: 'Info Message', detail: 'PrimeNG rocks' } );
+constructor() {
+}
+
+switchbox(value: any) {
+    if (value === 'activityType') {
+      this.activityTypeVisibilty = true;
+      this.howActivityVisibilty = false;
+      this.aboutVisibilty = false;
+    } else if (value === 'howActivity') {
+      this.activityTypeVisibilty = false;
+      this.howActivityVisibilty = true;
+      this.aboutVisibilty = false;
+    } else if (value === 'about') {
+      this.activityTypeVisibilty = false;
+      this.howActivityVisibilty = false;
+      this.aboutVisibilty = true;
     }
+  }
 
 }

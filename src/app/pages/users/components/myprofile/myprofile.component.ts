@@ -25,6 +25,10 @@ export class MyprofileComponent {
   dateVisiblity = false;
   dateValue: string;
 
+  dayLists: any[] = [];
+  monthLists: any[] = [];
+  yearLists: any[] = [];
+
   constructor() {
     this.fullnameValue = 'Samarth Magdallawala';
     this.emailValue = 'samarth.magdallawala@krtya.com';
@@ -32,21 +36,58 @@ export class MyprofileComponent {
     this.stateValue = 'Gujarat';
     this.genderValue = 'Male';
     this.dateValue = '01/01/2017';
+    for ( let i = 1; i <= 31; i++) {
+      this.dayLists.push(i);
+    }
+    for ( let j = 2020; j >= 1970; j--) {
+      this.yearLists.push(j);
+    }
+    this.monthLists = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
   }
 
   edit(fieldname: any) {
     if (fieldname === 'fullname') {
       this.fullnameVisiblity = true;
+      this.emailVisiblity = false;
+      this.cityVisiblity = false;
+      this.stateVisiblity = false;
+      this.genderVisiblity = false;
+      this.dateVisiblity = false;
     } else if (fieldname === 'email') {
       this.emailVisiblity = true;
+      this.fullnameVisiblity = false;
+      this.cityVisiblity = false;
+      this.stateVisiblity = false;
+      this.genderVisiblity = false;
+      this.dateVisiblity = false;
     } else if (fieldname === 'city') {
       this.cityVisiblity = true;
+      this.fullnameVisiblity = false;
+      this.emailVisiblity = false;
+      this.stateVisiblity = false;
+      this.genderVisiblity = false;
+      this.dateVisiblity = false;
     } else if (fieldname === 'state') {
       this.stateVisiblity = true;
+      this.fullnameVisiblity = false;
+      this.emailVisiblity = false;
+      this.cityVisiblity = false;
+      this.genderVisiblity = false;
+      this.dateVisiblity = false;
     } else if (fieldname === 'gender') {
       this.genderVisiblity = true;
+      this.fullnameVisiblity = false;
+      this.emailVisiblity = false;
+      this.cityVisiblity = false;
+      this.stateVisiblity = false;
+      this.dateVisiblity = false;
     } else if (fieldname === 'date') {
       this.dateVisiblity = true;
+      this.fullnameVisiblity = false;
+      this.emailVisiblity = false;
+      this.cityVisiblity = false;
+      this.stateVisiblity = false;
+      this.genderVisiblity = false;
     }
   }
   editSave(fieldname: any) {
@@ -81,9 +122,11 @@ export class MyprofileComponent {
       }
       this.genderVisiblity = false;
     } else if (fieldname === 'date') {
-      const dateNewValue = <HTMLInputElement> document.getElementById('dateField');
-      if (dateNewValue !== null) {
-        this.dateValue = dateNewValue.value;
+      const dayNewValue = <HTMLInputElement> document.getElementById('dayField');
+      const monthNewValue = <HTMLInputElement> document.getElementById('monthField');
+      const yearNewValue = <HTMLInputElement> document.getElementById('yearField');
+      if ((dayNewValue !== null) && (monthNewValue !== null) && (yearNewValue !== null)) {
+        this.dateValue = dayNewValue.value + '/' + monthNewValue.value + '/' + yearNewValue.value;
       }
       this.dateVisiblity = false;
     }

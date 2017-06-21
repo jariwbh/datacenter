@@ -45,7 +45,10 @@
                 <label for="inputPassword3" class="col-sm-4 form-control-label">Gender</label>
                 <div class="col-sm-6">
                   <span *ngIf="!genderVisiblity" style="cursor: pointer" (click)="edit('gender')"> {{genderValue}} </span>
-                  <input type="text" id="genderField" *ngIf="genderVisiblity" [value]="genderValue" class="form-control" placeholder="gender">
+                  <select class="form-control" id="genderField" *ngIf="genderVisiblity">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
                   <button *ngIf="genderVisiblity" (click)="editSave('gender')" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
                   <button *ngIf="genderVisiblity" (click)="editCancel('gender')" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
                 </div>
@@ -54,7 +57,16 @@
                 <label for="inputPassword3" class="col-sm-4 form-control-label">Date</label>
                 <div class="col-sm-6">
                   <span *ngIf="!dateVisiblity" style="cursor: pointer" (click)="edit('date')"> {{dateValue}} </span>
-                  <input type="text"  id="dateField" *ngIf="dateVisiblity" [value]="dateValue" class="form-control" placeholder="date">
+                  <!--<input type="text"  id="dateField" *ngIf="dateVisiblity" [value]="dateValue" class="form-control" placeholder="date">-->
+                  <select class="form-control" id="dayField" *ngIf="dateVisiblity">
+                    <option *ngFor="let d of dayLists" [value]="d">{{d}}</option>
+                  </select>
+                  <select class="form-control" id="monthField" *ngIf="dateVisiblity">
+                    <option *ngFor="let m of monthLists" [value]="m">{{m}}</option>
+                  </select>
+                  <select class="form-control" id="yearField" *ngIf="dateVisiblity">
+                    <option *ngFor="let y of yearLists" [value]="y">{{y}}</option>
+                  </select>
                   <button *ngIf="dateVisiblity" (click)="editSave('date')" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
                   <button *ngIf="dateVisiblity" (click)="editCancel('date')" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
                 </div>
@@ -67,7 +79,8 @@
       <div class="col-sm-6 ol-md-6 col-xs-12">
         <div class="white-box">
             <h3 class="box-title">File Upload2</h3>
-            <label for="input-file-now-custom-1">You can add a default value</label><input id="input-file-now-custom-1" type="file" data-default-file="../plugins/bower_components/dropify/src/images/test-image-1.jpg" class="dropify">
+            <label for="input-file-now-custom-1">You can add a default value</label>
+            <ba-file-uploader [fileUploaderOptions]="fileUploaderOptions"></ba-file-uploader>
         </div>
       </div>
   </div>
