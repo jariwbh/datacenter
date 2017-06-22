@@ -14,7 +14,7 @@ import { PAGES_MENU } from './pages.menu';
         <ba-content-top></ba-content-top>
         <router-outlet></router-outlet>
       </div>
-    </div>    
+    </div>   
     <ba-back-top position="200"></ba-back-top>
     `
 })
