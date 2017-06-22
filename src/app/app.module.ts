@@ -17,6 +17,9 @@ import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 
+//Custom Services & Config [21-6-2017]
+import { CoreModule } from './core/core.module';
+import { Configuration } from './app.constants';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -48,6 +51,7 @@ export type StoreType = {
     NgbModule.forRoot(),
     PagesModule,
     routing,
+    CoreModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
