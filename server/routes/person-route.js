@@ -1,12 +1,8 @@
-const express = require('express');
 const router = express.Router();
 var db     = require('../db-config');
 var Person     = require('../models/person');
-var Admin     = require('../models/admin');
+
 /* GET api listing. */
-router.get('/', (req, res) => {
-  res.send('api works');
-});
 
 router.route('/person')
 
@@ -25,16 +21,6 @@ router.route('/person')
         });
 
     });
-
-router.route('/admin/login')
-
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
-    .post(function(req, res) {       
-
-            res.json({ message: 'login successful' });        
-
-    });
-
 
 
 module.exports = router;
