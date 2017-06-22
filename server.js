@@ -13,15 +13,15 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Point static path to dist
-app.use(express.static(path.join(__dirname, 'dist')));
+// Point static path to public
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set our api routes
 app.use('/api', api);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
 /**
@@ -29,6 +29,9 @@ app.get('*', (req, res) => {
  */
 const port = process.env.PORT || '3000';
 app.set('port', port);
+// BASE SETUP
+// =============================================================================
+
 
 /**
  * Create HTTP server.
