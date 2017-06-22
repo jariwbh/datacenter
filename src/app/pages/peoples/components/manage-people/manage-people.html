@@ -1,8 +1,9 @@
 <section class="managepeople">
   <div class="row">
-    <div class="col-lg-2 col-sm-4 col-xs-12"><a href="person_table.html"><button class="btn btn-block btn-success btn-rounded">Table View</button></a></div>
+    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView()"><span *ngIf="cardViewVisibilty">Table View</span><span *ngIf="!cardViewVisibilty">Card View</span> </button></a></div>
   </div>
-  <div class="row">
+
+  <div class="row" *ngIf="cardViewVisibilty">
     <div class="col-md-12 col-lg-4 col-xs-12">
       <!--<div class="white-box">-->
       <ba-card title="User Name" baCardClass="with-scroll">
@@ -12,7 +13,7 @@
           <div class="overlay-box">
             <div class="user-content">
               <!--<a href="people_selected.html"><img alt="img" src="plugins/images/users/genu.jpg" class="thumb-lg img-circle"></a>-->
-              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130" ></a>
+              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130"></a>
               <h4 class="text-white">User Name</h4>
               <h5 class="text-white">info@myadmin.com</h5>
             </div>
@@ -59,7 +60,7 @@
           <div class="overlay-box">
             <div class="user-content">
               <!--<a href="people_selected.html"><img alt="img" src="plugins/images/users/genu.jpg" class="thumb-lg img-circle"></a>-->
-              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130" ></a>
+              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130"></a>
               <h4 class="text-white">User Name</h4>
               <h5 class="text-white">info@myadmin.com</h5>
             </div>
@@ -106,7 +107,7 @@
           <div class="overlay-box">
             <div class="user-content">
               <!--<a href="people_selected.html"><img alt="img" src="plugins/images/users/genu.jpg" class="thumb-lg img-circle"></a>-->
-              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130" ></a>
+              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130"></a>
               <h4 class="text-white">User Name</h4>
               <h5 class="text-white">info@myadmin.com</h5>
             </div>
@@ -153,7 +154,7 @@
           <div class="overlay-box">
             <div class="user-content">
               <!--<a href="people_selected.html"><img alt="img" src="plugins/images/users/genu.jpg" class="thumb-lg img-circle"></a>-->
-              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130" ></a>
+              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130"></a>
               <h4 class="text-white">User Name</h4>
               <h5 class="text-white">info@myadmin.com</h5>
             </div>
@@ -200,7 +201,7 @@
           <div class="overlay-box">
             <div class="user-content">
               <!--<a href="people_selected.html"><img alt="img" src="plugins/images/users/genu.jpg" class="thumb-lg img-circle"></a>-->
-              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130" ></a>
+              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130"></a>
               <h4 class="text-white">User Name</h4>
               <h5 class="text-white">info@myadmin.com</h5>
             </div>
@@ -247,7 +248,7 @@
           <div class="overlay-box">
             <div class="user-content">
               <!--<a href="people_selected.html"><img alt="img" src="plugins/images/users/genu.jpg" class="thumb-lg img-circle"></a>-->
-              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130" ></a>
+              <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130"></a>
               <h4 class="text-white">User Name</h4>
               <h5 class="text-white">info@myadmin.com</h5>
             </div>
@@ -287,32 +288,19 @@
       <!--</div>-->
     </div>
   </div>
+  <div class="row" *ngIf="!cardViewVisibilty">
+    <ba-card title="Users Detail" baCardClass="with-scroll">
+      <p-dataTable #dt [value]="peoplelist" exportFilename="peopleinfo" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+        <p-header>
+          <div class="ui-helper-clearfix">
+            <button class="btn btn-small btn-rounded" type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left">CSV</button>
+          </div>
+        </p-header>
+        <p-column field="Name" header="User Name" [sortable]="true"></p-column>
+        <p-column field="Email" header="User Email" [sortable]="true"></p-column>
+        <p-column field="Contact" header="Contact Info"></p-column>
+        <p-column field="Points" header="No Of Points" [sortable]="true"></p-column>
+      </p-dataTable>
+    </ba-card>
+  </div>
 </section>
-
-
-<!--<style>
-  .stat-item+.stat-item {
-    padding-left: 15px;
-    border-left: 1px solid #eee;
-  }
-  
-  .stat-item {
-    display: inline-block;
-    padding-right: 15px;
-  }
-
-  .img-circle{
-        border-radius: 50%;
-  }
-
-  .user-bg .overlay-box {
-    background: cornflowerblue;
-    opacity: .9;
-    /*position: absolute;*/
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    text-align: center;
-}
-</style>-->

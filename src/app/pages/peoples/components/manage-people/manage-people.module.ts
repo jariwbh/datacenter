@@ -7,6 +7,7 @@ import { routing } from './manage-people.routing';
 import { ManagePeopleComponent } from './manage-people.component';
 
 import { AppTranslationModule } from '../../../../app.translation.module';
+import {DataTableModule,SharedModule} from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -15,6 +16,8 @@ import { AppTranslationModule } from '../../../../app.translation.module';
     FormsModule,
     NgaModule,
     routing,
+    DataTableModule,
+    SharedModule
   ],
   declarations: [
     ManagePeopleComponent,
