@@ -5,8 +5,8 @@
     <div class="canvas-holder">
       <canvas class="chart-area" width="300px" height="300px"></canvas>
       <div class="traffic-text">
-        1,900,128
-        <span translate>{{'dashboard.traffic_chart.view_total'}}</span>
+        75%
+        <span translate>{{'dashboard.traffic_chart_total_user.user_total'}}</span>
       </div>
     </div>
     <div class="traffic-legend"></div>
@@ -14,9 +14,25 @@
 
   <div class="channels-info">
     <div>
-      <div class="channels-info-item" *ngFor="let item of doughnutData">
+      <!--<div class="channels-info-item" *ngFor="let item of doughnutData">
         <div class="legend-color" [ngStyle]="{'background-color': item.color }"></div>
         <p>{{ item.label }}<span class="channel-number">+{{ item.percentage }}%</span></p>
+        <div class="progress progress-sm channel-progress">
+          <div class="progress-bar" role="progressbar"
+               [attr.aria-valuenow]="item.percentage" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width: item.percentage + '%' }">
+          </div>
+        </div>
+      </div>-->
+      <div class="channels-info-item" *ngFor="let item of doughnutData">
+        <div class="legend-color" [ngStyle]="{'background-color': item.color }"></div>
+        <p> 
+            <span *ngIf="item.label == 'Other'"> Poland </span>
+            <span *ngIf="item.label == 'Search engines'">Romania</span>
+            <span *ngIf="item.label == 'Referral Traffic'">Sweden</span>
+            <span *ngIf="item.label == 'Direct Traffic'">Germany</span>
+            <span *ngIf="item.label == 'Ad Campaigns'">Germany</span>
+            <span class="channel-number">+{{ item.percentage }}%</span>
+        </p>
         <div class="progress progress-sm channel-progress">
           <div class="progress-bar" role="progressbar"
                [attr.aria-valuenow]="item.percentage" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width: item.percentage + '%' }">

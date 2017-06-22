@@ -76,7 +76,11 @@
     },
     "traffic_chart": {
       "view_total": "Views Total"
+    },
+    "traffic_chart_total_user": {
+      "user_total": "Total User"
     }
+    
   },
   "tree_view": {
     "title": "basic",
