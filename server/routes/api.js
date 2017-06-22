@@ -10,27 +10,81 @@ router.get('/', (req, res) => {
 });
 
 router.route('/person')
-
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    // create a person 
     .post(function(req, res) {
 
         var person = new Person();      // create a new instance of the Bear model
-        person.name = "Bharat bear";  // set the bears name (comes from the request)
+        person.person = req.body;  // set the bears name (comes from the request)
 
-        // save the bear and check for errors
+        // save the person and check for errors
         person.save(function(err) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'person created!' });
+            res.json({ message: 'Person created!' });
         });
 
     });
 
+router.route('/person')
+    .get(function(req, res) {
+
+        Person.find(function (err, docs) {
+            res.json(docs);
+        });
+
+    });
+
+router.route('/person/:id')
+    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    .get(function(req, res) {
+
+       if (req.params.id) {
+            Person.findById(req.params.id, function (err, docs) {
+                res.json(docs);
+            });
+       }
+    });
+
+router.route('/person/:id')
+    .put(function(req, res) {
+
+        // use our bear model to find the bear we want
+        Person.findById(req.params.id, function(err, person) {
+
+            if (err)
+                res.send(err);
+
+            person.person = req.body;  // set the person
+
+            // save the bear
+            person.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'Person updated!' });
+            });
+
+        });
+    });
+
+router.route('/person/:id')
+    .delete(function(req, res) {
+
+        Person.remove({
+            _id: req.params.id
+        }, function(err, person) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+
+    });
 
 router.route('/formfield/add')
 
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    // create a formfield 
     .post(function(req, res) {
 
         var formfield = new Formfield();      // create a new instance of the Bear model
