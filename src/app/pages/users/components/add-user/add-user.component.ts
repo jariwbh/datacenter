@@ -13,7 +13,7 @@ export class AddUserComponent {
   accesscontrolVisibilty = false;
 
   _completedStep = 1;
-  
+
   switchbox(value: any) {
     if (value === 'information') {
       if (this._completedStep < 1) {
@@ -37,6 +37,5 @@ export class AddUserComponent {
       this.usernamepasswordVisibilty = false;
       this.accesscontrolVisibilty = true;
     }
-    console.log(this._completedStep);
   }
 }
