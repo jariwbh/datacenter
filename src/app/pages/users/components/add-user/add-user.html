@@ -8,13 +8,20 @@
       <ba-card title="CREATE A NEW ADMIN" baCardClass="with-scroll">
         <h4 class="grid-h">Please Complete Full User Information</h4>
         <div class="row show-grid">
-          <div class="col-12 col-sm-4" (click)="switchbox('information')">
+          <div class="col-12 col-sm-4" (click)="switchbox('information')" style="cursor: pointer">
             <div> <img src="assets/img/theme/icon/kameleon/Boss-3.svg"> Information</div>
           </div>
-          <div class="col-12 col-sm-4" (click)="switchbox('usernamepassword')">
+          <div *ngIf ="_completedStep == 1" class="col-12 col-sm-4" style="cursor:no-drop">
             <div> <img src="assets/img/theme/icon/kameleon/Checklist.svg"> Username & Password</div>
           </div>
-          <div class="col-12 col-sm-4" (click)="switchbox('controlaccess')">
+          <div *ngIf ="_completedStep > 1" class="col-12 col-sm-4" (click)="switchbox('usernamepassword')" style="cursor: pointer">
+            <div> <img src="assets/img/theme/icon/kameleon/Checklist.svg"> Username & Password</div>
+          </div>
+
+          <div *ngIf ="_completedStep == 1 || _completedStep == 2" class="col-12 col-sm-4" style="cursor:no-drop">
+            <div> <img src="assets/img/theme/icon/kameleon/Key.svg"> Control Access</div>
+          </div>
+          <div *ngIf ="_completedStep > 2" class="col-12 col-sm-4" (click)="switchbox('controlaccess')" style="cursor: pointer">
             <div> <img src="assets/img/theme/icon/kameleon/Key.svg"> Control Access</div>
           </div>
           
@@ -51,11 +58,17 @@
               <label for="exampleInputcity">Upload Profile Image</label>
               <ba-file-uploader [fileUploaderOptions]="fileUploaderOptions"></ba-file-uploader>
             </div>
-            <button type="submit" class="btn btn-danger">Submit</button>
           </form>
+          
+          <div class="btn-group-example" style="margin:20px">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-success" (click)="switchbox('usernamepassword')">Next</button>
+            </div>
+          </div>
         </ba-card>
+        
       </div>
-      <div *ngIf="usernamepasswordVisibilty">
+      <div *ngIf="usernamepasswordVisibilty" >
         <ba-card title="Username & password Form" baCardClass="with-scroll">
           <form>
             <div class="form-group">
@@ -70,8 +83,13 @@
               <label for="exampleInputcity">Password</label>
               <input type="password" class="form-control" id="exampleInputpassword" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-danger">Submit</button>
           </form>
+          <div class="btn-group-example" style="margin:20px">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-warning" (click)="switchbox('information')">Back </button>
+              <button type="button" class="btn btn-success" (click)="switchbox('controlaccess')">Next</button>
+            </div>
+          </div>
         </ba-card>
       </div>
       <div *ngIf="accesscontrolVisibilty">
@@ -135,9 +153,13 @@
                 </optgroup>
               </select>
             </div>
-            
-            <button type="submit" class="btn btn-danger">Submit</button>
           </form>
+          <div class="btn-group-example" style="margin:20px">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-warning" (click)="switchbox('usernamepassword')">Back </button>
+              <button type="button" class="btn btn-success" (click)="switchbox('information')">Finish</button>
+            </div>
+          </div>
         </ba-card>
       </div>
     </div>
