@@ -1,7 +1,6 @@
 <section class="addAdmin">
   <div class="col-sm-4 col-6">
-    <button type="button" class="btn btn-success btn-raised">Add New Field</button> 
-    <!--<button style="margin-left: 10px;" type="button" class="btn btn-success btn-raised">Add New Section</button>-->
+    <button type="button" class="btn btn-success btn-raised" data-toggle="modal" data-target="#myModalAddFields">Add New Field</button> 
   </div>  
   <div class="row">
     <div class="col-md-12">
@@ -165,3 +164,41 @@
     </div>
   </div>
 </section>
+
+<!-- Modal -->
+<div id="myModalAddFields" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    
+    <div class="modal-content main_cls">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Fields</h4>
+        <button class="close" aria-label="Close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+              <ba-card>
+                <form>
+                  <div class="form-group">
+                    <label for="input01">Text</label>
+                    <input type="text" class="form-control" id="input01" placeholder="Text">
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-lg" id="input4" placeholder="Large Input">
+                  </div>
+                </form>
+              </ba-card>
+            </div>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary confirm-btn" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+    
+  </div>
+</div>

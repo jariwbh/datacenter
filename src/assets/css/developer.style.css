@@ -31,3 +31,14 @@
     text-align: center;
 }
 /* 21-6-2017 End*/
+.main_cls {
+  background: rgba(0, 0, 0, 0) url("/assets/img/sky-bg.jpg") no-repeat scroll center center / cover ;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    will-change: transform;
+    z-index: 0;"
+}
