@@ -1,3 +1,4 @@
+import { AuthService } from '../common/auth.service';
 import {Injectable} from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -12,7 +13,7 @@ export class UserloginService {
     private actionUrl: string;
     private headers: Headers;
 
-    constructor(private http: Http, private configuration: Configuration) {
+    constructor(private http: Http, private configuration: Configuration, private _authService:AuthService) {
 
         this.actionUrl = configuration.Server + 'api/';
 
@@ -25,6 +26,13 @@ export class UserloginService {
        //console.log(toAdd);
        return this.http.post(this.actionUrl + '/admin/login', toAdd, { headers: this.headers })
            .map(res => <any>res.json());
+    }
+    public logout = (): any => {
+           this._authService.logout();
+           return true;
+        // return this.http
+        //     .get(this.actionUrl + 'ManagePeople/GetAllPeople')
+        //     .map(res => <any>res.json());
     }
 
 }
