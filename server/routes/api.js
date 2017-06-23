@@ -129,5 +129,77 @@ router.route('/admin/login')
     });
 
 
+router.route('/admin')
+    // create a person 
+    .post(function(req, res) {
+
+        var person = new Person();      // create a new instance of the Bear model
+        person.person = req.body;  // set the bears name (comes from the request)
+
+        // save the person and check for errors
+        person.save(function(err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Person created!' });
+        });
+
+    });
+
+router.route('/admin')
+    .get(function(req, res) {
+
+        Admin.find(function (err, docs) {
+            res.json(docs);
+        });
+
+    });
+
+router.route('/admin/:id')
+    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    .get(function(req, res) {
+
+       if (req.params.id) {
+            Admin.findById(req.params.id, function (err, docs) {
+                res.json(docs);
+            });
+       }
+    });
+
+router.route('/admin/:id')
+    .put(function(req, res) {
+
+        // use our bear model to find the bear we want
+        Admin.findById(req.params.id, function(err, admin) {
+
+            if (err)
+                res.send(err);
+
+            admin.admin = req.body;  // set the person
+
+            // save the bear
+            admin.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'Person updated!' });
+            });
+
+        });
+    });
+
+router.route('/admin/:id')
+    .delete(function(req, res) {
+
+        Admin.remove({
+            _id: req.params.id
+        }, function(err, admin) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+
+    });
 
 module.exports = router;
