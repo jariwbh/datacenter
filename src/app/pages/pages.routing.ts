@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { Pages } from './pages.component';
 import { ModuleWithProviders } from '@angular/core';
+import { AuthGuard } from './../core/services/common/auth-guard.service';
 // noinspection TypeScriptValidateTypes
 
 // export function loadChildren(path) { return System.import(path); };
@@ -29,6 +30,7 @@ export const routes: Routes = [
       { path: 'activities', loadChildren: './activity/activity.module#ActivityModule' },
       { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },
     ],
+    canActivate: [AuthGuard]
   },
 ];
 

@@ -20,6 +20,9 @@ import { PagesModule } from './pages/pages.module';
 //Custom Services & Config [21-6-2017]
 import { CoreModule } from './core/core.module';
 import { Configuration } from './app.constants';
+import { AuthService } from './core/services/common/auth.service';
+import { AuthGuard } from './core/services/common/auth-guard.service';
+import { UserloginService } from './core/services/userlogin/userlogin.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -55,6 +58,9 @@ export type StoreType = {
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
+    AuthService,
+    AuthGuard,
+    UserloginService
   ]
 })
 
