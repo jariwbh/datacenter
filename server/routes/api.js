@@ -133,11 +133,11 @@ router.route('/admin')
     // create a person 
     .post(function(req, res) {
 
-        var person = new Person();      // create a new instance of the Bear model
-        person.person = req.body;  // set the bears name (comes from the request)
+        var admin = new Admin();      // create a new instance of the Bear model
+        admin.admin = req.body;  // set the bears name (comes from the request)
 
-        // save the person and check for errors
-        person.save(function(err) {
+        // save the admin and check for errors
+        admin.save(function(err) {
             if (err)
                 res.send(err);
 
