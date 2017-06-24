@@ -17,11 +17,11 @@ router.route('/person')
         person.person = req.body;  // set the bears name (comes from the request)
 
         // save the person and check for errors
-        person.save(function(err) {
+        person.save(function(err, data) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Person created!' });
+            res.json(data);
         });
 
     });
@@ -141,7 +141,7 @@ router.route('/admin')
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Person created!' });
+            res.json(data);
         });
 
     });
