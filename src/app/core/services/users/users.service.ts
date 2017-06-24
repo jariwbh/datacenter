@@ -35,21 +35,21 @@ export class UsersService {
     public Add = (data: any): Observable<any> => {
        const toAdd = JSON.stringify(data);
        //console.log(toAdd);
-       return this.http.post(this.actionUrl + '/admin', toAdd, { headers: this.headers })
+       return this.http.post(this.actionUrl + 'admin', toAdd, { headers: this.headers })
            .map(res => <any>res.json());
     }
 
     public Update = (id: number, data: any): Observable<any> => {
        const toAdd = JSON.stringify(data);
        //console.log(toAdd);
-       return this.http.post(this.actionUrl + 'ManagePeople/UpdatePeople/' + id, toAdd, { headers: this.headers })
+       return this.http.put(this.actionUrl + 'admin/' + id, toAdd, { headers: this.headers })
            .map(res => <any>res.json());
     }
 
     public Delete = (id: number): Observable<any> => {
        //console.log(id);
        return this.http
-           .get(this.actionUrl + 'ManagePeople/DeletePeopleById/' + id)
+           .delete(this.actionUrl + 'ManagePeople/DeletePeopleById/' + id)
            .map(res => <any>res.json());
     }
 

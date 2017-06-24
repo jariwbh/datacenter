@@ -1,8 +1,6 @@
 <section class="addAdmin">
   <p-growl [value]="msgs"></p-growl>
-  <div class="col-sm-4 col-6">
-    <button type="button" class="btn btn-success btn-raised" data-toggle="modal" data-target="#myModalAddFields" data-backdrop="static" data-keyboard="false">Add New Field</button> 
-  </div>  
+  
   <div class="row">
     <div class="col-md-12">
       <ba-card title="CREATE A NEW ADMIN" baCardClass="with-scroll">
@@ -29,6 +27,9 @@
       </ba-card>
       <div *ngIf="informationVisibilty">
         <ba-card title="Information Form" baCardClass="with-scroll">
+          <div class="clearfix">
+            <button type="button" class="btn btn-warning btn-raised pull-right" data-toggle="modal" data-target="#myModalAddFields" data-backdrop="static" data-keyboard="false">Add New Field</button>   
+          </div>
           <form 
               *ngIf="dynamicForm"
               (ngSubmit)="onDynamicFormSubmit(dynamicForm.value, dynamicForm.valid)" 
@@ -93,88 +94,66 @@
               </div>
               <input type="submit" class="btn btn-success" value="Save & Next">
           </form>
-          
-          <!--<div class="btn-group-example" style="margin:20px">
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-success" (click)="switchbox('usernamepassword')">Next</button>
-            </div>
-          </div>-->
         </ba-card>
         
       </div>
       <div *ngIf="usernamepasswordVisibilty" >
         <ba-card title="Username & password Form" baCardClass="with-scroll">
-          <form>
+          <form [formGroup]="usernamepasswordForm" (ngSubmit)="onUsernamepasswordSubmit(usernamepasswordForm.value,usernamepasswordForm.valid)" novalidate class="form-horizontal">
             <div class="form-group">
               <label for="exampleInputname1">Email</label>
-              <input type="email" class="form-control" id="exampleInputemail" placeholder="Email">
+              <input 
+                  type="email" 
+                  class="form-control" 
+                  formControlName="email" 
+                  [(ngModel)]="_usersModel.email" 
+                  placeholder="Email"
+                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+              <div [hidden]="usernamepasswordForm.get('email').valid || (usernamepasswordForm.get('email').pristine && !usernamepasswordsubmitted)" class="alert alert-danger">
+                  Email is not valid.
+              </div>
+              
             </div>
             <div class="form-group">
               <label for="exampleInputEduction">Username</label>
-              <input type="text" class="form-control" id="exampleInputusername" placeholder="Username">
+              <input type="text" class="form-control" formControlName="username" [(ngModel)]="_usersModel.username" placeholder="Username">
+              <div [hidden]="usernamepasswordForm.get('username').valid || (usernamepasswordForm.get('username').pristine && !usernamepasswordsubmitted)" class="alert alert-danger">
+                  Username is not valid. ( minimum 4 character required )
+              </div>
             </div>
             <div class="form-group">
               <label for="exampleInputcity">Password</label>
-              <input type="password" class="form-control" id="exampleInputpassword" placeholder="Password">
+              <input type="password" class="form-control" formControlName="password" [(ngModel)]="_usersModel.password" placeholder="Password">
+              <div [hidden]="usernamepasswordForm.get('password').valid || (usernamepasswordForm.get('password').pristine && !usernamepasswordsubmitted)" class="alert alert-danger">
+                  password is not valid. ( minimum 4 character required )
+              </div>
             </div>
+            <input type="submit" class="btn btn-success" value="Save & Next">
           </form>
-          <div class="btn-group-example" style="margin:20px">
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-warning" (click)="switchbox('information')">Back </button>
-              <button type="button" class="btn btn-success" (click)="switchbox('controlaccess')">Next</button>
-            </div>
-          </div>
         </ba-card>
       </div>
       <div *ngIf="accesscontrolVisibilty">
         <ba-card title="Username & password Form" baCardClass="with-scroll">
-          <form>
+          <form [formGroup]="controlAccessForm" (ngSubmit)="controlAccessonSubmit(controlAccessForm.value,controlAccessForm.valid)" novalidate class="form-horizontal">
             <div class="form-group">
               <label for="exampleInputcity">ACL</label>
               <div class="input-demo checkbox-demo row">
                 <div class="input-demo radio-demo row">
-                    <div class="col-md-4">
+                    <div class="col-md-4" *ngFor="let cat of cityRights">
                       <label class="checkbox-inline custom-checkbox nowrap">
-                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="Create a new admin">
-                        <span translate>Create a new admin</span>
-                      </label>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="checkbox-inline custom-checkbox nowrap">
-                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio2" value="Create a new person">
-                        <span>Create a new person</span>
-                      </label>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="checkbox-inline custom-checkbox nowrap">
-                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio3" value="Create a new activity">
-                        <span>Create a new activity</span>
-                      </label>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="checkbox-inline custom-checkbox nowrap">
-                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio3" value="View User History">
-                        <span>View User History</span>
-                      </label>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="checkbox-inline custom-checkbox nowrap">
-                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio3" value="View report page">
-                        <span>View report page</span>
-                      </label>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="checkbox-inline custom-checkbox nowrap">
-                        <input type="checkbox" name="inlineRadioOptions" id="inlineRadio3" value="View Manage person page">
-                        <span>View Manage person page</span>
+                        <input type="checkbox" [value]="cat" formControlName="acl" (change)="categoryChange($event)">
+                        <span>{{cat}}</span>
                       </label>
                     </div>
                   </div>
               </div>
+              <div *ngIf="aclVisibility" class="alert alert-danger">
+                  ACL is required.
+              </div>
             </div>
             <div class="form-group">
               <label for="exampleInputcity">This admin can create and view just in this state or city category</label>
-              <select class="form-control" multiple>
+              <select class="form-control" multiple formControlName="cityRights" [(ngModel)]="_usersModel.cityRights">
                 <optgroup label="Alaskan/Hawaiian Time Zone">
                   <option>Alaska</option>
                   <option>Hawaii</option>
@@ -186,14 +165,12 @@
                   <option>Washington</option>
                 </optgroup>
               </select>
+              <div [hidden]="controlAccessForm.get('cityRights').valid || (controlAccessForm.get('cityRights').pristine && !controlAccessSubmitted)" class="alert alert-danger">
+                  city Rights is required.
+              </div>
             </div>
+            <input type="submit" class="btn btn-success" value="Save & Finshed">
           </form>
-          <div class="btn-group-example" style="margin:20px">
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-warning" (click)="switchbox('usernamepassword')">Back </button>
-              <button type="button" class="btn btn-success" (click)="switchbox('information')">Finish</button>
-            </div>
-          </div>
         </ba-card>
       </div>
     </div>
@@ -257,7 +234,7 @@
                     <div class="input-demo radio-demo row">
                     <div class="col-md-4">
                       <label class="radio-inline custom-radio nowrap">
-                        <input id="inlineRadio1" checked formControlName="isMandatory" [(ngModel)]="_fieldsModel.isMandatory" type="radio" value="0">
+                        <input checked formControlName="isMandatory" [(ngModel)]="_fieldsModel.isMandatory" type="radio" value="0">
                         <span translate="">Yes</span>
                       </label>
                     </div>
@@ -274,7 +251,7 @@
                   </div>
                   <div class="form-group" *ngIf="_lookupVisibiity">
                     <label for="input01">LookUp</label>
-                    <textarea class="form-control form-control-lg" formControlName="lookupdata" [(ngModel)]="_fieldsModel.lookupdata"> </textarea>
+                    <textarea class="form-control form-control-lg" formControlName="lookupdata" [(ngModel)]='_sampleJson'>  </textarea>
                     <div [hidden]="form.get('lookupdata').valid || (form.get('lookupdata').pristine && !submitted)" class="alert alert-danger">
                         lookupdata is required.
                     </div>
@@ -293,7 +270,7 @@
                         formorder is required.
                     </div>
                   </div>
-                  <button class="btn btn-success" type="submit">Send</button>
+                  <button class="btn btn-success" type="submit">Save changes</button>
                 </form>
               </ba-card>
             </div>
@@ -301,7 +278,6 @@
         
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary confirm-btn" data-dismiss="modal">Save changes</button>
       </div>
     </div>
     

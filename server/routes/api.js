@@ -168,7 +168,6 @@ router.route('/admin/:id')
 
 router.route('/admin/:id')
     .put(function(req, res) {
-
         // use our bear model to find the bear we want
         Admin.findById(req.params.id, function(err, admin) {
 
@@ -178,11 +177,11 @@ router.route('/admin/:id')
             admin.admin = req.body;  // set the person
 
             // save the bear
-            admin.save(function(err) {
+            admin.save(function(err, data) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'Person updated!' });
+                res.json(data);
             });
 
         });
