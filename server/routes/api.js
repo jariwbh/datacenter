@@ -137,7 +137,7 @@ router.route('/admin')
         admin.admin = req.body;  // set the bears name (comes from the request)
 
         // save the admin and check for errors
-        admin.save(function(err) {
+        admin.save(function(err, data) {
             if (err)
                 res.send(err);
 
