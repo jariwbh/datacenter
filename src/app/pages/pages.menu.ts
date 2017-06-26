@@ -28,7 +28,7 @@ export const PAGES_MENU = [
         path: 'users',
         data: {
           menu: {
-            title: 'User',
+            title: 'Admin',
             icon: 'ion-person',
             selected: false,
             expanded: false,
@@ -48,9 +48,19 @@ export const PAGES_MENU = [
             path: 'add-user',
             data: {
               menu: {
-                title: 'New User',
+                title: 'New Admin',
               },
             },
+            children: [
+            {
+              path: 'form',
+              data: {
+                menu: {
+                  title: 'form',
+                },
+              },
+            },
+          ],
           },
           {
             path: 'user-history',
@@ -81,6 +91,16 @@ export const PAGES_MENU = [
                 title: 'New Person',
               },
             },
+            children: [
+            {
+              path: 'form',
+              data: {
+                menu: {
+                  title: 'form',
+                },
+              },
+            },
+          ],
           },
           {
             path: 'manage-people',

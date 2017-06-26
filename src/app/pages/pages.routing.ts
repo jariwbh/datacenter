@@ -30,7 +30,7 @@ export const routes: Routes = [
       { path: 'activities', loadChildren: './activity/activity.module#ActivityModule' },
       { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },
     ],
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
 ];
 

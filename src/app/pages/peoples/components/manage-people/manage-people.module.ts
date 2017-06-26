@@ -7,7 +7,10 @@ import { routing } from './manage-people.routing';
 import { ManagePeopleComponent } from './manage-people.component';
 
 import { AppTranslationModule } from '../../../../app.translation.module';
-import {DataTableModule,SharedModule} from 'primeng/primeng';
+import { DataTableModule, SharedModule } from 'primeng/primeng';
+
+import { ManagepeopleService } from '../../../../core/services/people/manage-people.service';
+import { GrowlModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -17,10 +20,14 @@ import {DataTableModule,SharedModule} from 'primeng/primeng';
     NgaModule,
     routing,
     DataTableModule,
-    SharedModule
+    SharedModule,
+    GrowlModule,
   ],
   declarations: [
     ManagePeopleComponent,
   ],
+  providers: [
+    ManagepeopleService,
+  ]
 })
 export class ManagePeopleModule {}
