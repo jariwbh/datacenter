@@ -1,0 +1,238 @@
+<section class="">
+  <div class="row">
+    <div class="col-md-10">
+      <ba-card title="User Count for City" baCardClass="with-scroll">
+        <!--<div class="row">-->
+        <form [formGroup]="formAreaCount" name="formAreaCount" class="row">
+          <div class="col-sm-3">
+
+            <select class="form-control" formControlName="province" id="province" (change)="onChange($event.target.value)" [(ngModel)]="_AreaCountModel.province">
+                    <option value="">--Select Province--</option>
+                    <option [value]="p" *ngFor="let p of prov">{{p}}</option>
+                    <!--<option value="Baghdad">Baghdad</option>-->
+                  </select>
+
+          </div>
+          <div class="col-sm-3">
+
+            <select class="form-control" formControlName="district" id="district" [(ngModel)]="_AreaCountModel.district">
+                    <option value="">--Select District--</option>
+                    <option [value]="p" *ngFor="let p of districtListforDD">{{p}}</option>
+                    <!--<option value="Baghdad">Baghdad</option>
+                    <option value="Sadr">Sadr</option>-->
+                  </select>
+
+          </div>
+          <div class="col-sm-3">
+
+            <select class="form-control" formControlName="area" id="area" [(ngModel)]="_AreaCountModel.area">
+                    <option value="">--Select Area--</option>
+                    <option [value]="p" *ngFor="let p of areaListforDD">{{p}}</option>
+                    <!--<option value="Nissan">Nissan</option>
+                    <option value="Ishbiliya">Ishbiliya</option>-->
+            </select>
+
+          </div>
+          <div class="col-sm-2">
+            <input type="number" [disabled]="!_DistrictCountModel.area" formControlName="count" id="count" [value]="" class="form-control"
+              placeholder="Count" [(ngModel)]="_AreaCountModel.count">
+          </div>
+          <div class="col-sm-1">
+            <button [disabled]="!_AreaCountModel.count || !_AreaCountModel.area || !_AreaCountModel.district || !_AreaCountModel.province "
+              (click)="addAreaCountSettings()" type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>
+
+          </div>
+        </form>
+        <!--</div>-->
+        <div class="row">
+          <div class="col-md-12">
+            <ba-card class="pie-chart-item-container col-md-12">
+              <div class="horizontal-scroll">
+                <table class="table table-condensed">
+                  <thead>
+                    <tr>
+                      <!--<th class="table-id">#</th>-->
+                      <th>Province</th>
+                      <th>District</th>
+                      <th>Area</th>
+                      <th>Count</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of AreaCountSettingsList">
+                      <!--<td class="table-id">{{ item.id }}</td>-->
+                      <td>{{ item.province }}</td>
+                      <td>{{ item.district }}</td>
+                      <td>{{ item.area }}</td>
+                      <td>{{ item.count }}</td>
+                      <td><button (click)="removeAreaCountSettings(item)" type="button" class="btn btn-danger btn-icon"><i class="ion-minus"></i></button></td>
+                      <!--<td>
+                    <button ngClass="{status-button btn btn-xs btn-{{ item.status }}">{{ item.status }}</button>
+                  </td>-->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ba-card>
+          </div>
+        </div>
+      </ba-card>
+    </div>
+    <div class="col-md-10">
+      <ba-card title="User Count for District" baCardClass="with-scroll">
+        <!--<div class="row">-->
+        <form [formGroup]="formDistrictCount" name="formDistrictCount" class="row">
+          <div class="col-sm-3">
+
+            <select class="form-control" formControlName="province" id="province" (change)="onChange($event.target.value)" [(ngModel)]="_DistrictCountModel.province">
+                    <option value="">--Select Province--</option>
+                    <option [value]="p" *ngFor="let p of prov">{{p}}</option>
+                    <!--<option value="Baghdad">Baghdad</option>-->
+                  </select>
+
+          </div>
+          <div class="col-sm-3">
+
+            <select class="form-control" formControlName="district" id="district" [(ngModel)]="_DistrictCountModel.district">
+                    <option value="">--Select District--</option>
+                    <option [value]="p" *ngFor="let p of districtListforDD">{{p}}</option>
+                    <!--<option value="Baghdad">Baghdad</option>
+                    <option value="Sadr">Sadr</option>-->
+                  </select>
+
+          </div>
+
+          <div class="col-sm-2">
+            <input type="number" [disabled]="!_DistrictCountModel.district" formControlName="count" id="count" [value]="" class="form-control"
+              placeholder="Count" [(ngModel)]="_DistrictCountModel.count">
+          </div>
+          <div class="col-sm-1">
+            <button [disabled]="!_DistrictCountModel.count || !_DistrictCountModel.district || !_DistrictCountModel.province" (click)="addDistrictCountSettings()"
+              type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>
+
+          </div>
+        </form>
+        <!--</div>-->
+        <div class="row">
+          <div class="col-md-12">
+            <ba-card class="pie-chart-item-container col-md-12">
+              <div class="horizontal-scroll">
+                <table class="table table-condensed">
+                  <thead>
+                    <tr>
+                      <!--<th class="table-id">#</th>-->
+                      <th>Province</th>
+                      <th>District</th>
+                      <th>Count</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of DistrictCountSettingsList">
+                      <!--<td class="table-id">{{ item.id }}</td>-->
+                      <td>{{ item.province }}</td>
+                      <td>{{ item.district }}</td>
+                      <td>{{ item.count }}</td>
+                      <td><button (click)="removeDistrictCountSettings(item)" type="button" class="btn btn-danger btn-icon"><i class="ion-minus"></i></button></td>
+                      <!--<td>
+                    <button ngClass="{status-button btn btn-xs btn-{{ item.status }}">{{ item.status }}</button>
+                  </td>-->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ba-card>
+          </div>
+        </div>
+      </ba-card>
+    </div>
+    <div class="col-md-10">
+      <ba-card title="User Count for Social Accounts" baCardClass="with-scroll">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group row">
+              <label for="facebook" class="col-sm-4 control-label">Facebook User Count</label>
+              <div class="col-sm-6">
+                <input type="number" id="facebook" name="facebook" [value]="" class="form-control" placeholder="Count">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="whatsApp" class="col-sm-4 control-label">WhatsApp User Count</label>
+              <div class="col-sm-6">
+                <input type="number" id="whatsApp" name="whatsApp" [value]="" class="form-control" placeholder="Count">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group row">
+              <label for="twitter" class="col-sm-4 control-label">Twitter User Count</label>
+              <div class="col-sm-6">
+                <input type="number" id="twitter" name="twitter" [value]="" class="form-control" placeholder="Count">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="instagram" class="col-sm-4 control-label">Instagram User Count</label>
+              <div class="col-sm-6">
+                <input type="number" id="instagram" name="instagram" [value]="" class="form-control" placeholder="Count">
+              </div>
+            </div>
+          </div>
+          <!--<div class="col-sm-12">
+            <button (click)="editCancel('gender')" type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i> ADD</button>
+           
+          </div>-->
+        </div>
+      </ba-card>
+    </div>
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-12">
+          <ba-card class="pie-chart-item-container col-md-12">
+            <div class="horizontal-scroll">
+              <div class="form-group row">
+                <label for="total" class="col-sm-2 control-label">Total User Count</label>
+                <div class="col-sm-6">
+                  <input type="number" id="total" name="total" [value]="" class="form-control" placeholder="Count">
+                </div>
+              </div>
+               <div class="form-group row">
+                <label for="webSite" class="col-sm-2 control-label">Name of WebSite</label>
+                <div class="col-sm-6">
+                  <input type="text" id="webSite" name="webSite" [value]="" class="form-control" placeholder="WebSite Name">
+                </div>
+              </div>
+            </div>
+          </ba-card>
+        </div>
+      </div>
+    </div>
+    <!--<div class="col-md-10">
+      <div class="row">
+        <div class="col-md-12">
+          <ba-card class="pie-chart-item-container col-md-12">
+            <div class="horizontal-scroll">
+              <div class="form-group row">
+                <label for="webSite" class="col-sm-2 control-label">Name of WebSite</label>
+                <div class="col-sm-6">
+                  <input type="text" id="webSite" name="webSite" [value]="" class="form-control" placeholder="WebSite Name">
+                </div>
+              </div>
+            </div>
+          </ba-card>
+        </div>
+      </div>
+    </div>-->
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-12">
+          <ba-card class="pie-chart-item-container col-md-12">
+            <div class="col-sm-6">
+                  <button (click)="saveSettings()" type="button" class="btn btn-danger btn-icon">Save Settings</button>
+            </div>
+          </ba-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

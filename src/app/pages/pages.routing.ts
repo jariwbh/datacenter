@@ -29,6 +29,7 @@ export const routes: Routes = [
       { path: 'peoples', loadChildren: './peoples/peoples.module#PeoplesModule' },
       { path: 'activities', loadChildren: './activity/activity.module#ActivityModule' },
       { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },
+      { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' },
     ],
     canActivate: [AuthGuard]
   },

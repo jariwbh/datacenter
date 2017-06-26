@@ -144,6 +144,18 @@ export const PAGES_MENU = [
           },
         ],
       },
+      {
+          path: 'settings',
+          data: {
+            menu: {
+              title: 'Settings',
+              icon: 'ion-gear-a',
+              selected: false,
+              expanded: false,
+              order: 0,
+            },
+          }
+      },
       // {
       //   path: 'dashboard',
       //   data: {
@@ -510,4 +522,5 @@ export const PAGES_MENU = [
         },
     ],
   },
+  
 ];
