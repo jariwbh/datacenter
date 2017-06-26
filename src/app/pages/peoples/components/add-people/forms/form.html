@@ -69,7 +69,7 @@
                   </div>
                 </div>
               </div>
-              <input type="submit" value="submit">
+              <button class="btn btn-success" type="submit">Save</button>
           </form>
         </ba-card>
       </div>
@@ -151,7 +151,7 @@
                   </div>
                   <div class="form-group" *ngIf="_lookupVisibiity">
                     <label for="input01">LookUp</label>
-                    <textarea class="form-control form-control-lg" formControlName="lookupdata" [(ngModel)]="_fieldsModel.lookupdata"> </textarea>
+                    <textarea class="form-control form-control-lg" formControlName="lookupdata" [(ngModel)]='_sampleJson'> </textarea>
                     <div [hidden]="form.get('lookupdata').valid || (form.get('lookupdata').pristine && !submitted)" class="alert alert-danger">
                         lookupdata is required.
                     </div>
@@ -170,7 +170,7 @@
                         formorder is required.
                     </div>
                   </div>
-                  <button class="btn btn-success" type="submit">Send</button>
+                  <button class="btn btn-success" type="submit">Save changes</button>
                 </form>
               </ba-card>
             </div>
@@ -178,7 +178,6 @@
         
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary confirm-btn" data-dismiss="modal">Save changes</button>
       </div>
     </div>
     

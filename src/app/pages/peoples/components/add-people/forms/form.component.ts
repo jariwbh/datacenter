@@ -24,6 +24,8 @@ export class FormComponent {
   msgs: Message[] = [];
   _lookupVisibiity = false;
   fieldLists: any = {};
+
+  _sampleJson: string;
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -40,6 +42,28 @@ export class FormComponent {
         'isMandatory': [this._fieldsModel.isMandatory, Validators.required],
         'formorder': [this._fieldsModel.formorder, Validators.required],
     });
+
+    // Made Sample Json Data For Lookup
+      this._sampleJson = `[
+          {
+              "key": "gujarat",
+              "value": "gujarat"
+          },
+          {
+              "key": "Mumbai",
+              "value": "Mumbai"
+          },
+          {
+              "key": "Up",
+              "value": "UP"
+          },
+          {
+              "key": "MP",
+              "value": "MP"
+          }
+      ]`;
+      // Made Sample Json Data For Lookup
+
   }
   ngOnInit() {
     this.getAllFields();
@@ -72,10 +96,10 @@ export class FormComponent {
           .Add(value)
           .subscribe(
           data => {
-            console.log(data);
             this.msgs = [];
             this.msgs.push ({ 
               severity: 'info', summary: 'Insert Message', detail: 'People has been added Successfully!!!' });
+            this._router.navigate(['/pages/peoples/manage-people']);
         });
       }
   }
@@ -85,12 +109,16 @@ export class FormComponent {
       if (!isValid) {
           return false;
       } else {
-        
+        let lookupJson = [];
+        if (value.lookupdata) {
+          lookupJson = JSON.parse(value.lookupdata);
+        }
+        const editedLabel = value.labelname.replace(/ /g, '_');
         this._fieldsModel.formname = 'people';
         this._fieldsModel.fieldtype = value.fieldtype;
-        this._fieldsModel.lookupdata = value.lookupdata;
+        this._fieldsModel.lookupdata = lookupJson;
         this._fieldsModel.displayname = value.displayname;
-        this._fieldsModel.labelname = value.labelname;
+        this._fieldsModel.labelname = editedLabel.toLowerCase();
         this._fieldsModel.description = value.description;
         this._fieldsModel.formorder = value.formorder;
         this._fieldsModel.issystemfield = false;
@@ -100,7 +128,6 @@ export class FormComponent {
         } else {
           this._fieldsModel.isMandatory = false;
         }
-
         this._fieldsService
           .Add(this._fieldsModel)
           .subscribe(
@@ -113,13 +140,14 @@ export class FormComponent {
                       this.msgs = [];
                       this.msgs.push ({ 
               severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
+              
             }
         });
       }
   }
-
+  
   onChange(newValue: any) {
-    if ((newValue === 'List') || (newValue === 'Multi selected List') || (newValue === 'Checkbox')) {
+    if ((newValue === 'list') || (newValue === 'multi_selected_list') || (newValue === 'checkbox')) {
       this._lookupVisibiity = true;
     } else {
       this._lookupVisibiity = false;

@@ -1,5 +1,5 @@
 
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
@@ -23,7 +23,7 @@ export class ManagepeopleService {
     }
     public GetAll = (): Observable<any> => {
         return this.http
-            .get(this.actionUrl + 'ManagePeople/GetAllPeople')
+            .get(this.actionUrl + 'person')
             .map(res => <any>res.json());
     }
     public GetById = (id: number): Observable<any> => {
@@ -33,14 +33,14 @@ export class ManagepeopleService {
     }
 
     public Add = (data: any): Observable<any> => {
-       let toAdd = JSON.stringify(data);
+       const toAdd = JSON.stringify(data);
        //console.log(toAdd);
-       return this.http.post(this.actionUrl + 'ManagePeople/CreatePeople/', toAdd, { headers: this.headers })
+       return this.http.post(this.actionUrl + 'person', toAdd, { headers: this.headers })
            .map(res => <any>res.json());
     }
 
     public Update = (id: number, data: any): Observable<any> => {
-       let toAdd = JSON.stringify(data);
+       const toAdd = JSON.stringify(data);
        //console.log(toAdd);
        return this.http.post(this.actionUrl + 'ManagePeople/UpdatePeople/' + id, toAdd, { headers: this.headers })
            .map(res => <any>res.json());

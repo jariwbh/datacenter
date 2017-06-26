@@ -85,23 +85,23 @@ export class FormComponent {
 
       // Made Sample Json Data For Lookup
       this._sampleJson = `[
-    {
-        "key": "gujarat",
-        "value": "gujarat"
-    },
-    {
-        "key": "Mumbai",
-        "value": "Mumbai"
-    },
-    {
-        "key": "Up",
-        "value": "UP"
-    },
-    {
-        "key": "MP",
-        "value": "MP"
-    }
-]`;
+          {
+              "key": "gujarat",
+              "value": "gujarat"
+          },
+          {
+              "key": "Mumbai",
+              "value": "Mumbai"
+          },
+          {
+              "key": "Up",
+              "value": "UP"
+          },
+          {
+              "key": "MP",
+              "value": "MP"
+          }
+      ]`;
       // Made Sample Json Data For Lookup
   }
   ngOnInit() {
@@ -250,16 +250,10 @@ export class FormComponent {
       if (!isValid) {
           return false;
       } else {
-        console.log(value);
-        console.log(value.lookupdata);
         let lookupJson = [];
         if (value.lookupdata) {
-          console.log('if');
           lookupJson = JSON.parse(value.lookupdata);
-        } else {
-          console.log('else');
         }
-        console.log(lookupJson);
         const editedLabel = value.labelname.replace(/ /g, '_');
         this._fieldsModel.formname = 'admin';
         this._fieldsModel.fieldtype = value.fieldtype;
@@ -275,8 +269,6 @@ export class FormComponent {
         } else {
           this._fieldsModel.isMandatory = false;
         }
-        console.log(this._fieldsModel);
-
         this._fieldsService
           .Add(this._fieldsModel)
           .subscribe(
