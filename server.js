@@ -19,8 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Set our api routes
 app.use('/api', api);
 
-app.set('superSecret',"datacenter");
-
 app.use(function(req, res, next) {
 
   // check header or url parameters or post parameters for token
@@ -63,6 +61,7 @@ app.get('*', (req, res) => {
  */
 const port = process.env.PORT || '3000';
 app.set('port', port);
+
 // BASE SETUP
 // =============================================================================
 

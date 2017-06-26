@@ -10,6 +10,7 @@ var Admin     = require('../models/admin');
 var Formfield     = require('../models/form-field');
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const app = express();
+app.set('superSecret',"datacenter");
 
 /* GET api listing. */
 router.get('/', (req, res) => {
