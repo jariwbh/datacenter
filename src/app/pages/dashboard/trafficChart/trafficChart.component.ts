@@ -18,7 +18,6 @@ export class TrafficChart {
   constructor(
     private trafficChartService: TrafficChartService) {
     this.doughnutData = trafficChartService.getData();
-    console.log(this.doughnutData);
   }
 
   ngAfterViewInit() {

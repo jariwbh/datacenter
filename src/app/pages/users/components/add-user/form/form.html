@@ -1,0 +1,285 @@
+<section class="addAdmin">
+  <p-growl [value]="msgs"></p-growl>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <ba-card title="CREATE A NEW ADMIN" baCardClass="with-scroll">
+        <h4 class="grid-h">Please Complete Full User Information</h4>
+        <div class="row show-grid">
+          <div class="col-12 col-sm-4" (click)="switchbox('information')" style="cursor: pointer">
+            <div> <img src="assets/img/theme/icon/kameleon/Boss-3.svg"> Information</div>
+          </div>
+          <div *ngIf ="_completedStep == 1" class="col-12 col-sm-4" style="cursor:no-drop">
+            <div> <img src="assets/img/theme/icon/kameleon/Checklist.svg"> Username & Password</div>
+          </div>
+          <div *ngIf ="_completedStep > 1" class="col-12 col-sm-4" (click)="switchbox('usernamepassword')" style="cursor: pointer">
+            <div> <img src="assets/img/theme/icon/kameleon/Checklist.svg"> Username & Password</div>
+          </div>
+
+          <div *ngIf ="_completedStep == 1 || _completedStep == 2" class="col-12 col-sm-4" style="cursor:no-drop">
+            <div> <img src="assets/img/theme/icon/kameleon/Key.svg"> Control Access</div>
+          </div>
+          <div *ngIf ="_completedStep > 2" class="col-12 col-sm-4" (click)="switchbox('controlaccess')" style="cursor: pointer">
+            <div> <img src="assets/img/theme/icon/kameleon/Key.svg"> Control Access</div>
+          </div>
+          
+        </div>
+      </ba-card>
+      <div *ngIf="informationVisibilty">
+        <ba-card title="Information Form" baCardClass="with-scroll">
+          <div class="clearfix">
+            <button type="button" class="btn btn-warning btn-raised pull-right" data-toggle="modal" data-target="#myModalAddFields" data-backdrop="static" data-keyboard="false">Add New Field</button>   
+          </div>
+          <form 
+              *ngIf="dynamicForm"
+              (ngSubmit)="onDynamicFormSubmit(dynamicForm.value, dynamicForm.valid)" 
+              [formGroup]="dynamicForm" 
+              novalidate>
+              <div *ngFor="let fields of fieldLists" class="form-group">
+                <div [ngSwitch]="fields.fieldtype">
+                  <label for="exampleInputname1">{{fields.displayname}}</label>
+                  <div *ngSwitchCase="'text'">
+                    <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                  </div>
+                  <div *ngSwitchCase="'long_text'">
+                    <textarea class="form-control" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                    </textarea>
+                  </div>
+                  <div *ngSwitchCase="'image'">
+                    <input type="file" class="form-control" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                  </div>
+                  <div *ngSwitchCase="'list'">
+                      <select 
+                        class="form-control"
+                        [formControlName]="fields.labelname" 
+                        [(ngModel)]="fields.value">
+                      <option value="">--- Select ---</option>
+                      <option *ngFor="let opt of fields.lookupdata" [value]="opt.key">{{opt.value}}</option>
+                      
+                    </select>
+                  </div>
+                  <div *ngSwitchCase="'multi_selected_list'">
+                      <select 
+                        class="form-control" 
+                        [formControlName]="fields.labelname" 
+                        [(ngModel)]="fields.value"
+                        multiple>
+                      <option value="">--- Select ---</option>
+                    </select>
+                  </div>
+                  <div *ngSwitchCase="'checkbox'">
+                      <div *ngFor="let look of lookupdata">
+                        <input type="checkbox" [formControlName]="fields.labelname" [(ngModel)]="fields.value"> {{look.value}}
+                      </div>
+                  </div>
+                  <div *ngSwitchCase="'point'">
+                      <input type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                  </div>
+                  <div *ngSwitchCase="'url'">
+                      <div class="input-group">
+                        <span class="input-group-addon addon-left input-group-addon-success">http://wwww.</span>
+                        <input aria-label="Amount (to the nearest dollar)" class="form-control with-success-addon" type="text">
+                        <span class="input-group-addon addon-right input-group-addon-success">.com</span>
+                      </div>
+                  </div>
+                  <div *ngSwitchCase="'map'">
+                      <input type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                  </div>
+                  <div 
+                    class="alert alert-danger" 
+                    [hidden]="dynamicForm.get([fields.labelname]).valid || (dynamicForm.get([fields.labelname]).pristine && !dynamicSubmitted)">
+                    * {{fields.displayname}} is required
+                  </div>
+                </div>
+              </div>
+              <input type="submit" class="btn btn-success" value="Save & Next">
+          </form>
+        </ba-card>
+        
+      </div>
+      <div *ngIf="usernamepasswordVisibilty" >
+        <ba-card title="Username & password Form" baCardClass="with-scroll">
+          <form [formGroup]="usernamepasswordForm" (ngSubmit)="onUsernamepasswordSubmit(usernamepasswordForm.value,usernamepasswordForm.valid)" novalidate class="form-horizontal">
+            <div class="form-group">
+              <label for="exampleInputname1">Email</label>
+              <input 
+                  type="email" 
+                  class="form-control" 
+                  formControlName="email" 
+                  [(ngModel)]="_usersModel.email" 
+                  placeholder="Email"
+                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+              <div [hidden]="usernamepasswordForm.get('email').valid || (usernamepasswordForm.get('email').pristine && !usernamepasswordsubmitted)" class="alert alert-danger">
+                  Email is not valid.
+              </div>
+              
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEduction">Username</label>
+              <input type="text" class="form-control" formControlName="username" [(ngModel)]="_usersModel.username" placeholder="Username">
+              <div [hidden]="usernamepasswordForm.get('username').valid || (usernamepasswordForm.get('username').pristine && !usernamepasswordsubmitted)" class="alert alert-danger">
+                  Username is not valid. ( minimum 4 character required )
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">Password</label>
+              <input type="password" class="form-control" formControlName="password" [(ngModel)]="_usersModel.password" placeholder="Password">
+              <div [hidden]="usernamepasswordForm.get('password').valid || (usernamepasswordForm.get('password').pristine && !usernamepasswordsubmitted)" class="alert alert-danger">
+                  password is not valid. ( minimum 4 character required )
+              </div>
+            </div>
+            <input type="submit" class="btn btn-success" value="Save & Next">
+          </form>
+        </ba-card>
+      </div>
+      <div *ngIf="accesscontrolVisibilty">
+        <ba-card title="Username & password Form" baCardClass="with-scroll">
+          <form [formGroup]="controlAccessForm" (ngSubmit)="controlAccessonSubmit(controlAccessForm.value,controlAccessForm.valid)" novalidate class="form-horizontal">
+            <div class="form-group">
+              <label for="exampleInputcity">ACL</label>
+              <div class="input-demo checkbox-demo row">
+                <div class="input-demo radio-demo row">
+                    <div class="col-md-4" *ngFor="let cat of cityRights">
+                      <label class="checkbox-inline custom-checkbox nowrap">
+                        <input type="checkbox" [value]="cat" formControlName="acl" (change)="categoryChange($event)">
+                        <span>{{cat}}</span>
+                      </label>
+                    </div>
+                  </div>
+              </div>
+              <div *ngIf="aclVisibility" class="alert alert-danger">
+                  ACL is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">This admin can create and view just in this state or city category</label>
+              <select class="form-control" multiple formControlName="cityRights" [(ngModel)]="_usersModel.cityRights">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                  <option>Alaska</option>
+                  <option>Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                  <option>California</option>
+                  <option>Nevada</option>
+                  <option>Oregon</option>
+                  <option>Washington</option>
+                </optgroup>
+              </select>
+              <div [hidden]="controlAccessForm.get('cityRights').valid || (controlAccessForm.get('cityRights').pristine && !controlAccessSubmitted)" class="alert alert-danger">
+                  city Rights is required.
+              </div>
+            </div>
+            <input type="submit" class="btn btn-success" value="Save & Finshed">
+          </form>
+        </ba-card>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal -->
+<div id="myModalAddFields" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    
+    <div class="modal-content main_cls">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Fields</h4>
+        <button class="close" aria-label="Close" id="closeAddFields" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+              <ba-card>
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value,form.valid)" novalidate class="form-horizontal">
+                  <div class="form-group">
+                    <label for="input01">Field</label>
+                    <select 
+                        class="form-control" 
+                        formControlName="fieldtype" 
+                        [(ngModel)]="_fieldsModel.fieldtype" 
+                        (ngModelChange)="onChange($event)">
+                      <option value="text">Text</option>
+                      <option value="long_text">Long text</option>
+                      <option value="image">Image</option>
+                      <option value="list">List</option>
+                      <option value="multi_selected_list">Multi selected List</option>
+                      <option value="checkbox">Checkbox</option>
+                      <option value="point">Point</option>
+                      <option value="url">url</option>
+                      <option value="map">Location in the map</option>
+                    </select>
+                    <div [hidden]="form.get('fieldtype').valid || (form.get('fieldtype').pristine && !submitted)" class="alert alert-danger">
+                        fieldtype is required.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input01">Display Name</label>
+                    <input type="text" class="form-control form-control-lg" formControlName="displayname" [(ngModel)]="_fieldsModel.displayname" placeholder="Display Name">
+                    <div [hidden]="form.get('displayname').valid || (form.get('displayname').pristine && !submitted)" class="alert alert-danger">
+                        displayname is required.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input01">Label Name</label>
+                    <input type="text" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
+                    <div [hidden]="form.get('labelname').valid || (form.get('labelname').pristine && !submitted)" class="alert alert-danger">
+                        labelname is required.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input01">Mandatory field</label>
+                    <div class="input-demo radio-demo row">
+                    <div class="col-md-4">
+                      <label class="radio-inline custom-radio nowrap">
+                        <input checked formControlName="isMandatory" [(ngModel)]="_fieldsModel.isMandatory" type="radio" value="0">
+                        <span translate="">Yes</span>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="radio-inline custom-radio nowrap">
+                        <input id="inlineRadio2" formControlName="isMandatory" [(ngModel)]="_fieldsModel.isMandatory" type="radio" value="1">
+                        <span>No</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div [hidden]="form.get('isMandatory').valid || (form.get('isMandatory').pristine && !submitted)" class="alert alert-danger">
+                        isMandatory is required.
+                    </div>
+                  </div>
+                  <div class="form-group" *ngIf="_lookupVisibiity">
+                    <label for="input01">LookUp</label>
+                    <textarea class="form-control form-control-lg" formControlName="lookupdata" [(ngModel)]='_sampleJson'>  </textarea>
+                    <div [hidden]="form.get('lookupdata').valid || (form.get('lookupdata').pristine && !submitted)" class="alert alert-danger">
+                        lookupdata is required.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input01">Description</label>
+                    <textarea class="form-control form-control-lg" formControlName="description" [(ngModel)]="_fieldsModel.description"> </textarea>
+                    <div [hidden]="form.get('description').valid || (form.get('description').pristine && !submitted)" class="alert alert-danger">
+                        description is required.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input01">Field Order</label>
+                    <input type="text" class="form-control form-control-lg" formControlName="formorder" [(ngModel)]="_fieldsModel.formorder" placeholder="Field Order">
+                    <div [hidden]="form.get('formorder').valid || (form.get('formorder').pristine && !submitted)" class="alert alert-danger">
+                        formorder is required.
+                    </div>
+                  </div>
+                  <button class="btn btn-success" type="submit">Save changes</button>
+                </form>
+              </ba-card>
+            </div>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+    
+  </div>
+</div>

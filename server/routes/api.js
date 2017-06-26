@@ -17,11 +17,11 @@ router.route('/person')
         person.person = req.body;  // set the bears name (comes from the request)
 
         // save the person and check for errors
-        person.save(function(err) {
+        person.save(function(err, data) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Person created!' });
+            res.json(data);
         });
 
     });
@@ -133,15 +133,15 @@ router.route('/admin')
     // create a person 
     .post(function(req, res) {
 
-        var person = new Person();      // create a new instance of the Bear model
-        person.person = req.body;  // set the bears name (comes from the request)
+        var admin = new Admin();      // create a new instance of the Bear model
+        admin.admin = req.body;  // set the bears name (comes from the request)
 
-        // save the person and check for errors
-        person.save(function(err) {
+        // save the admin and check for errors
+        admin.save(function(err, data) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Person created!' });
+            res.json(data);
         });
 
     });
@@ -168,7 +168,6 @@ router.route('/admin/:id')
 
 router.route('/admin/:id')
     .put(function(req, res) {
-
         // use our bear model to find the bear we want
         Admin.findById(req.params.id, function(err, admin) {
 
@@ -178,11 +177,11 @@ router.route('/admin/:id')
             admin.admin = req.body;  // set the person
 
             // save the bear
-            admin.save(function(err) {
+            admin.save(function(err, data) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'Person updated!' });
+                res.json(data);
             });
 
         });

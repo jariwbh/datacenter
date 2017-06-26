@@ -8,7 +8,7 @@ import { Configuration } from './../../../app.constants';
 
 
 @Injectable()
-export class ManagepeopleService {
+export class FieldsService {
 
     private actionUrl: string;
     private headers: Headers;
@@ -21,11 +21,13 @@ export class ManagepeopleService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
     }
-    public GetAll = (): Observable<any> => {
-        return this.http
-            .get(this.actionUrl + 'person')
-            .map(res => <any>res.json());
+    
+    public GetAll = (formName: any): Observable<any> => {
+       return this.http
+           .get(this.actionUrl + 'formfield/' + formName)
+           .map(res => <any>res.json());
     }
+
     public GetById = (id: number): Observable<any> => {
        return this.http
            .get(this.actionUrl + 'ManagePeople/GetPeopleById/' + id)
@@ -34,8 +36,7 @@ export class ManagepeopleService {
 
     public Add = (data: any): Observable<any> => {
        const toAdd = JSON.stringify(data);
-       //console.log(toAdd);
-       return this.http.post(this.actionUrl + 'person', toAdd, { headers: this.headers })
+       return this.http.post(this.actionUrl + 'formfield/add/', toAdd, { headers: this.headers })
            .map(res => <any>res.json());
     }
 
