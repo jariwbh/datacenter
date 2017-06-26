@@ -2,12 +2,46 @@ const express = require('express');
 const router = express.Router();
 var db     = require('../db-config');
 var Person     = require('../models/person');
+var Area     = require('../models/area');
+var Province     = require('../models/province');
+var District     = require('../models/district');
 var Admin     = require('../models/admin');
 var Formfield     = require('../models/form-field');
 /* GET api listing. */
 router.get('/', (req, res) => {
   res.send('api works');
 });
+
+
+router.route('/lookup/area')
+    
+    .get(function(req, res) {        
+        console.log("Api called");
+        Area.find(function (err, docs) {            
+            console.log(docs);
+            res.json(docs);
+        });
+
+    });
+
+
+router.route('/lookup/province')
+    
+    .get(function(req, res) {                
+        Province.find(function (err, docs) {                    
+            res.json(docs);
+        });
+
+    });
+
+router.route('/lookup/district')
+    
+    .get(function(req, res) {                
+        District.find(function (err, docs) {                    
+            res.json(docs);
+        });
+
+    });
 
 router.route('/person')
     // create a person 
@@ -135,8 +169,6 @@ router.route('/admin')
 
         var admin = new Admin();      // create a new instance of the Bear model
         admin.admin = req.body;  // set the bears name (comes from the request)
-
-        // save the admin and check for errors
         admin.save(function(err, data) {
             if (err)
                 res.send(err);
