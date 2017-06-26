@@ -8,6 +8,9 @@ var District     = require('../models/district');
 var Setting     = require('../models/setting');
 var Admin     = require('../models/admin');
 var Formfield     = require('../models/form-field');
+var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const app = express();
+
 /* GET api listing. */
 router.get('/', (req, res) => {
   res.send('api works');
@@ -39,6 +42,15 @@ router.route('/lookup/district')
     
     .get(function(req, res) {                
         District.find(function (err, docs) {                    
+            res.json(docs);
+        });
+
+    });
+
+router.route('/setting')
+    
+    .get(function(req, res) {                
+        Setting.findOne(function (err, out) {              
             res.json(docs);
         });
 
@@ -197,12 +209,40 @@ router.route('/formfield/:formname')
 
 router.route('/admin/login')
 
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
-    .post(function(req, res) {       
+    .post(function(req, res) {
+        Admin.findOne({ username: req.body.username }, function(err, user) {
 
-            res.json({ message: 'login successful' });        
+        if (err) throw err;
+
+        if (!user) {
+            res.json({ success: false, message: 'Authentication failed. User not found.' });
+        } else if (user) {
+
+        // check if password matches
+            if (user.password != req.body.password) {
+                res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+            } else {
+
+                // if user is found and password is right
+                // create a token
+                console.log("secret:" + app.get('superSecret'));
+                var token = jwt.sign(user, app.get('superSecret'), {
+                    expiresIn: 60*60*24 // expires in 24 hours
+                });
+
+                // return the information including token as JSON
+                res.json({
+                    success: true,
+                    message: 'Enjoy your token!',
+                    token: token,
+                    admin:user
+                });
+            }   
+
+        }
 
     });
+});
 
 
 router.route('/admin')
