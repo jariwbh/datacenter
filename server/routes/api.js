@@ -5,6 +5,7 @@ var Person     = require('../models/person');
 var Area     = require('../models/area');
 var Province     = require('../models/province');
 var District     = require('../models/district');
+var Setting     = require('../models/setting');
 var Admin     = require('../models/admin');
 var Formfield     = require('../models/form-field');
 /* GET api listing. */
@@ -40,6 +41,47 @@ router.route('/lookup/district')
         District.find(function (err, docs) {                    
             res.json(docs);
         });
+
+    });
+
+router.route('/setting')
+    // create a person 
+    .post(function(req, res) {
+
+        var setting = new Setting();      // create a new instance of the Bear model
+        setting.noOfUserInCity = req.body.noOfUserInCity;  // set the bears name (comes from the request)
+        setting.noOfUserInDistrict = req.body.noOfUserInDistrict;  // set the bears name (comes from the request)
+        setting.noOfUserInSocial = req.noOfUserInSocial;  // set the bears name (comes from the request)
+        setting.noOfUsers = req.body.noOfUsers;  // set the bears name (comes from the request)
+        setting.websiteTitle = req.body.websiteTitle;  // set the bears name (comes from the request)
+
+        // save the person and check for errors
+        Setting.findOne(function (err, out) {
+
+            if (out!=null)
+            {
+                out.noOfUserInCity = req.body.noOfUserInCity;  // set the bears name (comes from the request)
+                out.noOfUserInDistrict = req.body.noOfUserInDistrict;  // set the bears name (comes from the request)
+                out.noOfUserInSocial = req.noOfUserInSocial;  // set the bears name (comes from the request)
+                out.noOfUsers = req.body.noOfUsers;  // set the bears name (comes from the request)
+                out.websiteTitle = req.body.websiteTitle;  // set the bears name (comes from the request)
+                out.save(function(err, data) {
+                    if (err)
+                        res.send(err);
+
+                    res.json(data);
+                });
+            }
+            else
+            {
+                setting.save(function(err, data) {
+                    if (err)
+                        res.send(err);
+
+                    res.json(data);
+                });
+            }
+        });        
 
     });
 
