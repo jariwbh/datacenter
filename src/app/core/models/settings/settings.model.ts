@@ -2,7 +2,7 @@
 export class SettingModel {
   noOfUserInCity: AreaCountModel[];
   noOfUserInDistrict: DistrictCountModel[];
-  noOfUserInSocial: SocialCountModel[];
+  noOfUserInSocial: any[];
   noOfUsers: number;
   websiteTitle: string;
   userCountofSocial: SocialCountModel;
