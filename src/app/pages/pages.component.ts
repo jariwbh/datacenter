@@ -96,7 +96,7 @@ export class Pages {
                         "path":"form",
                         "data":{
                            "menu":{
-                              "title":"form"
+                              "title":"Admin"
                            }
                         }
                      }
@@ -274,24 +274,24 @@ export class Pages {
           }
         });
 
-        // if (!this.createNewAdmin) {
-        //   PAGES_MENU[0]['children'][1]['children'][1] = {};
-        // }
-        // if (!this.viewUserHistory) {
-        //   PAGES_MENU[0]['children'][1]['children'][2] = {};
-        // }
-        // if (!this.createNewPerson) {
-        //   PAGES_MENU[0]['children'][2]['children'][0] = {};
-        // }
-        // if (!this.viewReportPage) {
-        //   PAGES_MENU[0]['children'][4]['children'] = [];
-        // }
-        // if (!this.createNewActivity) {
-        //   PAGES_MENU[0]['children'][3]['children'][0] = {};
-        // }
-        // if (!this.viewManagePersonPage) {
-        //   PAGES_MENU[0]['children'][2]['children'][1] = {};
-        // }
+        if (!this.createNewAdmin) {
+          this.menuJson[0]['children'][1]['children'][1] = {};
+        }
+        if (!this.viewUserHistory) {
+          this.menuJson[0]['children'][1]['children'][2] = {};
+        }
+        if (!this.createNewPerson) {
+          this.menuJson[0]['children'][2]['children'][0] = {};
+        }
+        if (!this.viewReportPage) {
+          this.menuJson[0]['children'][4]['children'] = [];
+        }
+        if (!this.createNewActivity) {
+          this.menuJson[0]['children'][3]['children'][0] = {};
+        }
+        if (!this.viewManagePersonPage) {
+          this.menuJson[0]['children'][2]['children'][1] = {};
+        }
       }
       this._menuService.updateMenuByRoutes(this.menuJson);
     } else if (this.authRole === 'A') {
