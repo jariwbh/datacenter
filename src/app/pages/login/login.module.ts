@@ -17,11 +17,11 @@ import { UserloginService } from './../../core/services/userlogin/userlogin.serv
     ReactiveFormsModule,
     FormsModule,
     NgaModule,
-    routing
+    routing,
   ],
   declarations: [
-    Login
+    Login,
   ],
-  providers:[UserloginService]
+  providers: [UserloginService],
 })
 export class LoginModule {}

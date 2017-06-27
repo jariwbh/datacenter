@@ -8,7 +8,7 @@ import { NgaModule } from '../../theme/nga.module';
 import { Settings } from './settings.component';
 import { routing } from './settings.routing';
 
-
+import { SettingsService } from './../../core/services/settings/settings.service';
 
 @NgModule({
   imports: [
@@ -17,10 +17,11 @@ import { routing } from './settings.routing';
     ReactiveFormsModule,
     FormsModule,
     NgaModule,
-    routing
+    routing,
   ],
   declarations: [
-    Settings
-  ]
+    Settings,
+  ],
+  providers: [SettingsService],
 })
 export class SettingsModule {}

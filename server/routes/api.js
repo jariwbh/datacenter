@@ -211,7 +211,7 @@ router.route('/formfield/:formname')
 router.route('/admin/login')
 
     .post(function(req, res) {
-        Admin.findOne({ username: req.body.username }, function(err, user) {
+        Admin.findOne({ "admin.username": req.body.username }, function(err, user) {
 
         if (err) throw err;
 
@@ -220,7 +220,7 @@ router.route('/admin/login')
         } else if (user) {
 
         // check if password matches
-            if (user.password != req.body.password) {
+            if (user.admin.password != req.body.password) {
                 res.json({ success: false, message: 'Authentication failed. Wrong password.' });
             } else {
 
