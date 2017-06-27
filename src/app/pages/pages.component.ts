@@ -250,7 +250,6 @@ export class Pages {
   }
 
   ngOnInit() {
-    console.log(this.menuJson);
     if (this.authRole == 'S') {
       if ( this.authPermission !== 0 ) {
         this.authPermission.forEach(element => {
