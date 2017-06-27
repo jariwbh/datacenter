@@ -9,6 +9,7 @@ import { UsersService } from '../../../../../core/services/users/users.service';
 import { UsersModel } from '../../../../../core/models/users/users.model';
 
 import { Message } from 'primeng/primeng';
+import { AuthService } from '../../../../../core/services/common/auth.service';
 
 @Component({
   selector: 'nga-add-user-form',
@@ -65,8 +66,12 @@ export class FormComponent {
     private _router: Router,
     private _route: ActivatedRoute,
     private _fieldsService: FieldsService,
-    private _usersService: UsersService) {
-      
+    private _usersService: UsersService,
+    private _authService: AuthService) {
+
+    // Default Sub Admin
+    this._usersModel.role = 'S';
+
       this.form = fb.group({
         'fieldtype': [this._fieldsModel.fieldtype, Validators.required],
         'lookupdata': [this._fieldsModel.lookupdata],
@@ -81,6 +86,7 @@ export class FormComponent {
         'email': [this._usersModel.email, Validators.compose([Validators.required])],
         'username': [this._usersModel.username, Validators.compose([Validators.required])],
         'password': [this._usersModel.password, Validators.compose([Validators.required])],
+        'role': [this._usersModel.role],
       });
 
       this.controlAccessForm = fb.group({
@@ -236,6 +242,7 @@ export class FormComponent {
         this._needToSaveData['email'] = value.email;
         this._needToSaveData['username'] = value.username;
         this._needToSaveData['password'] = value.password;
+        this._needToSaveData['role'] = value.role;
         this._usersService
           .Update(this.bindId, this._needToSaveData)
           .subscribe(

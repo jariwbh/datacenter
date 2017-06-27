@@ -131,6 +131,7 @@
         <ba-card title="Username & password Form" baCardClass="with-scroll">
           <form [formGroup]="usernamepasswordForm" (ngSubmit)="onUsernamepasswordSubmit(usernamepasswordForm.value,usernamepasswordForm.valid)" novalidate class="form-horizontal">
             <div class="form-group">
+              <input type="hidden" formControlName="role" [(ngModel)]="_usersModel.role">
               <label for="exampleInputname1">Email</label>
               <input 
                   type="email" 
