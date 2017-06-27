@@ -1,11 +1,23 @@
 <section class="addpeople">
   <p-growl [value]="msgs"></p-growl>
+  
   <div class="col-sm-4 col-6">
-    <button type="button" class="btn btn-success btn-raised" data-toggle="modal" data-target="#myModalAddFields" data-backdrop="static" data-keyboard="false">Add New Field</button> 
+    
   </div> 
   <div class="widgets">
     <div class="row">
       <div class="col-md-10">
+        <div class="clearfix">
+            <button 
+                type="button" 
+                class="btn btn-warning btn-raised pull-right" 
+                data-toggle="modal" 
+                data-target="#myModalAddFields" 
+                data-backdrop="static" 
+                data-keyboard="false">
+                Add New Field
+            </button> 
+        </div>
         <ba-card title="CREATE NEW PERSON ENTRY" baCardClass="with-scroll">
             <form 
               *ngIf="dynamicForm"
@@ -23,17 +35,57 @@
                     </textarea>
                   </div>
                   <div *ngSwitchCase="'image'">
-                    <input type="file" class="form-control" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                    <p-fileUpload
+                        #fubauto
+                        mode="basic"
+                        name="demo[]"
+                        url="./upload.php"
+                        accept="image/*"
+                        maxFileSize="1000000"
+                        (onUpload)="onBasicUploadAuto($event)"
+                        auto="true"
+                        chooseLabel="Browse">
+                    </p-fileUpload>
                   </div>
                   <div *ngSwitchCase="'list'">
-                      <select 
-                        class="form-control"
-                        [formControlName]="fields.labelname" 
-                        [(ngModel)]="fields.value">
-                      <option value="">--- Select ---</option>
-                      <option *ngFor="let opt of fields.lookupdata" [value]="opt.key">{{opt.value}}</option>
+                      <div *ngIf="fields.labelname == 'province'">
+                        <select
+                              (change)="onChangeProvince($event.target.value)"
+                              class="form-control"
+                              [formControlName]="fields.labelname" 
+                              [(ngModel)]="fields.value">
+                            <option value="">--- Select ---</option>
+                            <option *ngFor="let opt of _provinceLists" [value]="opt.name">{{opt.name}}</option>
+                          </select>
+                      </div>
+                      <div *ngIf="fields.labelname == 'district'">
+                        <select 
+                              class="form-control"
+                              [formControlName]="fields.labelname" 
+                              [(ngModel)]="fields.value">
+                            <option value="">--- Select ---</option>
+                            <option *ngFor="let opt of _districtOptionLists" [value]="opt">{{opt}}</option>
+                          </select>
+                      </div>
+                      <div *ngIf="fields.labelname == 'area'">
+                        <select 
+                              class="form-control"
+                              [formControlName]="fields.labelname" 
+                              [(ngModel)]="fields.value">
+                            <option value="">--- Select ---</option>
+                            <option *ngFor="let opt of _areaOptionLists" [value]="opt">{{opt}}</option>
+                          </select>
+                      </div>
+                      <div *ngIf="fields.labelname !== 'province' && fields.labelname !== 'district' && fields.labelname !== 'area'">
+                          <select 
+                              class="form-control"
+                              [formControlName]="fields.labelname" 
+                              [(ngModel)]="fields.value">
+                            <option value="">--- Select ---</option>
+                            <option *ngFor="let opt of fields.lookupdata" [value]="opt.key">{{opt.value}}</option>
+                          </select>
+                      </div>
                       
-                    </select>
                   </div>
                   <div *ngSwitchCase="'multi_selected_list'">
                       <select 
@@ -124,9 +176,12 @@
                   </div>
                   <div class="form-group">
                     <label for="input01">Label Name</label>
-                    <input type="text" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
+                    <input type="text" (keypress)="labelvaluechange()" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
                     <div [hidden]="form.get('labelname').valid || (form.get('labelname').pristine && !submitted)" class="alert alert-danger">
                         labelname is required.
+                    </div>
+                    <div *ngIf="labelnameVisibility" class="alert alert-danger">
+                      LabelName Already Exist.
                     </div>
                   </div>
                   <div class="form-group">
@@ -134,19 +189,39 @@
                     <div class="input-demo radio-demo row">
                     <div class="col-md-4">
                       <label class="radio-inline custom-radio nowrap">
-                        <input id="inlineRadio1" checked formControlName="isMandatory" [(ngModel)]="_fieldsModel.isMandatory" type="radio" value="0">
+                        <input id="inlineRadio1" checked formControlName="isMandatory" [checked]="_fieldsModel.isMandatory" type="radio" [value]="0">
                         <span translate="">Yes</span>
                       </label>
                     </div>
                     <div class="col-md-4">
                       <label class="radio-inline custom-radio nowrap">
-                        <input id="inlineRadio2" formControlName="isMandatory" [(ngModel)]="_fieldsModel.isMandatory" type="radio" value="1">
+                        <input id="inlineRadio2" formControlName="isMandatory"  type="radio" [value]="1">
                         <span>No</span>
                       </label>
                     </div>
                   </div>
                   <div [hidden]="form.get('isMandatory').valid || (form.get('isMandatory').pristine && !submitted)" class="alert alert-danger">
                         isMandatory is required.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input01">Is display on Listing</label>
+                    <div class="input-demo radio-demo row">
+                    <div class="col-md-4">
+                      <label class="radio-inline custom-radio nowrap">
+                        <input id="inlineRadio1" formControlName="isDisplayOnList" [checked]="_fieldsModel.isDisplayOnList"  type="radio" [value]="0">
+                        <span translate="">Yes</span>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="radio-inline custom-radio nowrap">
+                        <input id="inlineRadio2" formControlName="isDisplayOnList"  type="radio" [value]="1">
+                        <span>No</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div [hidden]="form.get('isDisplayOnList').valid || (form.get('isDisplayOnList').pristine && !submitted)" class="alert alert-danger">
+                        isDisplayOnList is required.
                     </div>
                   </div>
                   <div class="form-group" *ngIf="_lookupVisibiity">

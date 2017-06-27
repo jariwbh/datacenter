@@ -7,6 +7,7 @@ export class FieldsModel {
     labelname: string;
     description: string;
     isMandatory: boolean;
+    isDisplayOnList: boolean;
     formorder: number;
     issystemfield: boolean;
 }

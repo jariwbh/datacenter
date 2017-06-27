@@ -5,4 +5,5 @@ export class UsersModel {
     password: string;
     acl: boolean;
     cityRights: string[];
+    role: string;
 }

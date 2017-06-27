@@ -8,6 +8,11 @@ import { MyprofileComponent } from './myprofile.component';
 
 import { AppTranslationModule } from '../../../../app.translation.module';
 
+import { FieldsService } from '../../../../core/services/dynamic-fields/fields.service';
+import { UsersService } from '../../../../core/services/users/users.service';
+
+import { GrowlModule } from 'primeng/primeng';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,9 +20,14 @@ import { AppTranslationModule } from '../../../../app.translation.module';
     FormsModule,
     NgaModule,
     routing,
+    GrowlModule,
   ],
   declarations: [
     MyprofileComponent,
   ],
+  providers: [
+    FieldsService,
+    UsersService,
+  ]
 })
 export class MyprofileModule {}

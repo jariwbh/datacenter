@@ -11,6 +11,7 @@ var FormfieldSchema   = new Schema({
     labelname: String,
     description: String,
     isMandatory: Boolean,
+    isDisplayOnList: Boolean,
     formorder: Number,
     issystemfield: Boolean
 });

@@ -1,4 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { FieldsService } from '../../../../core/services/dynamic-fields/fields.service';
+import { FieldsModel } from '../../../../core/models/dynamic-fields/fields.model';
+
+import { UsersService } from '../../../../core/services/users/users.service';
+import { UsersModel } from '../../../../core/models/users/users.model';
+
+import { Message } from 'primeng/primeng';
 
 @Component({
   selector: 'nga-myprofile',
@@ -7,144 +16,145 @@ import { Component } from '@angular/core';
 
 export class MyprofileComponent {
 
-  fullnameVisiblity = false;
-  fullnameValue: string;
+  msgs: Message[] = [];
 
-  emailVisiblity = false;
-  emailValue: string;
+  _provinceLists: any[] = [];
+  _districtLists: any[] = [];
+  _areaLists: any[] = [];
 
-  cityVisiblity = false;
-  cityValue: string;
+  _districtBasedOnProvince: any[] = [];
+  _areaBasedOnProvince: any[] = [];
 
-  stateVisiblity = false;
-  stateValue: string;
+  _districtOptionLists: any[] = [];
+  _areaOptionLists: any[] = [];
 
-  genderVisiblity = false;
-  genderValue: string;
+  fieldLists: any[] = [];
+  bindId: string;
+  userData: any[] = [];
+  _needToSave: any[] = [];
+  constructor(
+    private _router: Router,
+    private _route: ActivatedRoute,
+    private _fieldsService: FieldsService,
+    private _usersService: UsersService) {
 
-  dateVisiblity = false;
-  dateValue: string;
+  }
+  ngOnInit() {
+    this.getAllFields();
+    this.getAllProvince();
+    this.getAllDistrict();
+    this.getAllArea();
+    this.bindId = '5950f8940294771934f79e25';
+    this.getUserData(this.bindId);
+  }
 
-  dayLists: any[] = [];
-  monthLists: any[] = [];
-  yearLists: any[] = [];
+  getUserData(id) {
+    this._usersService
+          .GetById(id)
+          .subscribe(
+          data => {
+            this.userData = data.admin;
+            this.fieldLists.forEach(element => {
+              element.value = this.userData[element.labelname];
+              element.visiblity = false;
+            });
+            this.onChangeProvince(this.userData['province']);
+        });
+  }
+  getAllProvince() {
+    this._fieldsService
+          .GetAllProvince()
+          .subscribe(
+          data => {
+            this._provinceLists  = data;
+        });
+  }
+  getAllDistrict() {
+    this._fieldsService
+          .GetAllDistrict()
+          .subscribe(
+          data => {
+            this._districtLists  = data;
+            this._districtLists.forEach(element => {
+              const index = element.province;
+              if ( !this._districtBasedOnProvince[index] ) {
+                this._districtBasedOnProvince[index] = [];
+              }
+              this._districtBasedOnProvince[index].push(element.district);
+            });
+        });
+  }
+  getAllArea() {
+    this._fieldsService
+          .GetAllArea()
+          .subscribe(
+          data => {
+            this._areaLists  = data;
+            this._areaLists.forEach(element => {
+              const index = element.province;
+              if ( !this._areaBasedOnProvince[index] ) {
+                this._areaBasedOnProvince[index] = [];
+              }
+              this._areaBasedOnProvince[index].push(element.area);
+            });
+        });
+  }
+  onChangeProvince(value: any) {
+    this._districtOptionLists = [];
+    this._areaOptionLists = [];
+    
+    this._districtOptionLists = this._districtBasedOnProvince[value];
+    this._areaOptionLists = this._areaBasedOnProvince[value];
+  }
 
-  constructor() {
-    this.fullnameValue = 'Samarth Magdallawala';
-    this.emailValue = 'samarth.magdallawala@krtya.com';
-    this.cityValue = 'surat';
-    this.stateValue = 'Gujarat';
-    this.genderValue = 'Male';
-    this.dateValue = '01/01/2017';
-    for ( let i = 1; i <= 31; i++) {
-      this.dayLists.push(i);
-    }
-    for ( let j = 2020; j >= 1970; j--) {
-      this.yearLists.push(j);
-    }
-    this.monthLists = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+  getAllFields() {
+    this._fieldsService
+          .GetAll('admin')
+          .subscribe(
+          data => {
+            this.fieldLists = data;
+        });
   }
 
   edit(fieldname: any) {
-    if (fieldname === 'fullname') {
-      this.fullnameVisiblity = true;
-      this.emailVisiblity = false;
-      this.cityVisiblity = false;
-      this.stateVisiblity = false;
-      this.genderVisiblity = false;
-      this.dateVisiblity = false;
-    } else if (fieldname === 'email') {
-      this.emailVisiblity = true;
-      this.fullnameVisiblity = false;
-      this.cityVisiblity = false;
-      this.stateVisiblity = false;
-      this.genderVisiblity = false;
-      this.dateVisiblity = false;
-    } else if (fieldname === 'city') {
-      this.cityVisiblity = true;
-      this.fullnameVisiblity = false;
-      this.emailVisiblity = false;
-      this.stateVisiblity = false;
-      this.genderVisiblity = false;
-      this.dateVisiblity = false;
-    } else if (fieldname === 'state') {
-      this.stateVisiblity = true;
-      this.fullnameVisiblity = false;
-      this.emailVisiblity = false;
-      this.cityVisiblity = false;
-      this.genderVisiblity = false;
-      this.dateVisiblity = false;
-    } else if (fieldname === 'gender') {
-      this.genderVisiblity = true;
-      this.fullnameVisiblity = false;
-      this.emailVisiblity = false;
-      this.cityVisiblity = false;
-      this.stateVisiblity = false;
-      this.dateVisiblity = false;
-    } else if (fieldname === 'date') {
-      this.dateVisiblity = true;
-      this.fullnameVisiblity = false;
-      this.emailVisiblity = false;
-      this.cityVisiblity = false;
-      this.stateVisiblity = false;
-      this.genderVisiblity = false;
-    }
+    this.fieldLists.forEach(element => {
+      if (element.labelname == fieldname) {
+        element.visiblity = true;
+      } else {
+        element.visiblity = false;
+      }
+    });
   }
   editSave(fieldname: any) {
-    if (fieldname === 'fullname') {
-      const fullNameNewValue = <HTMLInputElement> document.getElementById('fullnameField');
-      if (fullNameNewValue !== null) {
-        this.fullnameValue = fullNameNewValue.value;
-      }
-      this.fullnameVisiblity = false;
-    } else if (fieldname === 'email') {
-      const emailNewValue = <HTMLInputElement> document.getElementById('emailField');
-      if (emailNewValue !== null) {
-        this.emailValue = emailNewValue.value;
-      }
-      this.emailVisiblity = false;
-    } else if (fieldname === 'city') {
-      const cityNewValue = <HTMLInputElement> document.getElementById('cityField');
-      if (cityNewValue !== null) {
-        this.cityValue = cityNewValue.value;
-      }
-      this.cityVisiblity = false;
-    } else if (fieldname === 'state') {
-      const stateNewValue = <HTMLInputElement> document.getElementById('stateField');
-      if (stateNewValue !== null) {
-        this.stateValue = stateNewValue.value;
-      }
-      this.stateVisiblity = false;
-    } else if (fieldname === 'gender') {
-      const genderNewValue = <HTMLInputElement> document.getElementById('genderField');
-      if (genderNewValue !== null) {
-        this.genderValue = genderNewValue.value;
-      }
-      this.genderVisiblity = false;
-    } else if (fieldname === 'date') {
-      const dayNewValue = <HTMLInputElement> document.getElementById('dayField');
-      const monthNewValue = <HTMLInputElement> document.getElementById('monthField');
-      const yearNewValue = <HTMLInputElement> document.getElementById('yearField');
-      if ((dayNewValue !== null) && (monthNewValue !== null) && (yearNewValue !== null)) {
-        this.dateValue = dayNewValue.value + '/' + monthNewValue.value + '/' + yearNewValue.value;
-      }
-      this.dateVisiblity = false;
-    }
+    this._usersService
+      .GetById(this.bindId)
+      .subscribe(
+      data => {
+        this._needToSave = data;
+        const updatedValue = <HTMLInputElement> document.getElementById(fieldname);
+        this._needToSave['admin'][fieldname] = updatedValue.value;
+        this.saveProfile(this._needToSave['admin'], fieldname, updatedValue.value);
+      });
   }
-
+  saveProfile(updateddata, labelname, newValue) {
+    this._usersService
+      .Update(this.bindId, updateddata)
+      .subscribe(
+      data => {
+        this.msgs = [];
+        this.msgs.push ({ 
+          severity: 'info', summary: 'Updated Message', detail: 'Admin has been Updated Successfully!!!' });
+        this.fieldLists.forEach(element => {
+          if (element.labelname == labelname) {
+            element.value = newValue;
+          }
+          element.visiblity = false;
+        });
+      });
+  }
   editCancel(fieldname: any) {
-    if (fieldname === 'fullname') {
-      this.fullnameVisiblity = false;
-    } else if (fieldname === 'email') {
-      this.emailVisiblity = false;
-    } else if (fieldname === 'city') {
-      this.cityVisiblity = false;
-    } else if (fieldname === 'state') {
-      this.stateVisiblity = false;
-    } else if (fieldname === 'gender') {
-      this.genderVisiblity = false;
-    } else if (fieldname === 'date') {
-      this.dateVisiblity = false;
-    }
+    this.fieldLists.forEach(element => {
+      element.visiblity = false;
+    });
   }
 }
