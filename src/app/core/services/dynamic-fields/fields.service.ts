@@ -54,4 +54,22 @@ export class FieldsService {
            .map(res => <any>res.json());
     }
 
+    public GetAllProvince = (): Observable<any> => {
+        return this.http
+            .get(this.actionUrl + 'lookup/province')
+            .map(res => <any>res.json());
+    }
+
+     public GetAllDistrict = (): Observable<any> => {
+        return this.http
+            .get(this.actionUrl + 'lookup/district')
+            .map(res => <any>res.json());
+    }
+
+     public GetAllArea = (): Observable<any> => {
+        return this.http
+            .get(this.actionUrl + 'lookup/area')
+            .map(res => <any>res.json());
+    }
+
 }

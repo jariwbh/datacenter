@@ -12,41 +12,34 @@ export class TrafficChartService {
     let dashboardColors = this._baConfig.get().colors.dashboard;
     return [
       {
-        value: 2000,
+        value: 350,
         color: dashboardColors.white,
         highlight: colorHelper.shade(dashboardColors.white, 15),
-        label: 'Other',
-        percentage: 87,
+        label: 'Basrah',
+        percentage: 20,
         order: 1,
       }, {
-        value: 1500,
+        value: 100,
         color: dashboardColors.gossip,
         highlight: colorHelper.shade(dashboardColors.gossip, 15),
-        label: 'Search engines',
-        percentage: 22,
-        order: 4,
-      }, {
-        value: 1000,
-        color: dashboardColors.silverTree,
-        highlight: colorHelper.shade(dashboardColors.silverTree, 15),
-        label: 'Referral Traffic',
-        percentage: 70,
-        order: 3,
-      }, {
-        value: 1200,
-        color: dashboardColors.surfieGreen,
-        highlight: colorHelper.shade(dashboardColors.surfieGreen, 15),
-        label: 'Direct Traffic',
-        percentage: 38,
+        label: 'Karbala',
+        percentage: 100,
         order: 2,
       }, {
-        value: 400,
-        color: dashboardColors.blueStone,
-        highlight: colorHelper.shade(dashboardColors.blueStone, 15),
-        label: 'Ad Campaigns',
-        percentage: 17,
-        order: 0,
-      },
+        value: 350,
+        color: dashboardColors.silverTree,
+        highlight: colorHelper.shade(dashboardColors.silverTree, 15),
+        label: 'Baghdad',
+        percentage: 100,
+        order: 3,
+      }, {
+        value: 50,
+        color: dashboardColors.surfieGreen,
+        highlight: colorHelper.shade(dashboardColors.surfieGreen, 15),
+        label: 'Mesan',
+        percentage: 20,
+        order: 2,
+      }
     ];
   }
 }

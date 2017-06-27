@@ -36,6 +36,8 @@ export class FormComponent {
 
   _lookupVisibiity = false;
 
+  labelnameVisibility = false;
+
   _completedStep = 1;
   _choiceCount = 1;
 
@@ -48,13 +50,23 @@ export class FormComponent {
 
   _sampleJson: string;
 
+  _provinceLists: any[] = [];
+  _districtLists: any[] = [];
+  _areaLists: any[] = [];
+
+  _districtBasedOnProvince: any[] = [];
+  _areaBasedOnProvince: any[] = [];
+
+  _districtOptionLists: any[] = [];
+  _areaOptionLists: any[] = [];
+
   constructor(
     private fb: FormBuilder,
     private _router: Router,
     private _route: ActivatedRoute,
     private _fieldsService: FieldsService,
     private _usersService: UsersService) {
-
+      
       this.form = fb.group({
         'fieldtype': [this._fieldsModel.fieldtype, Validators.required],
         'lookupdata': [this._fieldsModel.lookupdata],
@@ -106,6 +118,55 @@ export class FormComponent {
   }
   ngOnInit() {
     this.getAllFields();
+    this.getAllProvince();
+    this.getAllDistrict();
+    this.getAllArea();
+  }
+
+  getAllProvince() {
+    this._fieldsService
+          .GetAllProvince()
+          .subscribe(
+          data => {
+            this._provinceLists  = data;
+        });
+  }
+  getAllDistrict() {
+    this._fieldsService
+          .GetAllDistrict()
+          .subscribe(
+          data => {
+            this._districtLists  = data;
+            this._districtLists.forEach(element => {
+              const index = element.province;
+              if ( !this._districtBasedOnProvince[index] ) {
+                this._districtBasedOnProvince[index] = [];
+              }
+              this._districtBasedOnProvince[index].push(element.district);
+            });
+        });
+  }
+  getAllArea() {
+    this._fieldsService
+          .GetAllArea()
+          .subscribe(
+          data => {
+            this._areaLists  = data;
+            this._areaLists.forEach(element => {
+              const index = element.province;
+              if ( !this._areaBasedOnProvince[index] ) {
+                this._areaBasedOnProvince[index] = [];
+              }
+              this._areaBasedOnProvince[index].push(element.area);
+            });
+        });
+  }
+  onChangeProvince(value: any) {
+      this._districtOptionLists = [];
+      this._areaOptionLists = [];
+
+      this._districtOptionLists = this._districtBasedOnProvince[value];
+      this._areaOptionLists = this._areaBasedOnProvince[value];
   }
   categoryChange(evt: any) {
     this.aclVisibility = false;
@@ -216,6 +277,8 @@ export class FormComponent {
               this.informationVisibilty = true;
               this.usernamepasswordVisibilty = false;
               this.accesscontrolVisibilty = false;
+              
+              this.getAllFields();
           });
         }
       }
@@ -269,24 +332,50 @@ export class FormComponent {
         } else {
           this._fieldsModel.isMandatory = false;
         }
-        this._fieldsService
-          .Add(this._fieldsModel)
-          .subscribe(
-          data => {
-            const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
-            if (isClosed) {
-              isClosed.click();
-              this.getAllFields();
-              this.form.reset();
-                      this.msgs = [];
-                      this.msgs.push ({ 
-              severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
-              
-            }
-        });
+        this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
       }
   }
+  labelvaluechange() {
+    this.labelnameVisibility = false;
+  }
+  checkLabelNameAlreayExistsOrNot(labelname) {
+    this._fieldsService
+        .GetAll('admin')
+        .subscribe(
+        data => {
+          let cnt = 0;
+          data.forEach(element => {
+            if (element.labelname == labelname) {
+              cnt++;
+            }
+          });
+          if (cnt === 0 ) {
+            this._fieldsService
+              .Add(this._fieldsModel)
+              .subscribe(
+              data => {
+                const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+                if (isClosed) {
+                  isClosed.click();
+                  this.getAllFields();
+                  this.form.reset();
+                          this.msgs = [];
+                          this.msgs.push ({ 
+  severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
+                  
+                }
+            });
 
+          } else {
+
+            this.msgs = [];
+          this.msgs.push ({ 
+                  severity: 'error', summary: 'Error  Message', detail: 'Label Name Already Exist.!!!' });
+          this.labelnameVisibility = true;
+
+          }
+        });
+  }
   onChange(newValue: any) {
     if ((newValue === 'list') || (newValue === 'multi_selected_list') || (newValue === 'checkbox')) {
       this._lookupVisibiity = true;

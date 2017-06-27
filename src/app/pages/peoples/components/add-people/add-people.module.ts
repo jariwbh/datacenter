@@ -11,6 +11,7 @@ import { AppTranslationModule } from '../../../../app.translation.module';
 import { FieldsService } from '../../../../core/services/dynamic-fields/fields.service';
 import { ManagepeopleService } from '../../../../core/services/people/manage-people.service';
 
+import { FileUploadModule } from 'primeng/primeng';
 import { GrowlModule } from 'primeng/primeng';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { GrowlModule } from 'primeng/primeng';
     routing,
     GrowlModule,
     ReactiveFormsModule,
+    FileUploadModule,
   ],
   declarations: [
     AddPeopleComponent,

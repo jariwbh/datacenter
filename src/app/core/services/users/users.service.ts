@@ -23,12 +23,12 @@ export class UsersService {
     }
     public GetAll = (): Observable<any> => {
         return this.http
-            .get(this.actionUrl + 'ManagePeople/GetAllPeople')
+            .get(this.actionUrl + 'admin')
             .map(res => <any>res.json());
     }
-    public GetById = (id: number): Observable<any> => {
+    public GetById = (id: any): Observable<any> => {
        return this.http
-           .get(this.actionUrl + 'ManagePeople/GetPeopleById/' + id)
+           .get(this.actionUrl + 'admin/' + id)
            .map(res => <any>res.json());
     }
 
@@ -39,7 +39,7 @@ export class UsersService {
            .map(res => <any>res.json());
     }
 
-    public Update = (id: number, data: any): Observable<any> => {
+    public Update = (id: any, data: any): Observable<any> => {
        const toAdd = JSON.stringify(data);
        //console.log(toAdd);
        return this.http.put(this.actionUrl + 'admin/' + id, toAdd, { headers: this.headers })

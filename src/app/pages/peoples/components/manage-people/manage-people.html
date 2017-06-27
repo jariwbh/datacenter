@@ -5,12 +5,12 @@
 
   <div class="row" *ngIf="cardViewVisibilty">
     <div class="col-md-12 col-lg-4 col-xs-12" *ngFor="let ppl of _peoplelist">
-      <ba-card title="{{ppl.fullname}}" baCardClass="with-scroll">
+      <ba-card title="{{ppl.full_name}}" baCardClass="with-scroll">
         <div class="user-bg text-center">
           <div class="overlay-box">
             <div class="user-content">
               <a href="people_selected.html"><img alt="img" src="assets/img/app/profile/Nasta.png" class="thumb-lg img-circle img-width-130"></a>
-              <h4 class="text-white">{{ppl.fullname}}</h4>
+              <h4 class="text-white">{{ppl.full_name}}</h4>
               <h5 class="text-white"> {{ppl.email}} </h5>
             </div>
           </div>
@@ -19,14 +19,14 @@
           <div class="row">
             <div class="col-md-6 col-sm-6 text-center">
               <p class="text-purple">
-                <a href="https://www.facebook.com/">
+                <a href="{{ppl.facebook_url}}">
                   <i class="socicon">b</i>
                 </a>
               </p>
             </div>
             <div class="col-md-6 col-sm-6 text-center">
               <p class="text-blue">
-                <a href="https://www.twitter.com/">
+                <a href="{{ppl.twitter_url}}">
                   <i class="socicon">a</i>
                 </a>
               </p>
@@ -34,7 +34,7 @@
             <div class="stats-row col-md-12 m-t-20 m-b-0 text-center">
               <div class="stat-item">
                 <h6>Contact info</h6>
-                <b><i class="ti-mobile"></i> {{ppl.contacts}} </b>
+                <b><i class="ti-mobile"></i> {{ppl.contact_number}} </b>
               </div>
               <div class="stat-item">
                 <h6>Number Of Point</h6>
@@ -55,10 +55,8 @@
             <button class="btn btn-small btn-rounded" type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left">CSV</button>
           </div>
         </p-header>
-        <p-column field="fullname" header="Full Name" [sortable]="true"></p-column>
-        <p-column field="email" header="User Email" [sortable]="true"></p-column>
-        <p-column field="contacts" header="Contact Info"></p-column>
-        <p-column field="points" header="No Of Points" [sortable]="true"></p-column>
+
+        <p-column *ngFor="let fields of _fieldLists" field="{{fields.labelname}}" header="{{fields.displayname}}" [sortable]="true"></p-column>
       </p-dataTable>
     </ba-card>
   </div>
