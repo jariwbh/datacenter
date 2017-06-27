@@ -7,6 +7,8 @@ import { FieldsModel } from '../../../../core/models/dynamic-fields/fields.model
 import { UsersService } from '../../../../core/services/users/users.service';
 import { UsersModel } from '../../../../core/models/users/users.model';
 
+import { AuthService } from '../../../../core/services/common/auth.service';
+
 import { Message } from 'primeng/primeng';
 
 @Component({
@@ -32,20 +34,28 @@ export class MyprofileComponent {
   bindId: string;
   userData: any[] = [];
   _needToSave: any[] = [];
+
+  authId: string;
+
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
     private _fieldsService: FieldsService,
-    private _usersService: UsersService) {
+    private _usersService: UsersService,
+    private _authService: AuthService) {
 
+      if (this._authService.auth_id === '') {
+        this.authId = null;
+      } else {
+        this.authId = this._authService.auth_id;
+      }
   }
   ngOnInit() {
     this.getAllFields();
     this.getAllProvince();
     this.getAllDistrict();
     this.getAllArea();
-    this.bindId = '5950f8940294771934f79e25';
-    this.getUserData(this.bindId);
+    this.getUserData(this.authId);
   }
 
   getUserData(id) {
@@ -127,7 +137,7 @@ export class MyprofileComponent {
   }
   editSave(fieldname: any) {
     this._usersService
-      .GetById(this.bindId)
+      .GetById(this.authId)
       .subscribe(
       data => {
         this._needToSave = data;
@@ -138,7 +148,7 @@ export class MyprofileComponent {
   }
   saveProfile(updateddata, labelname, newValue) {
     this._usersService
-      .Update(this.bindId, updateddata)
+      .Update(this.authId, updateddata)
       .subscribe(
       data => {
         this.msgs = [];
