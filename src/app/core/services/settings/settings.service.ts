@@ -27,6 +27,12 @@ export class SettingsService {
     //         .map(res => <any>res.json());
     // }
 
+    public GetAllSetting = (): Observable<any> => {
+        return this.http
+            .get(this.actionUrl + 'setting')
+            .map(res => <any>res.json());
+    }
+
      public GetAllProvince = (): Observable<any> => {
         return this.http
             .get(this.actionUrl + 'lookup/province')
@@ -57,12 +63,12 @@ export class SettingsService {
            .map(res => <any>res.json());
     }
 
-    public Update = (id: number, data: any): Observable<any> => {
-       let toAdd = JSON.stringify(data);
-       //console.log(toAdd);
-       return this.http.post(this.actionUrl + 'setting' + id, toAdd, { headers: this.headers })
-           .map(res => <any>res.json());
-    }
+    // public Update = (id: number, data: any): Observable<any> => {
+    //    let toAdd = JSON.stringify(data);
+    //    //console.log(toAdd);
+    //    return this.http.post(this.actionUrl + 'setting' + id, toAdd, { headers: this.headers })
+    //        .map(res => <any>res.json());
+    // }
 
     // public Delete = (id: number): Observable<any> => {
     //    //console.log(id);

@@ -34,13 +34,15 @@
 
           </div>
           <div class="col-sm-2">
-            <input type="number" [disabled]="!_DistrictCountModel.area" formControlName="count" id="count" [value]="" class="form-control"
+            <!--<input type="number" min="0" [disabled]="!_DistrictCountModel.area" formControlName="count" id="count" [value]="" class="form-control"
+              placeholder="Count" [(ngModel)]="_AreaCountModel.count">-->
+              <input type="number" min="0" formControlName="count" id="count" [value]="" class="form-control"
               placeholder="Count" [(ngModel)]="_AreaCountModel.count">
           </div>
           <div class="col-sm-1">
             <button [disabled]="!_AreaCountModel.count || !_AreaCountModel.area || !_AreaCountModel.district || !_AreaCountModel.province "
               (click)="addAreaCountSettings()" type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>
-
+<!--<button (click)="addAreaCountSettings()" type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>-->
           </div>
         </form>
         <!--</div>-->
@@ -104,7 +106,9 @@
           </div>
 
           <div class="col-sm-2">
-            <input type="number" [disabled]="!_DistrictCountModel.district" formControlName="count" id="count" [value]="" class="form-control"
+            <!--<input type="number" min="0" [disabled]="!_DistrictCountModel.district" formControlName="count" id="count" [value]="" class="form-control"
+              placeholder="Count" [(ngModel)]="_DistrictCountModel.count">-->
+              <input type="number" min="0" formControlName="count" id="count" [value]="" class="form-control"
               placeholder="Count" [(ngModel)]="_DistrictCountModel.count">
           </div>
           <div class="col-sm-1">
@@ -155,13 +159,13 @@
               <div class="form-group row">
                 <label for="facebook" class="col-sm-4 control-label">Facebook User Count</label>
                 <div class="col-sm-6">
-                  <input type="number" formControlName="facebookUserCount" id="facebook" name="facebook" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.facebookUserCount">
+                  <input type="number" min="0" formControlName="facebookUserCount" id="facebook" name="facebook" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.facebookUserCount">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="whatsApp" class="col-sm-4 control-label">WhatsApp User Count</label>
                 <div class="col-sm-6">
-                  <input type="number" formControlName="whatsAppUserCount" id="whatsApp" name="whatsApp" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.whatsAppUserCount">
+                  <input type="number" min="0" formControlName="whatsAppUserCount" id="whatsApp" name="whatsApp" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.whatsAppUserCount">
                 </div>
               </div>
             </div>
@@ -169,13 +173,13 @@
               <div class="form-group row">
                 <label for="twitter" class="col-sm-4 control-label">Twitter User Count</label>
                 <div class="col-sm-6">
-                  <input type="number" formControlName="twitterUserCount" id="twitter" name="twitter" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.twitterUserCount">
+                  <input type="number" min="0" formControlName="twitterUserCount" id="twitter" name="twitter" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.twitterUserCount">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="telegram" class="col-sm-4 control-label">Telegram User Count</label>
                 <div class="col-sm-6">
-                  <input type="number" formControlName="telegramUserCount" id="telegram" name="telegram" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.telegramUserCount">
+                  <input type="number" min="0" formControlName="telegramUserCount" id="telegram" name="telegram" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.telegramUserCount">
                 </div>
               </div>
             </div>
@@ -194,7 +198,7 @@
                 <div class="form-group row">
                   <label for="total" class="col-sm-2 control-label">Total User Count</label>
                   <div class="col-sm-6">
-                    <input type="number" formControlName="noOfUsers" id="total" name="total" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.noOfUsers">
+                    <input type="number" min="0" formControlName="noOfUsers" id="total" name="total" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.noOfUsers">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -214,7 +218,7 @@
           <div class="col-md-12">
             <ba-card class="pie-chart-item-container col-md-12">
               <div class="col-sm-6">
-                <button (click)="saveSettings()" type="button" class="btn btn-danger btn-icon">Save Settings</button>
+                <button (click)="saveSettings(formSetting.value,formSetting.valid)" type="button" class="btn btn-danger btn-icon">Save Settings</button>
               </div>
             </ba-card>
           </div>
@@ -225,3 +229,4 @@
   </div>
 
 </section>
+<p-growl [value]="msgs"></p-growl>

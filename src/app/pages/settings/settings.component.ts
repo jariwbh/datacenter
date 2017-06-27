@@ -6,10 +6,11 @@ import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 
 import { SettingsService } from './../../core/services/settings/settings.service';
-import { AreaCountModel, DistrictCountModel, SettingModel, SocialCountModel } from './../../core/models/settings/settings.model';
-
-
-// import { UserLoginModel } from './../../shared/models/userlogin/userlogin.model';
+import {
+  AreaCountModel, DistrictCountModel,
+  SettingModel, SocialCountModel,
+} from './../../core/models/settings/settings.model';
+import { Message } from 'primeng/primeng';
 
 @Component({
   selector: 'settings',
@@ -20,56 +21,13 @@ export class Settings {
   formAreaCount: FormGroup;
   formDistrictCount: FormGroup;
   formSetting: FormGroup;
-  // public email: AbstractControl;
-  // public password: AbstractControl;
-  // public submitted: boolean = false;
-
-  //prov: any = [];
-
-  // provinceDistrictList: any[] = [
-  //   {
-  //     province: 'Baghdad',
-  //     area: 'Baghdad',
-  //     District: 'Baghdad',
-  //   },
-  //   {
-  //     province: 'Baghdad',
-  //     area: 'Nissan',
-  //     District: 'Baghdad',
-  //   },
-  //   {
-  //     province: 'Baghdad',
-  //     area: 'Ishbiliya',
-  //     District: 'Sadr',
-  //   },
-  //   {
-  //     province: 'pro2',
-  //     area: 'area2',
-  //     District: 'dist2',
-  //   },
-  //   {
-  //     province: 'pro2',
-  //     area: 'area3',
-  //     District: 'dist3',
-  //   },
-  //   {
-  //     province: 'pro2',
-  //     area: 'area4',
-  //     District: 'dist4',
-  //   },
-  //   {
-  //     province: 'pro3',
-  //     area: 'area30',
-  //     District: 'dist30',
-  //   },
-
-  // ];
+  msgs: Message[] = [];
 
   provinceList: any[];
   districtList: any[] = [];
-  // districtListforProvince: any[];
+
   areaList: any[] = [];
-  // areaListforDistrict: any[];
+
   districtListforDD: any[] = [];
   areaListforDD: any[] = [];
   areaCountSettingsList: any[] = [];
@@ -83,48 +41,22 @@ export class Settings {
   constructor(fb: FormBuilder,
     private _router: Router,
     private _Settings: SettingsService) {
-      this._SettingModel.userCountofSocial = new SocialCountModel();
-    //  this._SettingModel.noOfUserInSocial.facebookUserCount = 0;
-    //  this._SettingModel.noOfUserInSocial.twitterUserCount = 0;
-    //  this._SettingModel.noOfUserInSocial.whatsAppUserCount = 0;
-    //  this._SettingModel.noOfUserInSocial.telegramUserCount = 0;
-
-    // this.provinceList = this.groupBy(this.provinceDistrictList, function (item) {
-    //   return [item.province];
-    // });
-
-    // this.provinceList.forEach(element => {
-    //   const index = element[0]['province'];
-    //   this.prov.push(index);
-    //   if (!this.areaList[index]) {
-    //     this.areaList[index] = [];
-    //   }
-    //   if (!this.districtList[index]) {
-    //     this.districtList[index] = [];
-    //   }
-    //   element.forEach(ele => {
-    //     this.areaList[index].push(ele.area);
-    //     this.districtList[index].push(ele.District);
-    //   });
-    // });
-
+    this._SettingModel.userCountofSocial = new SocialCountModel();
+    this._SettingModel.noOfUserInSocial = [];
     this.getAllProvince();
     this.getAllDistrict();
     this.getAllArea();
-
     this.formAreaCount = fb.group({
       'province': [this._AreaCountModel.province, [Validators.required]],
       'district': [this._AreaCountModel.district, [Validators.required]],
       'area': [this._AreaCountModel.area, [Validators.required]],
       'count': [this._AreaCountModel.count, [Validators.required]],
     });
-
     this.formDistrictCount = fb.group({
       'province': [this._DistrictCountModel.province, [Validators.required]],
       'district': [this._DistrictCountModel.district, [Validators.required]],
       'count': [this._DistrictCountModel.count, [Validators.required]],
     });
-
     this.formSetting = fb.group({
       'facebookUserCount': [this._SettingModel.userCountofSocial.facebookUserCount, [Validators.required]],
       'twitterUserCount': [this._SettingModel.userCountofSocial.twitterUserCount, [Validators.required]],
@@ -133,24 +65,59 @@ export class Settings {
       'noOfUsers': [this._SettingModel.noOfUsers, [Validators.required]],
       'websiteTitle': [this._SettingModel.websiteTitle, [Validators.required]],
     });
-
     this.resetModel();
+    this.getAllSettings();
   }
 
+  getAllSettings() {
+    this._Settings.GetAllSetting().subscribe(data => {
+      if (data !== null) {
+        if (data.noOfUserInCity !== null) {
+          this.areaCountSettingsList = data.noOfUserInCity;
+        }
+        if (data.noOfUserInDistrict !== null) {
+          this.districtCountSettingsList = data.noOfUserInDistrict;
+        }
+        if (data.noOfUsers !== null) {
+          this._SettingModel.noOfUsers = data.noOfUsers;
+        }
+        if (data.websiteTitle !== null) {
+          this._SettingModel.websiteTitle = data.websiteTitle;
+        }
+        if (data.noOfUserInSocial !== null) {
+          data.noOfUserInSocial.forEach(element => {
+            for (const ele in element) {
+              if (element.hasOwnProperty(ele)) {
+                if (ele === 'facebookUserCount') {
+                  this._SettingModel.userCountofSocial.facebookUserCount = element['facebookUserCount'];
+                }
+                if (ele === 'whatsAppUserCount') {
+                  this._SettingModel.userCountofSocial.whatsAppUserCount = element['whatsAppUserCount'];
+                }
+                if (ele === 'twitterUserCount') {
+                  this._SettingModel.userCountofSocial.twitterUserCount = element['twitterUserCount'];
+                }
+                if (ele === 'telegramUserCount') {
+                  this._SettingModel.userCountofSocial.telegramUserCount = element['telegramUserCount'];
+                }
+              }
+            }
+          });
+        }
+      }
+    });
+  }
 
   getAllProvince() {
     this._Settings.GetAllProvince().subscribe(data => {
       if (data) {
-        //console.log(data);
         this.provinceList = data;
-        //console.log(this.provinceList);
       }
     });
   }
   getAllDistrict() {
     this._Settings.GetAllDistrict().subscribe(data => {
       if (data) {
-        //console.log(data);
         this.districtList = data;
       }
     });
@@ -158,36 +125,19 @@ export class Settings {
   getAllArea() {
     this._Settings.GetAllArea().subscribe(data => {
       if (data) {
-        //console.log(data);
         this.areaList = data;
       }
     });
   }
-
   onChange(province) {
-    //console.log(province);
-    //console.log(this.districtList);
-    //console.log(this.areaList);
     if (province !== '') {
-      // this.districtListforDD = this.districtList.map(
-
-      //   ele => ele[province] );
-      // this.areaListforDD = this.areaList.map(
-
-      //   ele => ele[province]);
-
-      // this.districtListforDD = this.districtList[province];
-      // this.areaListforDD = this.areaList[province];
       this.districtListforDD = this.districtList.filter(element => element.province === province);
       this.areaListforDD = this.areaList.filter(element => element.province === province);
     } else {
       this.districtListforDD = [];
       this.areaListforDD = [];
     }
-    console.log(this.districtListforDD);
-    console.log(this.areaListforDD);
   }
-
   addAreaCountSettings() {
     let tempObj = Object.assign({}, this._AreaCountModel);
     let isExist = false;
@@ -200,7 +150,6 @@ export class Settings {
           } else {
             isExist = false;
           }
-
         }
       }
     });
@@ -215,7 +164,6 @@ export class Settings {
 
   addDistrictCountSettings() {
     let tempObj2 = Object.assign({}, this._DistrictCountModel);
-
     let isExist = false;
     this.districtCountSettingsList.forEach(districtsetng => {
       if (districtsetng.province === tempObj2.province) {
@@ -227,12 +175,9 @@ export class Settings {
         }
       }
     });
-
     if (!isExist) {
       this.districtCountSettingsList.push(tempObj2);
     }
-
-    //this.districtCountSettingsList.push(tempObj2);
     this._DistrictCountModel.province = '';
     this._DistrictCountModel.district = '';
     this._DistrictCountModel.count = 0;
@@ -246,7 +191,6 @@ export class Settings {
       }
     });
   }
-
   removeDistrictCountSettings(districtset) {
     this.districtCountSettingsList.forEach(element => {
       if (this.districtCountSettingsList.indexOf(districtset) === this.districtCountSettingsList.indexOf(element)) {
@@ -255,41 +199,25 @@ export class Settings {
       }
     });
   }
-
-saveSettings(): void {
-
-  this._SettingModel.noOfUserInCity = this.areaCountSettingsList;
-  this._SettingModel.noOfUserInDistrict = this.districtCountSettingsList;
-   this._SettingModel.noOfUserInSocial.push( this._SettingModel.userCountofSocial);
-  this._Settings.AddUpdate(this._SettingModel).subscribe( data => {
-       if (data) {
-           console.log('saved');
-       }
-  });
-}
-
-  // public onSubmit(values: Object): void {
-  //   this.submitted = true;
-  //   if (this.form.valid) {
-  //     // your code goes here
-  //     // console.log(values);
-  //     console.log(this._UserLoginModel);
-  //     this.userloginService.login(this._UserLoginModel).subscribe(data => {
-  //       console.log(data);
-  //       if (data) {
-  //
-  //           }
-  //         this.form.reset();
-  //     }
-  //     ,response => {
-  //               if (response.status == 400) {
-  //                   return false;
-  //               }
-  //           }
-  //     );
-  //   }
-  // }
-
+  saveSettings(value: any, isValid: boolean) {
+    if (!isValid) {
+      this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
+      return false;
+    }
+    const that = this;
+    this._SettingModel.noOfUserInCity = this.areaCountSettingsList;
+    this._SettingModel.noOfUserInDistrict = this.districtCountSettingsList;
+    Object.keys(this._SettingModel.userCountofSocial).forEach(function (key, index) {
+      that._SettingModel.noOfUserInSocial.push({ [key]: that._SettingModel.userCountofSocial[key] });
+    });
+    this._Settings.AddUpdate(this._SettingModel).subscribe(data => {
+      if (data) {
+        this.msgs.push({ severity: 'info', summary: 'Insert Message', detail: 'Settings Saved Successfully!!!' });
+      } else {
+        this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Error on Insert' });
+      }
+    });
+  }
   resetModel() {
     this._AreaCountModel.province = '';
     this._AreaCountModel.district = '';
@@ -300,7 +228,6 @@ saveSettings(): void {
     this._DistrictCountModel.district = '';
     this._DistrictCountModel.count = 0;
   }
-
   // groupBy(array, f) {
   //   const groups = {};
   //   array.forEach(function (o) {
@@ -308,10 +235,8 @@ saveSettings(): void {
   //     groups[group] = groups[group] || [];
   //     groups[group].push(o);
   //   });
-
   //   return Object.keys(groups).map(function (group) {
   //     return groups[group];
   //   });
   // }
-
 }

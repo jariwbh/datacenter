@@ -10,6 +10,8 @@ import { routing } from './settings.routing';
 
 import { SettingsService } from './../../core/services/settings/settings.service';
 
+import { GrowlModule } from 'primeng/primeng';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +20,7 @@ import { SettingsService } from './../../core/services/settings/settings.service
     FormsModule,
     NgaModule,
     routing,
+    GrowlModule,
   ],
   declarations: [
     Settings,

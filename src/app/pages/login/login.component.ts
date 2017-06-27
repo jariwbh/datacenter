@@ -23,6 +23,7 @@ export class Login {
   public _UserLoginModel = new UserLoginModel();
   public auth_error;
   public token;
+  public Invalid = false;
 
   constructor(fb: FormBuilder, private userloginService: UserloginService,
     private authService: AuthService,
@@ -53,6 +54,7 @@ export class Login {
         //console.log(data);
         if (data) {
           if (data.success === true) {
+             this.Invalid = false;
             // this.token = {
             //   username: this._UserLoginModel.username,
             //   token: 'ggfggththjyjyjgyhjukukkjhgrdgrdgfgfgtghtgsdfefe',
@@ -72,6 +74,8 @@ export class Login {
             this.authService.login(this.token);
 
             if (this.authService.auth_role === 'A') {
+              this.form.reset();
+              this.submitted = false;
               this._router.navigate(['dashboard']);
             } else {
               this.auth_error = 'Only admin can sign in.';
@@ -81,18 +85,20 @@ export class Login {
               //this._router.navigate(['/loader']);
             }
           } else {
+             this.Invalid = true;
               this.authService.logout();
-              this._router.navigate(['login']);
+              //this._router.navigate(['login']);
           }
 
         }
-        this.form.reset();
+        //this.form.reset();
 
       }
         , response => {
           if (response.status === 400) {
             //this.edited = true;
-            this.auth_error = 'Email or password is incorrect.';
+            this.auth_error = 'Email or password is incorrect.'; 
+            this.Invalid = true;
             this._router.navigate(['login']);
             //this.checking_uniquness = false;
             return false;
