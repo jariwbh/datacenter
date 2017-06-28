@@ -1,0 +1,76 @@
+<aside class="al-sidebar" sidebarresize="">
+	<nav id="sidebar">
+        <div id="slimScrollDiv">
+            <ul class="al-sidebar-list">
+                <li class="al-sidebar-list-item">
+                     <a routerLink="/pages/dashboard" [routerLinkActive]="['router-link-active']" class="al-sidebar-list-link">
+                        <i class="ion-android-home"></i>
+                        <span>Dashboard</span>
+                    </a> 
+                </li>
+                <li [routerLinkActive]="['router-link-active']" class="al-sidebar-list-item with-sub-menu">
+                    <a (click)="addExpandClass('admin')" class="al-sidebar-list-link">
+                        <i class="ion-person"></i><span>Admin</span>
+                        <b class="fa fa-angle-down"></b>
+                   </a>
+                    <ul class="al-sidebar-sublist" [class.show]="showMenu === 'admin'">
+                        <li class="ba-sidebar-sublist-item">
+                            <a [routerLink]="['/pages/users/myprofile']" class="al-sidebar-list-link"><span>My Profile</span></a>
+                        </li>
+                        <li class="ba-sidebar-sublist-item" *ngIf="createNewAdmin">
+                            <a [routerLink]="['/pages/users/add-user/form']" class="al-sidebar-list-link"><span>New Admin</span></a>
+                        </li>
+                        <li class="ba-sidebar-sublist-item" *ngIf="viewUserHistory">
+                            <a [routerLink]="['/pages/users/user-history']" class="al-sidebar-list-link"><span>User History</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li [routerLinkActive]="['router-link-active']" class="al-sidebar-list-item with-sub-menu">
+                    <a (click)="addExpandClass('people')" class="al-sidebar-list-link">
+                        <i class="ion-person-stalker"></i><span>Peoples</span>
+                        <b class="fa fa-angle-down"></b>
+                   </a>
+                    <ul class="al-sidebar-sublist" [class.show]="showMenu === 'people'">
+                        <li class="ba-sidebar-sublist-item" *ngIf="createNewPerson">
+                            <a [routerLink]="['/pages/peoples/add-people/form']" class="al-sidebar-list-link"><span>New Person</span></a>
+                        </li>
+                        <li class="ba-sidebar-sublist-item" *ngIf="viewManagePersonPage">
+                            <a [routerLink]="['/pages/peoples/manage-people']" class="al-sidebar-list-link"><span>Manage Person</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li [routerLinkActive]="['router-link-active']" class="al-sidebar-list-item with-sub-menu">
+                    <a (click)="addExpandClass('activity')" class="al-sidebar-list-link">
+                        <i class="ion-ios-pulse-strong"></i><span>Activity</span>
+                        <b class="fa fa-angle-down"></b>
+                   </a>
+                    <ul class="al-sidebar-sublist" [class.show]="showMenu === 'activity'">
+                        <li class="ba-sidebar-sublist-item" *ngIf="createNewActivity">
+                            <a [routerLink]="['/pages/activities/add-activity']" class="al-sidebar-list-link"><span>Add Activity</span></a>
+                        </li>
+                        <li class="ba-sidebar-sublist-item">
+                            <a [routerLink]="['/pages/activities/manage-activity']" class="al-sidebar-list-link"><span>Manage Activity</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li *ngIf="viewReportPage"> 
+                    <a routerLink="/pages/reports/chartist-js" [routerLinkActive]="['router-link-active']" class="al-sidebar-list-link">
+                        <i class="ion-stats-bars"></i>
+                        <span>Reports</span>
+                    </a> 
+                </li>
+                <li> 
+                    <a routerLink="/pages/settings" [routerLinkActive]="['router-link-active']" class="al-sidebar-list-link">
+                        <i class="ion-gear-a"></i>
+                        <span>Setting</span></a>
+                </li>
+                <li> 
+                    <a routerLink="/login" [routerLinkActive]="['router-link-active']" class="al-sidebar-list-link">
+                        <i class="ion-android-exit"></i>
+                        <span>Logout</span>
+                    </a> 
+                </li>
+            </ul>
+        </div>
+	</nav>
+</aside>

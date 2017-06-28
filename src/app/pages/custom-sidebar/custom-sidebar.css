@@ -1,0 +1,35 @@
+.show {
+  display: block;
+}
+
+.al-sidebar-list-link {
+    display: block;
+    height: 42px;
+    padding-left: 18px;
+    text-shadow: none;
+    font-size: 13px;
+    text-decoration: none;
+    color: #fff;
+    line-height: 42px;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.al-sidebar-list-item {
+    display: block;
+    position: relative;
+    float: none;
+    padding: 0;
+}
+
+.al-sidebar-sublist> li a {
+    display: block;
+    text-shadow: none;
+    font-size: 13px;
+    text-decoration: none;
+    color: #fff;
+    padding-left: 52px;
+    height: auto;
+    line-height: 29px;
+}
