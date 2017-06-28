@@ -23,9 +23,21 @@ export class FormComponent {
   dynamicSubmitted: boolean;
   msgs: Message[] = [];
   _lookupVisibiity = false;
+  labelnameVisibility = false;
   fieldLists: any = {};
 
   _sampleJson: string;
+  uploadedFiles: any[] = [];
+
+  _provinceLists: any[] = [];
+  _districtLists: any[] = [];
+  _areaLists: any[] = [];
+
+  _districtBasedOnProvince: any[] = [];
+  _areaBasedOnProvince: any[] = [];
+
+  _districtOptionLists: any[] = [];
+  _areaOptionLists: any[] = [];
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -40,6 +52,7 @@ export class FormComponent {
         'labelname': [this._fieldsModel.labelname, Validators.required],
         'description': [this._fieldsModel.description, Validators.required],
         'isMandatory': [this._fieldsModel.isMandatory, Validators.required],
+        'isDisplayOnList': [this._fieldsModel.isDisplayOnList, Validators.required],
         'formorder': [this._fieldsModel.formorder, Validators.required],
     });
 
@@ -67,14 +80,56 @@ export class FormComponent {
   }
   ngOnInit() {
     this.getAllFields();
+    this.getAllProvince();
+    this.getAllDistrict();
+    this.getAllArea();
   }
 
+  getAllProvince() {
+    this._fieldsService
+          .GetAllProvince()
+          .subscribe(
+          data => {
+            this._provinceLists  = data;
+        });
+  }
+  getAllDistrict() {
+    this._fieldsService
+          .GetAllDistrict()
+          .subscribe(
+          data => {
+            this._districtLists  = data;
+            this._districtLists.forEach(element => {
+              const index = element.province;
+              if ( !this._districtBasedOnProvince[index] ) {
+                this._districtBasedOnProvince[index] = [];
+              }
+              this._districtBasedOnProvince[index].push(element.district);
+            });
+        });
+  }
+  getAllArea() {
+    this._fieldsService
+          .GetAllArea()
+          .subscribe(
+          data => {
+            this._areaLists  = data;
+            this._areaLists.forEach(element => {
+              const index = element.province;
+              if ( !this._areaBasedOnProvince[index] ) {
+                this._areaBasedOnProvince[index] = [];
+              }
+              this._areaBasedOnProvince[index].push(element.area);
+            });
+        });
+  }
   getAllFields() {
     this._fieldsService
           .GetAll('people')
           .subscribe(
           data => {
             this.fieldLists = data;
+            console.log(this.fieldLists);
             const group: any = {};
             data.forEach(element => {
               if (element.isMandatory) {
@@ -85,6 +140,13 @@ export class FormComponent {
             });
             this.dynamicForm = this.fb.group(group);
         });
+  }
+  onChangeProvince(value: any) {
+      this._districtOptionLists = [];
+      this._areaOptionLists = [];
+
+      this._districtOptionLists = this._districtBasedOnProvince[value];
+      this._areaOptionLists = this._areaBasedOnProvince[value];
   }
   onDynamicFormSubmit(value: any, isValid: boolean) {
     this.dynamicSubmitted = true;
@@ -122,30 +184,70 @@ export class FormComponent {
         this._fieldsModel.description = value.description;
         this._fieldsModel.formorder = value.formorder;
         this._fieldsModel.issystemfield = false;
-
+        
         if (value.isMandatory === 0) {
           this._fieldsModel.isMandatory = true;
         } else {
           this._fieldsModel.isMandatory = false;
         }
-        this._fieldsService
-          .Add(this._fieldsModel)
-          .subscribe(
-          data => {
-            const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
-            if (isClosed) {
-              isClosed.click();
-              this.getAllFields();
-              this.form.reset();
-                      this.msgs = [];
-                      this.msgs.push ({ 
-              severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
-              
-            }
-        });
+
+        if (value.isDisplayOnList === 0) {
+          this._fieldsModel.isDisplayOnList = true;
+        } else {
+          this._fieldsModel.isDisplayOnList = false;
+        }
+        this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
       }
   }
   
+  labelvaluechange() {
+    this.labelnameVisibility = false;
+  }
+
+  checkLabelNameAlreayExistsOrNot(labelname) {
+    this._fieldsService
+        .GetAll('people')
+        .subscribe(
+        data => {
+          let cnt = 0;
+          data.forEach(element => {
+            if (element.labelname == labelname) {
+              cnt++;
+            }
+          });
+          if (cnt === 0) {
+            this._fieldsService
+              .Add(this._fieldsModel)
+              .subscribe(
+              data => {
+                const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+                if (isClosed) {
+                  isClosed.click();
+                  this.getAllFields();
+                  this.form.reset();
+                          this.msgs = [];
+                          this.msgs.push ({ 
+                  severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
+                  
+                }
+            });
+          } else {
+            this.msgs = [];
+            this.msgs.push ({ 
+                    severity: 'error', summary: 'Error  Message', detail: 'Label Name Already Exist.!!!' });
+            this.labelnameVisibility = true;
+          }
+        });
+  }
+
+   onBasicUploadAuto(event) {
+        for (const file of event.files) {
+            this.uploadedFiles.push(file);
+        }
+        this.msgs = [];
+        this.msgs.push({ severity: 'info', summary: 'File Uploaded', detail: '' });
+    }
+
   onChange(newValue: any) {
     if ((newValue === 'list') || (newValue === 'multi_selected_list') || (newValue === 'checkbox')) {
       this._lookupVisibiity = true;

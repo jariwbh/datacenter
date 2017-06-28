@@ -5,10 +5,12 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 
-import { Login } from './login.component';
-import { routing } from './login.routing';
+import { Settings } from './settings.component';
+import { routing } from './settings.routing';
 
-import { UserloginService } from './../../core/services/userlogin/userlogin.service';
+import { SettingsService } from './../../core/services/settings/settings.service';
+
+import { GrowlModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -18,10 +20,11 @@ import { UserloginService } from './../../core/services/userlogin/userlogin.serv
     FormsModule,
     NgaModule,
     routing,
+    GrowlModule,
   ],
   declarations: [
-    Login,
+    Settings,
   ],
-  providers: [UserloginService],
+  providers: [SettingsService],
 })
-export class LoginModule {}
+export class SettingsModule {}

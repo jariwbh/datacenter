@@ -28,7 +28,7 @@
       <div *ngIf="informationVisibilty">
         <ba-card title="Information Form" baCardClass="with-scroll">
           <div class="clearfix">
-            <button type="button" class="btn btn-warning btn-raised pull-right" data-toggle="modal" data-target="#myModalAddFields" data-backdrop="static" data-keyboard="false">Add New Field</button>   
+            <button type="button" class="btn btn-warning btn-raised pull-right" data-toggle="modal" data-target="#myModalAddFields" data-backdrop="static" data-keyboard="false">Add New Field</button>
           </div>
           <form 
               *ngIf="dynamicForm"
@@ -49,14 +49,44 @@
                     <input type="file" class="form-control" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
                   </div>
                   <div *ngSwitchCase="'list'">
-                      <select 
-                        class="form-control"
-                        [formControlName]="fields.labelname" 
-                        [(ngModel)]="fields.value">
-                      <option value="">--- Select ---</option>
-                      <option *ngFor="let opt of fields.lookupdata" [value]="opt.key">{{opt.value}}</option>
-                      
-                    </select>
+                      <div *ngIf="fields.labelname == 'province'">
+                        <select
+                              (change)="onChangeProvince($event.target.value)"
+                              class="form-control"
+                              [formControlName]="fields.labelname" 
+                              [(ngModel)]="fields.value">
+                            <option value="">--- Select ---</option>
+                            <option *ngFor="let opt of _provinceLists" [value]="opt.name">{{opt.name}}</option>
+                          </select>
+                      </div>
+                      <div *ngIf="fields.labelname == 'district'">
+                        <select 
+                              class="form-control"
+                              [formControlName]="fields.labelname" 
+                              [(ngModel)]="fields.value">
+                            <option value="">--- Select ---</option>
+                            <option *ngFor="let opt of _districtOptionLists" [value]="opt">{{opt}}</option>
+                          </select>
+                      </div>
+                      <div *ngIf="fields.labelname == 'area'">
+                        <select 
+                              class="form-control"
+                              [formControlName]="fields.labelname" 
+                              [(ngModel)]="fields.value">
+                            <option value="">--- Select ---</option>
+                            <option *ngFor="let opt of _areaOptionLists" [value]="opt">{{opt}}</option>
+                          </select>
+                      </div>
+                      <div *ngIf="fields.labelname !== 'province' && fields.labelname !== 'district' && fields.labelname !== 'area'">
+                          <select 
+                              class="form-control"
+                              [formControlName]="fields.labelname" 
+                              [(ngModel)]="fields.value">
+                            <option value="">--- Select ---</option>
+                            <option *ngFor="let opt of fields.lookupdata" [value]="opt.key">{{opt.value}}</option>
+                          </select>
+                      </div>
+
                   </div>
                   <div *ngSwitchCase="'multi_selected_list'">
                       <select 
@@ -101,6 +131,7 @@
         <ba-card title="Username & password Form" baCardClass="with-scroll">
           <form [formGroup]="usernamepasswordForm" (ngSubmit)="onUsernamepasswordSubmit(usernamepasswordForm.value,usernamepasswordForm.valid)" novalidate class="form-horizontal">
             <div class="form-group">
+              <input type="hidden" formControlName="role" [(ngModel)]="_usersModel.role">
               <label for="exampleInputname1">Email</label>
               <input 
                   type="email" 
@@ -224,9 +255,12 @@
                   </div>
                   <div class="form-group">
                     <label for="input01">Label Name</label>
-                    <input type="text" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
+                    <input type="text" (keypress)="labelvaluechange()" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
                     <div [hidden]="form.get('labelname').valid || (form.get('labelname').pristine && !submitted)" class="alert alert-danger">
                         labelname is required.
+                    </div>
+                    <div *ngIf="labelnameVisibility" class="alert alert-danger">
+                      LabelName Already Exist.
                     </div>
                   </div>
                   <div class="form-group">

@@ -1,13 +1,10 @@
 import { Routes, RouterModule } from '@angular/router';
-
-import { Login } from './login.component';
 import { ModuleWithProviders } from '@angular/core';
+import { NoPermissionComponent } from './no-permission.component';
 
-// noinspection TypeScriptValidateTypes
 export const routes: Routes = [
   {
-    path: '',
-    component: Login,
+    path: '', component: NoPermissionComponent,
   },
 ];
 

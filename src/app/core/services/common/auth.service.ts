@@ -5,7 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
-import { UserModel } from './../../../shared/models/auth/user.model';
+
+import { UserModel } from './../../models/auth/user.model';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
   auth_token: string; 
   auth_role: string;
   auth_id: string;
+  auth_user: any;
 //   customer_servicer_id : string;
 //   customer_servicer_urlname : string;
   // store the URL so we can redirect after logging in
@@ -26,35 +28,27 @@ export class AuthService {
      this.auth_token = user.token;
      this.auth_role = user.role;
      this.auth_id = user._id;
+     this.auth_user = user.user;
+     
   }
 
-  isLoggedIn(){
+  isLoggedIn() {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       if (this.currentUser) {
         //this.setBodyClass();
         return true; 
-      }
-      else return false;
+      }else {
+         return false;
+        }
   }
 
-//   setBodyClass(){
-//      var bodytag = document.getElementsByTagName('body')[0];      
-//      bodytag.removeAttribute("class");
-//      bodytag.setAttribute('class', "body-gray");
-//   }
-
-//   removeBodyClass(){
-//      var bodytag = document.getElementsByTagName('body')[0];     
-//      bodytag.removeAttribute("class");
-//      bodytag.setAttribute('class', "body-gray body-pdt60");   
-//   }
-
-  getLoginUser(){
+  getLoginUser() {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.auth_email = this.currentUser.username;
       this.auth_token = this.currentUser.token;
       this.auth_role = this.currentUser.role;
       this.auth_id = this.currentUser._id;
+      this.auth_user = this.currentUser.user;
       return this.currentUser;
       
   }
@@ -71,6 +65,7 @@ export class AuthService {
     this.auth_token = '';
     this.auth_role = '';
     this.auth_id = '';
+    this.auth_user = '';
     // this.customer_servicer_id = '';
     // this.customer_servicer_urlname = '';
   }

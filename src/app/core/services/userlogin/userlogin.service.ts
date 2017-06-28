@@ -1,5 +1,5 @@
 import { AuthService } from '../common/auth.service';
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +13,7 @@ export class UserloginService {
     private actionUrl: string;
     private headers: Headers;
 
-    constructor(private http: Http, private configuration: Configuration, private _authService:AuthService) {
+    constructor(private http: Http, private configuration: Configuration, private _authService: AuthService) {
 
         this.actionUrl = configuration.Server + 'api/';
 

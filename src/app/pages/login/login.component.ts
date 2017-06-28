@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 import { AuthService } from './../../core/services/common/auth.service';
 import { UserloginService } from './../../core/services/userlogin/userlogin.service';
 
-import { UserLoginModel } from './../../shared/models/userlogin/userlogin.model';
+import { UserLoginModel } from './../../core/models/userlogin/userlogin.model';
+
 
 @Component({
   selector: 'login',
@@ -22,9 +23,10 @@ export class Login {
   public _UserLoginModel = new UserLoginModel();
   public auth_error;
   public token;
+  public Invalid = false;
 
   constructor(fb: FormBuilder, private userloginService: UserloginService,
-   private authService:AuthService,
+    private authService: AuthService,
     private _router: Router) {
     this.authService.logout();
 
@@ -34,7 +36,7 @@ export class Login {
     // });
 
     this.form = fb.group({
-      'email': [this._UserLoginModel.email, Validators.compose([Validators.required, Validators.minLength(4)])],
+      'email': [this._UserLoginModel.username, Validators.compose([Validators.required, Validators.minLength(4)])],
       'password': [this._UserLoginModel.password, Validators.compose([Validators.required, Validators.minLength(4)])],
     });
 
@@ -42,51 +44,66 @@ export class Login {
     this.password = this.form.controls['password'];
   }
 
-  public onSubmit(values: Object): void {
+  onSubmit(values: Object): void {
     this.submitted = true;
     if (this.form.valid) {
       // your code goes here
       // console.log(values);
-      console.log(this._UserLoginModel);
+      //console.log(this._UserLoginModel);
       this.userloginService.login(this._UserLoginModel).subscribe(data => {
-        console.log(data);
+        //console.log(data);
         if (data) {
-         
-
+          if (data.success === true) {
+             this.Invalid = false;
+            // this.token = {
+            //   username: this._UserLoginModel.username,
+            //   token: 'ggfggththjyjyjgyhjukukkjhgrdgrdgfgfgtghtgsdfefe',
+            //   role: 'A',
+            //   _id: 'ghfhgfhyhjnuyfhrhfmyhmncb',
+            // };
+            data.admin.admin.password = '';
             this.token = {
-              username: this._UserLoginModel.email,
-              token: 'ggfggththjyjyjgyhjukukkjhgrdgrdgfgfgtghtgsdfefe',
+              username: this._UserLoginModel.username,
+              user: data.admin.admin,
+              token: data.token,
               role: 'A',
-              _id: 'ghfhgfhyhjnuyfhrhfmyhmncb',
-            }
-            console.log(this.token);
+              _id: data.admin._id,
+            };
+            //console.log(this.token);
 
             this.authService.login(this.token);
 
-            if (this.authService.auth_role == "A") {
-              this._router.navigate(['dashboard'])
+            if (this.authService.auth_role === 'A') {
+              this.form.reset();
+              this.submitted = false;
+              this._router.navigate(['dashboard']);
             } else {
-              this.auth_error = "Only admin can sign in.";
+              this.auth_error = 'Only admin can sign in.';
               this.authService.logout();
               this._router.navigate(['login']);
               //this.getuserdata(this.authService.auth_id);
               //this._router.navigate(['/loader']);
             }
+          } else {
+             this.Invalid = true;
+              this.authService.logout();
+              //this._router.navigate(['login']);
+          }
 
-            }
-          this.form.reset();
+        }
+        //this.form.reset();
 
-        
       }
-      ,response => {
-                if (response.status == 400) {
-                    //this.edited = true;
-                    this.auth_error = "Email or password is incorrect.";
-                    this._router.navigate(['login']);
-                    //this.checking_uniquness = false;
-                    return false;
-                }
-            }    
+        , response => {
+          if (response.status === 400) {
+            //this.edited = true;
+            this.auth_error = 'Email or password is incorrect.'; 
+            this.Invalid = true;
+            this._router.navigate(['login']);
+            //this.checking_uniquness = false;
+            return false;
+          }
+        },
       );
     }
   }
