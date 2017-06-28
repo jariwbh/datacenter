@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const fileUpload = require('express-fileupload');
 var db     = require('../db-config');
 var Person     = require('../models/person');
 var Area     = require('../models/area');
 var Province     = require('../models/province');
 var District     = require('../models/district');
 var Setting     = require('../models/setting');
+var Activity     = require('../models/activity');
 var Admin     = require('../models/admin');
 var Formfield     = require('../models/form-field');
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
@@ -316,4 +318,68 @@ router.route('/admin/:id')
 
     });
 
+
+router.route('/activity')
+    // create a person 
+    .post(function(req, res) {
+
+        var activity = new Activity();      // create a new instance of the Bear model
+        activity.name = req.body.name;  // set the bears name (comes from the request)
+        activity.description = req.body.description;  // set the bears name (comes from the request)
+        activity.type = req.body.type;  // set the bears name (comes from the request)
+        activity.persons = req.body.persons;  // set the bears name (comes from the request)
+        activity.profileimage = req.body.profileimage;  // set the bears name (comes from the request)
+        activity.url = req.body.url;  // set the bears name (comes from the request)
+        activity.points = req.body.points;  // set the bears name (comes from the request)
+        // save the person and check for errors
+        person.save(function(err, data) {
+            if (err)
+                res.send(err);
+
+            res.json(data);
+        });
+
+    });
+
+router.route('/activity')
+    .get(function(req, res) {
+
+        Activity.find(function (err, docs) {
+            res.json(docs);
+        });
+
+    });
+
+router.route('/activity/:person')
+    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    .get(function(req, res) {
+
+       if (req.params.id) {
+            Person.find({persons: { "$in" : [person]} }, function (err, docs) {
+                res.json(docs);
+            });
+       }
+    });
+
+app.use(fileUpload());
+ 
+router.route('/upload')
+
+    .post(function(req, res) {
+        if (!req.files)
+            return res.status(400).send('No files were uploaded.');
+        
+        // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
+        let sampleFile = req.files.sampleFile;
+        
+        // Use the mv() method to place the file somewhere on your server 
+        console.log(sampleFile.name);
+        
+        sampleFile.mv('/uploads/' + sampleFile.name, function(err) {
+            if (err)
+            return res.status(500).send(err);
+        
+            res.send('File uploaded!');
+        });
+});
 module.exports = router;

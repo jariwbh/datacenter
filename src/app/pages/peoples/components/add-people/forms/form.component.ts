@@ -129,7 +129,6 @@ export class FormComponent {
           .subscribe(
           data => {
             this.fieldLists = data;
-            console.log(this.fieldLists);
             const group: any = {};
             data.forEach(element => {
               if (element.isMandatory) {
@@ -241,6 +240,7 @@ export class FormComponent {
   }
 
    onBasicUploadAuto(event) {
+      console.log('here');
         for (const file of event.files) {
             this.uploadedFiles.push(file);
         }
