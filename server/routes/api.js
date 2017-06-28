@@ -20,6 +20,25 @@ router.get('/', (req, res) => {
 });
 
 
+router.route('/dashboard/topadmin')
+    
+    .get(function(req, res) {        
+        Admin.find({}).sort({points: -1}).limit(10)
+        .exec(function (err, docs) {            
+                res.json(docs);
+        });
+
+    });
+
+router.route('/dashboard/province')
+    
+    .get(function(req, res) {        
+        Province.find({}, function (err, docs) {            
+                res.json(docs);
+        });
+
+    });
+
 router.route('/lookup/area')
     
     .get(function(req, res) {        
@@ -363,9 +382,12 @@ router.route('/activity/:person')
 
 app.use(fileUpload());
  
-router.route('/upload')
+app.route('/upload')
 
     .post(function(req, res) {
+        
+        console.log("API called");
+
         if (!req.files)
             return res.status(400).send('No files were uploaded.');
         

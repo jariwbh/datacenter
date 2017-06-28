@@ -11,6 +11,7 @@ export class AddActivityComponent {
 activityTypeVisibilty = true;
 howActivityVisibilty = false;
 aboutVisibilty = false;
+msgs="";
 
 constructor() {
 }
