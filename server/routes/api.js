@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fileUpload = require('express-fileupload');
 var db     = require('../db-config');
 var Person     = require('../models/person');
 var Area     = require('../models/area');
@@ -360,5 +361,25 @@ router.route('/activity/:person')
        }
     });
 
+app.use(fileUpload());
+ 
+router.route('/upload')
 
+    .post(function(req, res) {
+        if (!req.files)
+            return res.status(400).send('No files were uploaded.');
+        
+        // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
+        let sampleFile = req.files.sampleFile;
+        
+        // Use the mv() method to place the file somewhere on your server 
+        console.log(sampleFile.name);
+        
+        sampleFile.mv('/uploads/' + sampleFile.name, function(err) {
+            if (err)
+            return res.status(500).send(err);
+        
+            res.send('File uploaded!');
+        });
+});
 module.exports = router;
