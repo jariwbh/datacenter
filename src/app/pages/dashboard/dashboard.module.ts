@@ -1,3 +1,4 @@
+
 import { NgModule }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -25,6 +26,9 @@ import { UsersMapService } from './usersMap/usersMap.service';
 
 import { FieldsService } from '../../core/services/dynamic-fields/fields.service';
 import { UsersService } from '../../core/services/users/users.service';
+
+//Custom service
+import { DashboardService } from './../../core/services/dashboard/dashboard.service';
 
 @NgModule({
   imports: [
@@ -55,6 +59,7 @@ import { UsersService } from '../../core/services/users/users.service';
     UsersMapService,
     FieldsService,
     UsersService,
-  ]
+    DashboardService,
+  ],
 })
 export class DashboardModule {}

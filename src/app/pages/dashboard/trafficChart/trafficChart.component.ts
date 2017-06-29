@@ -21,7 +21,7 @@ export class TrafficChart {
   }
 
   ngAfterViewInit() {
-    this._loadDoughnutCharts();
+    //this._loadDoughnutCharts();
   }
 
   private _loadDoughnutCharts() {
