@@ -332,7 +332,7 @@ router.route('/activity')
         activity.url = req.body.url;  // set the bears name (comes from the request)
         activity.points = req.body.points;  // set the bears name (comes from the request)
         // save the person and check for errors
-        person.save(function(err, data) {
+        activity.save(function(err, data) {
             if (err)
                 res.send(err);
 
@@ -366,9 +366,12 @@ app.use(fileUpload());
 router.route('/upload')
 
     .post(function(req, res) {
+        console.log("Api called" + req);
         if (!req.files)
+        {
+            console.log("Api called INSIDE");            
             return res.status(400).send('No files were uploaded.');
-        
+        }
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
         let sampleFile = req.files.sampleFile;
         
@@ -381,5 +384,6 @@ router.route('/upload')
         
             res.send('File uploaded!');
         });
+        console.log("Api called end");
 });
 module.exports = router;

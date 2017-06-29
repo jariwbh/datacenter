@@ -238,16 +238,12 @@ export class FormComponent {
           }
         });
   }
-
-   onBasicUploadAuto(event) {
+  onUploadPhoto(event) {
       console.log('here');
-        for (const file of event.files) {
-            this.uploadedFiles.push(file);
-        }
-        this.msgs = [];
-        this.msgs.push({ severity: 'info', summary: 'File Uploaded', detail: '' });
-    }
-
+      const url = event.xhr.response;
+      console.log(url);
+  }
+  
   onChange(newValue: any) {
     if ((newValue === 'list') || (newValue === 'multi_selected_list') || (newValue === 'checkbox')) {
       this._lookupVisibiity = true;
