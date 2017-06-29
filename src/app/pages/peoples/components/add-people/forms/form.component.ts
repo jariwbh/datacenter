@@ -16,11 +16,14 @@ import { Message } from 'primeng/primeng';
 
 export class FormComponent {
   
-  form: FormGroup;
-  dynamicForm: FormGroup;
   _fieldsModel = new FieldsModel();
+
+  form: FormGroup;
   submitted: boolean;
+
+  dynamicForm: FormGroup;
   dynamicSubmitted: boolean;
+  
   msgs: Message[] = [];
   _lookupVisibiity = false;
   labelnameVisibility = false;

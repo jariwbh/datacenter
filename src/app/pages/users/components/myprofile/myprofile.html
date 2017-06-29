@@ -10,24 +10,28 @@
                     <label for="inputEmail3" class="col-sm-4 form-control-label">{{fields.displayname}}</label>
                     <div *ngSwitchCase="'text'" class="col-sm-4">
                       <span *ngIf="!fields.visiblity" style="cursor: pointer"  (click)="edit(fields.labelname)"> {{fields.value}} </span>
+                       <a *ngIf="!fields.visiblity"  (click)="edit(fields.labelname)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
                       <input *ngIf="fields.visiblity" [id]="fields.labelname" class="form-control" type="text" [value]="fields.value">
                       <button *ngIf="fields.visiblity" (click)="editSave('fullname')" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
                       <button *ngIf="fields.visiblity" (click)="editCancel('fullname')" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
                     </div>
                     <div *ngSwitchCase="'long_text'" class="col-sm-4">
                       <span *ngIf="!fields.visiblity" style="cursor: pointer"  (click)="edit(fields.labelname)"> {{fields.value}} </span>
+                      <a *ngIf="!fields.visiblity"  (click)="edit(fields.labelname)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
                       <textarea  *ngIf="fields.visiblity" [id]="fields.labelname" class="form-control" [value]="fields.value"></textarea>
                       <button *ngIf="fields.visiblity" (click)="editSave(fields.labelname)" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
                       <button *ngIf="fields.visiblity" (click)="editCancel(fields.labelname)" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
                     </div>
                     <div *ngSwitchCase="'image'" class="col-sm-4">
                       <span *ngIf="!fields.visiblity" style="cursor: pointer"  (click)="edit(fields.labelname)"> {{fields.value}} </span>
+                      <a *ngIf="!fields.visiblity"  (click)="edit(fields.labelname)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
                       <input  *ngIf="fields.visiblity" [id]="fields.labelname" type="file" class="form-control" [value]="fields.value">
                       <button  *ngIf="fields.visiblity" (click)="editSave(fields.labelname)" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
                       <button  *ngIf="fields.visiblity" (click)="editCancel(fields.labelname)" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
                     </div>
                     <div *ngSwitchCase="'list'" class="col-sm-4">
                       <span *ngIf="!fields.visiblity" style="cursor: pointer"  (click)="edit(fields.labelname)"> {{fields.value}} </span>
+                      <a *ngIf="!fields.visiblity"  (click)="edit(fields.labelname)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
                       <div *ngIf="fields.labelname == 'province'">
                         <select
                               [id]="fields.labelname"
@@ -74,6 +78,7 @@
                     </div>
                     <div *ngSwitchCase="'multi_selected_list'" class="col-sm-4">
                       <span *ngIf="!fields.visiblity" style="cursor: pointer"  (click)="edit(fields.labelname)"> {{fields.value}} </span>
+                      <a *ngIf="!fields.visiblity"  (click)="edit(fields.labelname)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
                       <select 
                           [id]="fields.labelname"
                           *ngIf="fields.visiblity"
@@ -87,6 +92,7 @@
                     </div>
                     <div *ngSwitchCase="'checkbox'" class="col-sm-4">
                       <span *ngIf="!fields.visiblity" style="cursor: pointer"  (click)="edit(fields.labelname)"> {{fields.value}} </span>
+                      <a *ngIf="!fields.visiblity"  (click)="edit(fields.labelname)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
                       <div *ngFor="let look of lookupdata">
                         <input [id]="fields.labelname" *ngIf="fields.visiblity" type="checkbox" class="form-control" [value]="fields.value"> {{look.value}}
                       </div>
@@ -95,18 +101,21 @@
                     </div>
                     <div *ngSwitchCase="'point'" class="col-sm-4">
                       <span *ngIf="!fields.visiblity" style="cursor: pointer"  (click)="edit(fields.labelname)"> {{fields.value}} </span>
+                      <a *ngIf="!fields.visiblity"  (click)="edit(fields.labelname)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
                       <input [id]="fields.labelname" *ngIf="fields.visiblity" type="text" class="form-control" [value]="fields.value">
                       <button  *ngIf="fields.visiblity" (click)="editSave(fields.labelname)" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
                       <button  *ngIf="fields.visiblity" (click)="editCancel(fields.labelname)" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
                     </div>
                     <div *ngSwitchCase="'url'" class="col-sm-4">
                       <span *ngIf="!fields.visiblity" style="cursor: pointer"  (click)="edit(fields.labelname)"> {{fields.value}} </span>
+                      <a *ngIf="!fields.visiblity"  (click)="edit(fields.labelname)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
                       <input [id]="fields.labelname" *ngIf="fields.visiblity" type="text" class="form-control" [value]="fields.value">
                       <button  *ngIf="fields.visiblity" (click)="editSave(fields.labelname)" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
                       <button  *ngIf="fields.visiblity" (click)="editCancel(fields.labelname)" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>
                     </div>
                     <div *ngSwitchCase="'map'" class="col-sm-4">
                       <span *ngIf="!fields.visiblity" style="cursor: pointer"  (click)="edit(fields.labelname)"> {{fields.value}} </span>
+                      <a *ngIf="!fields.visiblity"  (click)="edit(fields.labelname)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
                       <input [id]="fields.labelname" *ngIf="fields.visiblity" type="text" class="form-control" [value]="fields.value">
                       <button *ngIf="fields.visiblity" (click)="editSave(fields.labelname)" type="button" class="btn btn-success btn-icon"><i class="ion-android-checkmark-circle"></i></button>
                       <button *ngIf="fields.visiblity" (click)="editCancel(fields.labelname)" type="button" class="btn btn-danger btn-icon"><i class="ion-nuclear"></i></button>

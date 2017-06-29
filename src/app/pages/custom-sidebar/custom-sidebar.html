@@ -53,6 +53,12 @@
                         </li>
                     </ul>
                 </li>
+                <li *ngIf="managePointsPage"> 
+                    <a routerLink="/pages/points" [routerLinkActive]="['router-link-active']" class="al-sidebar-list-link">
+                        <i class="ion-android-star-half"></i>
+                        <span> Points</span>
+                    </a> 
+                </li>
                 <li *ngIf="viewReportPage"> 
                     <a routerLink="/pages/reports/chartist-js" [routerLinkActive]="['router-link-active']" class="al-sidebar-list-link">
                         <i class="ion-stats-bars"></i>

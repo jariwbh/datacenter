@@ -17,6 +17,7 @@ export class CustomSidebarComponent {
   viewReportPage = false;
   createNewActivity = false;
   viewManagePersonPage = false;
+  managePointsPage = false;
 
   constructor(
     private _authService: AuthService) {
@@ -71,6 +72,7 @@ export class CustomSidebarComponent {
         this.viewReportPage = true;
         this.createNewActivity = true;
         this.viewManagePersonPage = true;
+        this.managePointsPage = true;
     }
   }
 
