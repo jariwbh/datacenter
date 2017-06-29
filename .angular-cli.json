@@ -31,6 +31,8 @@
         "../node_modules/fullcalendar/dist/fullcalendar.css",
         "../node_modules/handsontable/dist/handsontable.full.css",
         "../node_modules/ng2-slim-loading-bar/style.css",
+        "../node_modules/quill/dist/quill.core.css",
+        "../node_modules/quill/dist/quill.snow.css",
         "app/theme/theme.scss",
         "styles.scss"
       ],
@@ -41,7 +43,8 @@
         "../node_modules/tether/dist/js/tether.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
         "../node_modules/handsontable/dist/handsontable.full.js",
-        "../node_modules/chroma-js/chroma.js"
+        "../node_modules/chroma-js/chroma.js",
+        "../node_modules/quill/dist/quill.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

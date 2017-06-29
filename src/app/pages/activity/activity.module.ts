@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 
 import { routing } from './activity.routing';
@@ -12,6 +12,7 @@ import { AppTranslationModule } from '../../app.translation.module';
     CommonModule,
     AppTranslationModule,
     FormsModule,
+    ReactiveFormsModule,
     NgaModule,
     routing,
   ],

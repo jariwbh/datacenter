@@ -35,17 +35,15 @@
                     </textarea>
                   </div>
                   <div *ngSwitchCase="'image'">
-                    <p-fileUpload
-                        #fubauto
-                        mode="basic"
-                        name="files[]"
-                        url="./api/upload"
-                        accept="image/*"
-                        maxFileSize="1000000"
-                        (onUpload)="onBasicUploadAuto($event)"
-                        auto="true"
-                        chooseLabel="Browse">
-                    </p-fileUpload>
+
+                    <p-fileUpload 
+                      name="sampleFile" 
+                      url="/api/upload/" 
+                      accept="image/*"
+                      (onUpload)="onUploadPhoto($event)" 
+                      auto="true" 
+                      showButtons="false">
+                  </p-fileUpload>
                   </div>
                   <div *ngSwitchCase="'list'">
                       <div *ngIf="fields.labelname == 'province'">

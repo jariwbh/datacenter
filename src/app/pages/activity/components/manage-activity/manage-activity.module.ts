@@ -8,6 +8,8 @@ import { ManageActivityComponent } from './manage-activity.component';
 
 import { AppTranslationModule } from '../../../../app.translation.module';
 
+import { ActivityService } from '../../../../core/services/activity/activity.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,5 +21,8 @@ import { AppTranslationModule } from '../../../../app.translation.module';
   declarations: [
     ManageActivityComponent,
   ],
+  providers: [
+    ActivityService,
+  ]
 })
 export class ManageActivityModule {}
