@@ -24,6 +24,8 @@ import { AuthService } from './core/services/common/auth.service';
 import { AuthGuard } from './core/services/common/auth-guard.service';
 import { UserloginService } from './core/services/userlogin/userlogin.service';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
@@ -54,7 +56,8 @@ export type StoreType = {
     NgbModule.forRoot(),
     PagesModule,
     routing,
-    CoreModule.forRoot()
+    CoreModule.forRoot(),
+    BrowserAnimationsModule,
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,

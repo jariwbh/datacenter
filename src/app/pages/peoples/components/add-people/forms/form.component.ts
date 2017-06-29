@@ -16,11 +16,14 @@ import { Message } from 'primeng/primeng';
 
 export class FormComponent {
   
-  form: FormGroup;
-  dynamicForm: FormGroup;
   _fieldsModel = new FieldsModel();
+
+  form: FormGroup;
   submitted: boolean;
+
+  dynamicForm: FormGroup;
   dynamicSubmitted: boolean;
+  
   msgs: Message[] = [];
   _lookupVisibiity = false;
   labelnameVisibility = false;
@@ -238,16 +241,12 @@ export class FormComponent {
           }
         });
   }
-
-   onBasicUploadAuto(event) {
+  onUploadPhoto(event) {
       console.log('here');
-        for (const file of event.files) {
-            this.uploadedFiles.push(file);
-        }
-        this.msgs = [];
-        this.msgs.push({ severity: 'info', summary: 'File Uploaded', detail: '' });
-    }
-
+      const url = event.xhr.response;
+      console.log(url);
+  }
+  
   onChange(newValue: any) {
     if ((newValue === 'list') || (newValue === 'multi_selected_list') || (newValue === 'checkbox')) {
       this._lookupVisibiity = true;

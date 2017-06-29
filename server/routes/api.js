@@ -9,6 +9,7 @@ var District     = require('../models/district');
 var Setting     = require('../models/setting');
 var Activity     = require('../models/activity');
 var Admin     = require('../models/admin');
+var Point     = require('../models/point');
 var Formfield     = require('../models/form-field');
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const app = express();
@@ -19,6 +20,49 @@ router.get('/', (req, res) => {
   res.send('api works');
 });
 
+
+router.route('/point')
+    // create a point 
+    .post(function(req, res) {
+
+        var point = new Point();      
+        point.users = req.body.users; 
+        point.province = req.body.province; 
+        point.area = req.body.area;  
+        point.district = req.body.district;
+        point.points = req.body.points;  
+
+        point.save(function(err, data) {
+            if (err)
+                res.send(err);
+
+            res.json(data);
+        });
+
+    });
+
+router.route('/point')
+    .get(function(req, res) {
+
+        Point.find(function (err, docs) {
+            res.json(docs);
+        });
+
+    });
+
+router.route('/point/:id')
+    .delete(function(req, res) {
+
+        Point.remove({
+            _id: req.params.id
+        }, function(err, point) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+
+    });
 
 router.route('/dashboard/topadmin')
     
@@ -351,7 +395,7 @@ router.route('/activity')
         activity.url = req.body.url;  // set the bears name (comes from the request)
         activity.points = req.body.points;  // set the bears name (comes from the request)
         // save the person and check for errors
-        person.save(function(err, data) {
+        activity.save(function(err, data) {
             if (err)
                 res.send(err);
 
@@ -385,12 +429,14 @@ app.use(fileUpload());
 app.route('/upload')
 
     .post(function(req, res) {
-        
-        console.log("API called");
+
+        console.log("Api called" + req);
 
         if (!req.files)
+        {
+            console.log("Api called INSIDE");            
             return res.status(400).send('No files were uploaded.');
-        
+        }
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
         let sampleFile = req.files.sampleFile;
         
@@ -403,5 +449,6 @@ app.route('/upload')
         
             res.send('File uploaded!');
         });
+        console.log("Api called end");
 });
 module.exports = router;

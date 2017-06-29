@@ -1,0 +1,142 @@
+
+
+<div class="widgets">
+
+    <p-growl [value]="msgs"></p-growl>
+    <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+    <p-messages [(value)]="msgs"></p-messages>
+
+    <div class="row">
+        <div class="col-md-8">
+            <ba-card title="Point Forms" baCardClass="with-scroll">
+                <form 
+                    [formGroup]="form" 
+                    (ngSubmit)="onSubmit(form.value,form.valid)" 
+                    novalidate 
+                    class="form-horizontal">
+                    <div class="form-group">
+                        <p-selectButton formControlName="type" (onChange)="buttonChnage($event)" [options]="types" [(ngModel)]="selectedType"></p-selectButton>
+                    </div>
+                    
+                    <div *ngIf="_provinceVisibility">
+                        <div class="form-group">
+                            <label for="input01">Province</label>
+                            <select 
+                                class="form-control" 
+                                (change)="onChangeProvince($event.target.value)" 
+                                formControlName="province"
+                                [(ngModel)]="_pointsModel.province">
+                                <option value="">-----Select----</option>
+                                <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="_districtVisibility">
+                            <label for="input01">District</label>
+                            <select 
+                                (change)="onChangeDistrict($event.target.value)" 
+                                class="form-control"
+                                formControlName="district"
+                                [(ngModel)]="_pointsModel.district">
+                                <option value="">-----Select----</option>
+                                <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="_areaVisibility">
+                            <label for="input01">Area</label>
+                            <select 
+                                (change)="onChangeArea($event.target.value)" 
+                                class="form-control"
+                                formControlName="area"
+                                [(ngModel)]="_pointsModel.area">
+                                <option value="">-----Select----</option>
+                                <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="errorFields" class="alert alert-danger clear-fix">
+                            choose depended fields
+                        </div>
+                    </div>
+                    <div *ngIf="usererrorFields" class="alert alert-danger clear-fix">
+                            Select Atleast one user
+                    </div>
+                    <div class="form-group" *ngIf="_tableVisibility">
+                        <label for="input01">List of User</label>
+                        <div class="horizontal-scroll" style="margin-top: 20px;">
+                            <table class="table table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>province</th>
+                                    <th>district</th>
+                                    <th>area</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let user of pagedItems">
+                                    <td>{{ user.fullname }}</td>
+                                    <td><a class="email-link" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                                    <td>{{ user.province }}</td>
+                                    <td>{{ user.district }}</td>
+                                    <td>{{ user.area }}</td>
+                                    <td>
+                                        <button type="button" (click)="confirm(user.id)" class="status-button btn btn-xs btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <nav class="ng2-smart-pagination-nav">
+                                <ul *ngIf="pager.pages && pager.pages.length" class="ng2-smart-pagination pagination">
+                                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                        <a (click)="setPage(1)" class="ng2-smart-page-link page-link">
+                                            <span aria-hidden="true">First</span>
+                                            <span class="sr-only">First</span>
+                                        </a>
+                                    </li>
+                                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                        <a (click)="setPage(pager.currentPage - 1)" class="ng2-smart-page-link page-link">
+                                            <span aria-hidden="true">Previous</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                                        <a (click)="setPage(page)" class="ng2-smart-page-link page-link">
+                                            {{page}}
+                                        </a>
+                                    </li>
+                                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                        <a (click)="setPage(pager.currentPage + 1)" class="ng2-smart-page-link page-link">
+                                            <span aria-hidden="true">Next</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                        <a (click)="setPage(pager.totalPages)" class="ng2-smart-page-link page-link">
+                                            <span aria-hidden="true">Last</span>
+                                            <span class="sr-only">Last</span>
+                                        </a>
+                                    </li>
+                                </ul>    
+                            </nav>
+                            
+                        </div>
+                    </div>
+                    <div *ngIf="_loadData">
+                        <img style="text-align: cenetr" src="assets/img/loader.gif">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input01">Points</label>
+                        <input type="text" class="form-control" formControlName="points" [(ngModel)]="_pointsModel.points">
+                        <div [hidden]="form.get('points').valid || (form.get('points').pristine && !submitted)" class="alert alert-danger">
+                            points is required.
+                        </div>
+                    </div>
+
+                    <input class="btn btn-success" type="submit" value="submit">
+                </form>
+            </ba-card>
+        </div>
+    </div>
+</div>
