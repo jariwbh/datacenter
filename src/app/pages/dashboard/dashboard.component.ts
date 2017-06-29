@@ -1,3 +1,4 @@
+
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -5,6 +6,7 @@ import { FieldsService } from '../../core/services/dynamic-fields/fields.service
 import { FieldsModel } from '../../core/models/dynamic-fields/fields.model';
 
 import { UsersService } from '../../core/services/users/users.service';
+import { DashboardService } from './../../core/services/dashboard/dashboard.service';
 
 @Component({
   selector: 'dashboard',
@@ -19,17 +21,28 @@ export class Dashboard {
   _selectedfieldsHeading: any[] = [];
   _data: any[] = [];
 
+ _topAdminlist: any[] = [];
+
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
     private _usersService: UsersService,
     private _fieldsService: FieldsService,
+    private _DashboardService: DashboardService,
   ) {
   }
 
   ngOnInit() {
     //this.getAllAdmin();
     this.getAllFields('admin');
+    this.getTopAdminData();
+  }
+
+  getTopAdminData() {
+     this._DashboardService.GetAllTopAdmin().subscribe( data => {
+          this._topAdminlist = data;
+          //console.log(this._topAdminlist);
+     });
   }
 
   getAllFields(id: any) {

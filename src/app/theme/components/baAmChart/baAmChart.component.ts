@@ -8,6 +8,7 @@ import 'amcharts3/amcharts/serial.js';
 
 import 'ammap3';
 import 'ammap3/ammap/maps/js/worldLow';
+import 'ammap3/ammap/maps/js/iraqLow';
 
 
 import {BaAmChartThemeService} from './baAmChartTheme.service';
