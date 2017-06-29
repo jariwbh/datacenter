@@ -10,7 +10,8 @@ var ActivitySchema   = new Schema({
     persons:Array,
     profileimage:String,
     url:String,
-    points:Number
+    points:Number,
+    createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('ActivitySchema', ActivitySchema);
