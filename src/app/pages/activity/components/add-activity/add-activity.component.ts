@@ -31,6 +31,7 @@ aboutSubmitted: boolean;
 activityTypeVisibilty = true;
 howActivityVisibilty = false;
 aboutVisibilty = false;
+msgs="";
 
 msgs: Message[] = [];
 _completedStep = 1;
