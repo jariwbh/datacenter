@@ -91,26 +91,68 @@
                         [formControlName]="fields.labelname" 
                         [(ngModel)]="fields.value"
                         multiple>
-                      <option value="">--- Select ---</option>
+                      <option *ngFor="let opt of fields.lookupdata" [value]="opt.key">{{opt.value}}</option>
                     </select>
                   </div>
                   <div *ngSwitchCase="'checkbox'">
-                      <div *ngFor="let look of lookupdata">
-                        <input type="checkbox" [formControlName]="fields.labelname" [(ngModel)]="fields.value"> {{look.value}}
-                      </div>
+                    <div class="input-demo checkbox-demo row">
+                        <div class="col-md-4" *ngFor="let look of fields.lookupdata; let i = index">
+                          <label class="checkbox-inline custom-checkbox nowrap">
+                            <input type="checkbox" id="check_{{fields.labelname}}_{{i}}" [value]="look.value" [formControlName]="fields.labelname">
+                            <span translate>{{look.value}}</span>
+                          </label>
+                        </div>
+                    </div>  
                   </div>
                   <div *ngSwitchCase="'point'">
-                      <input type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                      <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
                   </div>
                   <div *ngSwitchCase="'url'">
                       <div class="input-group">
                         <span class="input-group-addon addon-left input-group-addon-success">http://wwww.</span>
-                        <input aria-label="Amount (to the nearest dollar)" class="form-control with-success-addon" type="text">
+                        <input class="form-control with-success-addon" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
                         <span class="input-group-addon addon-right input-group-addon-success">.com</span>
                       </div>
                   </div>
                   <div *ngSwitchCase="'map'">
-                      <input type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                      <p-gmap 
+                          #gmap 
+                          [style]="{'width':'100%','height':'320px'}" 
+                          [options]="options" 
+                          [overlays]="overlays[fields.labelname]" 
+                          (onMapClick)="handleMapClick($event, fields.labelname)" 
+                          (onOverlayClick)="handleOverlayClick($event)" 
+                          (onOverlayDragEnd)="handleDragEnd($event)">
+                      </p-gmap>
+
+                      <button class="btn btn-warning btn-raised" type="button" label="Clear" icon="fa-close" (click)="clear(fields.labelname)" style="margin-top:10px">Clear</button>
+                      <button class="btn btn-warning btn-raised" type="button" label="Zoom In" icon="fa-search-plus" (click)="zoomIn(gmap.getMap())" style="margin-top:10px">Zoom In</button>
+                      <button class="btn btn-warning btn-raised" type="button" label="Zoom Out" icon="fa-search-minus" (click)="zoomOut(gmap.getMap())" style="margin-top:10px">Zoom Out</button>
+                      
+                      <div
+                        *ngIf="errorMap[fields.labelname]"
+                        class="alert alert-danger">
+                        Map is required
+                      </div>
+                      <p-dialog showEffect="fade" [(visible)]="dialogVisible[fields.labelname]" header="Location">
+                          <div class="ui-g ui-fluid" *ngIf="selectedPosition">
+                              <div class="ui-g-2"><label for="lat" style="color:blue">Lat</label></div>
+                              <div class="ui-g-10"><input id="lat" type="text" readonly pInputText [value]="selectedPosition.lat()"></div>
+                              
+                              <div class="ui-g-2"><label for="lng" style="color:blue">Lng</label></div>
+                              <div class="ui-g-10"><input id="lng" type="text" readonly pInputText [value]="selectedPosition.lng()"></div>
+                          </div>
+                          <p-footer>
+                              <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                                  <button type="button" class="btn btn-warning btn-raised" label="Add Marker" icon="fa-plus" (click)="addMarker(fields.labelname)">Add Marker</button>
+                              </div>
+                          </p-footer>
+                      </p-dialog>
+                      <input 
+                        class="form-control" 
+                        type="hidden" 
+                        id="map_{{fields.labelname}}"
+                        [formControlName]="fields.labelname">
                   </div>
                   <div 
                     class="alert alert-danger" 

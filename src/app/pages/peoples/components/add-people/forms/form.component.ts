@@ -9,6 +9,8 @@ import { ManagepeopleService } from '../../../../../core/services/people/manage-
 
 import { Message } from 'primeng/primeng';
 
+import {} from '@types/googlemaps';
+
 @Component({
   selector: 'nga-add-people-form',
   templateUrl: './form.html',
@@ -41,6 +43,19 @@ export class FormComponent {
 
   _districtOptionLists: any[] = [];
   _areaOptionLists: any[] = [];
+
+  // Google Map Start
+      options: any;
+      overlays: any[] = [];
+      dialogVisible: any = {};
+      errorMap: any = {};
+      markerTitle: string;
+      selectedPosition: any;
+      infoWindow: any;
+      draggable: boolean;
+  // Google Map End
+
+
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -79,6 +94,17 @@ export class FormComponent {
           }
       ]`;
       // Made Sample Json Data For Lookup
+
+
+      // Google Map Start
+      this.options = {
+          center: { lat: 21.1835034, lng: 72.8197083 },
+          zoom: 12,
+      };
+      this.initOverlays();
+      this.infoWindow = new google.maps.InfoWindow();
+      // Google Map Start
+
 
   }
   ngOnInit() {
@@ -134,8 +160,19 @@ export class FormComponent {
             this.fieldLists = data;
             const group: any = {};
             data.forEach(element => {
+              
+              if(element.fieldtype == 'map') {
+                 this.overlays[element.labelname] = [];
+                 this.dialogVisible[element.labelname] = false;
+                 this.errorMap[element.labelname] = false;
+              }
+
               if (element.isMandatory) {
-                group[element.labelname] = new FormControl('', Validators.required);
+                if (element.fieldtype == 'map') {
+                  group[element.labelname] = new FormControl('');
+                } else {
+                  group[element.labelname] = new FormControl('', Validators.required);
+                }
               } else {
                 group[element.labelname] = new FormControl('');
               }
@@ -156,15 +193,47 @@ export class FormComponent {
           this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
           return false;
       } else {
-        this._managepeopleService
-          .Add(value)
-          .subscribe(
-          data => {
-            this.msgs = [];
-            this.msgs.push ({ 
-              severity: 'info', summary: 'Insert Message', detail: 'People has been added Successfully!!!' });
-            this._router.navigate(['/pages/peoples/manage-people']);
+        let cnt = 0;
+        this.fieldLists.forEach(element => {
+          if (element.fieldtype == 'checkbox') {
+            value[element.labelname] = [];
+            let cnt = 0;
+            element.lookupdata.forEach(ele => {
+              let isChecked = <HTMLInputElement> document.getElementById('check_' + element.labelname + '_' + cnt);
+              let grp = {
+                value: ele.value,
+                key: ele.key,
+                check: isChecked.checked
+              }
+              value[element.labelname].push(grp);
+              
+              cnt++;
+            });
+          }
+          if (element.fieldtype == 'map') {
+            let isMap = <HTMLInputElement> document.getElementById('map_' + element.labelname);
+            value[element.labelname] = isMap.value;
+            
+            if(element.isMandatory) {
+              if(value[element.labelname] == '') {
+                this.errorMap[element.labelname] = true;
+                cnt++;
+              }
+            }
+          }
         });
+        if(cnt == 0) {
+          this._managepeopleService
+            .Add(value)
+            .subscribe(
+            data => {
+              this.msgs = [];
+              this.msgs.push ({ 
+                severity: 'info', summary: 'Insert Message', detail: 'People has been added Successfully!!!' });
+              this._router.navigate(['/pages/peoples/manage-people']);
+          });
+        }
+        
       }
   }
 
@@ -254,4 +323,90 @@ export class FormComponent {
       this._lookupVisibiity = false;
     }
   }
+
+  // Google Map Start
+    handleMapClick(event, val) {
+      this.errorMap[val] = false;
+      if(this.overlays[val].length == 0) {
+        this.dialogVisible[val] = true;
+        this.selectedPosition = event.latLng;
+      }
+    }
+    handleOverlayClick(event) {
+        this.msgs = [];
+        const isMarker = event.overlay.getTitle !== undefined;
+        if (isMarker) {
+            const title = event.overlay.getTitle();
+            this.infoWindow.setContent('' + title + '');
+            this.infoWindow.open(event.map, event.overlay);
+            event.map.setCenter(event.overlay.getPosition());
+            this.msgs.push({ severity: 'info', summary: 'Marker Selected', detail: title });
+        } else {
+            this.msgs.push({ severity: 'info', summary: 'Shape Selected', detail: '' });
+        }        
+    }
+    
+    addMarker(id) {
+        this.overlays[id].push(new google.maps.Marker({ 
+            position: { lat: this.selectedPosition.lat(), 
+              lng: this.selectedPosition.lng() }, 
+              title: this.markerTitle, draggable: this.draggable }));
+          this.markerTitle = null;
+          this.dialogVisible[id] = false;
+          let mapValue = this.selectedPosition.lat() + '####' + this.selectedPosition.lng();
+          const isClosed = <HTMLInputElement> document.getElementById('map_' + id);
+          isClosed.value = mapValue;
+
+    }
+    handleDragEnd(event) {
+        this.msgs = [];
+        this.msgs.push({ severity: 'info', summary: 'Marker Dragged', detail: event.overlay.getTitle() });
+    }
+    
+    initOverlays() {
+        if (!this.overlays || !this.overlays.length) {
+            this.overlays = [
+                new google.maps.Marker({ position: { lat: 36.879466, lng: 30.667648 }, title: 'Konyaalti' }),
+                new google.maps.Marker({ position: { lat: 36.883707, lng: 30.689216 }, title: 'Ataturk Park' }),
+                new google.maps.Marker({ position: { lat: 36.885233, lng: 30.702323 }, title: 'Oldtown' }),
+                new google.maps.Polygon({paths: [
+                    { lat: 36.9177, lng: 30.7854 },
+                    { lat: 36.8851, lng: 30.7802 },
+                    { lat: 36.8829, lng: 30.8111 },
+                    { lat: 36.9177, lng: 30.8159 },
+                ], strokeOpacity: 0.5, strokeWeight: 1, fillColor: '#1976D2', fillOpacity: 0.35,
+                }),
+                new google.maps.Circle({ 
+                  center: 
+                    { lat: 36.90707, lng: 30.56533 }, 
+                  fillColor: '#1976D2', 
+                  fillOpacity: 0.35, 
+                  strokeWeight: 1, 
+                  radius: 1500 }),
+                new google.maps.Polyline({ 
+                  path: 
+                  [
+                    { lat: 36.86149, lng: 30.63743 },
+                    { lat: 36.86341, lng: 30.72463 },
+                  ], 
+                  geodesic: true, 
+                  strokeColor: '#FF0000', 
+                  strokeOpacity: 0.5, 
+                  strokeWeight: 2 }),
+            ];
+        }
+    }
+    zoomIn(map) {
+      map.setZoom(map.getZoom() + 1);
+    }
+    
+    zoomOut(map) {
+      map.setZoom(map.getZoom() - 1);
+    }
+    
+    clear(id) {
+      this.overlays[id] = [];
+    }
+  // Google Map Map
+  
 }

@@ -12,6 +12,7 @@ import { FieldsService } from '../../../../core/services/dynamic-fields/fields.s
 import { UsersService } from '../../../../core/services/users/users.service';
 
 import { GrowlModule } from 'primeng/primeng';
+import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -22,6 +23,10 @@ import { GrowlModule } from 'primeng/primeng';
     NgaModule,
     routing,
     GrowlModule,
+    GMapModule,
+    CheckboxModule,
+    SharedModule,
+    DialogModule,
   ],
   declarations: [
     AddUserComponent,

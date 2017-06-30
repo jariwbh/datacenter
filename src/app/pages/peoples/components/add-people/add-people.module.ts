@@ -14,6 +14,8 @@ import { ManagepeopleService } from '../../../../core/services/people/manage-peo
 import { FileUploadModule } from 'primeng/primeng';
 import { GrowlModule } from 'primeng/primeng';
 
+import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/primeng';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,6 +26,10 @@ import { GrowlModule } from 'primeng/primeng';
     GrowlModule,
     ReactiveFormsModule,
     FileUploadModule,
+    GMapModule,
+    GMapModule,
+    SharedModule,
+    DialogModule
   ],
   declarations: [
     AddPeopleComponent,
