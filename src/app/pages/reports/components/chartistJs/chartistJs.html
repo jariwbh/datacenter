@@ -1,8 +1,8 @@
 <section class="chartist">
   <div class="row">
-    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('All')"><span *ngIf="!cardViewVisibilty">All</span> </button></a></div>
-    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('CompareView')"><span *ngIf="!cardViewVisibilty">Compare Reports</span> </button></a></div>
-    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('FieldBasedView')"><span *ngIf="!cardViewVisibilty">FieldBased Reports</span> </button></a></div>
+    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('All')"><span>All</span> </button></a></div>
+    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('CompareView')"><span>Compare Reports</span> </button></a></div>
+    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('FieldBasedView')"><span>FieldBased Reports</span> </button></a></div>
   </div>
   <!--<div class="row" *ngIf="All">
     <div class="col-md-6 ">
@@ -45,8 +45,6 @@
                           </select>
               </div>
 
-              <!--<div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchCompareView('CompareCityView')"><span *ngIf="!cardViewVisibilty">Compare City or State</span> </button></a></div>
-              <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchCompareView('CompareUserView')"><span *ngIf="!cardViewVisibilty">Compare User</span> </button></a></div>-->
             </div>
             <div class="col-md-12" *ngIf="compareTwo == 'State'">
              
