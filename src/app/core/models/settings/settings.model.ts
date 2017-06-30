@@ -1,23 +1,28 @@
 
 export class SettingModel {
-  noOfUserInCity: AreaCountModel[];
+  noOfUserInProvince: ProvinceCountModel[];
   noOfUserInDistrict: DistrictCountModel[];
+  noOfUserInArea: AreaCountModel[];
   noOfUserInSocial: any[];
   noOfUsers: number;
   websiteTitle: string;
   userCountofSocial: SocialCountModel;
 }
 
-export class AreaCountModel {
+export class ProvinceCountModel {
   province: string;
-  district: string;
-  area: string;
   count: number;
 }
 
 export class DistrictCountModel {
   province: string;
   district: string;
+  count: number;
+}
+
+export class AreaCountModel {
+  province: string;
+  area: string;
   count: number;
 }
 

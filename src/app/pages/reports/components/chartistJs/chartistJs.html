@@ -1,8 +1,8 @@
 <section class="chartist">
   <div class="row">
-    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('All')"><span>All</span> </button></a></div>
+    <!--<div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('All')"><span>All</span> </button></a></div>-->
     <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('CompareView')"><span>Compare Reports</span> </button></a></div>
-    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('FieldBasedView')"><span>FieldBased Reports</span> </button></a></div>
+    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('SelectedView')"><span>Select Reports</span> </button></a></div>
   </div>
   <!--<div class="row" *ngIf="All">
     <div class="col-md-6 ">
@@ -37,53 +37,132 @@
               </div>
               <div class="col-md-4">
                 <!--<select id="compare" class="form-control" value="State" [(ngModel)]="compareTwo">-->
-                  <select id="compare" class="form-control" value="State" >
+                <select id="compare" class="form-control" value="Province" (change)="onChangeFieldToCompare($event.target.value)">
                             <option value="">--- Select ---</option>
-                            <option value="opt">State</option>
-                            <option value="opt">City</option>
-                            <option value="opt">User</option>
+                            <option value="Province">Province</option>
+                            <option value="District">District</option>
                           </select>
               </div>
 
             </div>
-            <div class="col-md-12" *ngIf="compareTwo == 'State'">
-             
-
-            </div>
-            <div class="col-md-12" *ngIf="compareTwo == 'City'">
-             
-            </div>
-            <div class="col-md-12" *ngIf="compareTwo == 'User'">
-              
-            </div>
-            <div class="col-md-12">
+            <div class="col-md-12" *ngIf="compareTwo == 'Province'">
               <ba-card class="pie-chart-item-container col-md-12">
-                <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('FieldBasedView')">Generate Report</button></a></div>
+                <div class="row">
+                  <div class="form-group row col-sm-5">
+                    <label for="firstprovince" class="col-sm-4 control-label">First Province</label>
+                    <div class="col-sm-6">
+                      <select class="form-control" id="firstprovince" (change)="onChangeFirstProvince($event.target.value)">
+                    <option value="">--Select Province--</option>
+                    <!--<option [value]="p.name" *ngFor="let p of provinceList">{{p.name}}</option>-->
+                    <option value="Baghdad">Baghdad</option>
+                  </select>
+                    </div>
+                    <!--<div class="col-sm-1">
+                      <button class="btn btn-block btn-success btn-rounded"><span>G</span></button>
+                    </div>-->
+                  </div>
+                  <div class="form-group row col-sm-5">
+                    <label for="secondprovince" class="col-sm-4 control-label">Second Province</label>
+                    <div class="col-sm-6">
+                      <select class="form-control" id="secondprovince" (change)="onChangeSecondProvince($event.target.value)">
+                    <option value="">--Select Province--</option>
+                    <!--<option [value]="p.name" *ngFor="let p of provinceList">{{p.name}}</option>-->
+                    <option value="Baghdad">Baghdad</option>
+                  </select>
+                    </div>
+                    <!--<div class="col-sm-1">
+                      <button class="btn btn-block btn-danger btn-rounded"><span>R</span></button>
+                    </div>-->
+                  </div>
+                  <div class="form-group row col-sm-2">
+                    <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForCompare()">Generate Report</button>
+                  </div>
+                </div>
+              </ba-card>
+            </div>
+            <div class="col-md-12" *ngIf="compareTwo == 'District'">
+              <ba-card class="pie-chart-item-container col-md-12">
+                <div class="row">
+                  <div class="form-group row col-sm-5">
+                    <label for="firstdistrict" class="col-sm-4 control-label">First District</label>
+                    <div class="col-sm-6">
+                      <select class="form-control" id="firstdistrict" (change)="onChangeFirstDistrict($event.target.value)">
+                    <option value="">--Select District--</option>
+                    <!--<option [value]="p.district" *ngFor="let p of districtListforDD">{{p.district}}</option>-->
+                    <option value="Baghdad">Baghdad</option>
+                    <option value="Sadr">Sadr</option>
+                  </select>
+                    </div>
+                  </div>
+                  <div class="form-group row col-sm-5">
+                    <label for="seconddistrict" class="col-sm-4 control-label">Second District</label>
+                    <div class="col-sm-6">
+                      <select class="form-control" id="seconddistrict" (change)="onChangeSecondDistrict($event.target.value)">
+                    <option value="">--Select District--</option>
+                    <!--<option [value]="p.district" *ngFor="let p of districtListforDD">{{p.district}}</option>-->
+                    <option value="Baghdad">Baghdad</option>
+                    <option value="Sadr">Sadr</option>
+                  </select>
+                    </div>
+                  </div>
+                  <div class="form-group row col-sm-2">
+                    <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForCompare()">Generate Report</button>
+                  </div>
+                </div>
+              </ba-card>
+            </div>
+            <!--<div class="col-md-12">
+              <ba-card class="pie-chart-item-container col-md-12">
+                <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="genrateReportForCompare()">Generate Report</button></a></div>
               </ba-card>
             </div>
             <div class="col-md-12">
-            </div>
+            </div>-->
           </div>
         </ba-card>
       </div>
       <!--</div>-->
       <div class="col-md-12">
-        <div class="col-md-6">
-          <ba-card title="chart.simple_pie" baCardClass="with-scroll">
-            <!--<div class="row">-->
-            <!--<div class="col-md-12 col-lg-4">-->
-            <h5 translate>{{'chart.simple_pie'}}</h5>
-            <ba-chartist-chart baChartistChartClass="ct-chart stacked-bar" baChartistChartType="Pie" [baChartistChartData]="data['simplePieData']"
-              [baChartistChartOptions]="data['simplePieOptions']" [baChartistChartResponsive]="getResponsive(20, 80)">
-            </ba-chartist-chart>
-            <!--</div>-->
-            <!--<div class="col-md-12 col-lg-4"><h5 translate>{{'chart.pie_with_labels'}}</h5>
+        <div class="row">
+          <div class="col-md-6 ">
+            <!--<ba-card title="chart.lines" baCardClass="with-scroll">-->
+              <ba-card title="Point History" baCardClass="with-scroll">
+              <h5 translate>{{'chart.simple_line_chart'}}</h5>
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
+                [baChartistChartOptions]="data['simpleLineOptions']">
+              </ba-chartist-chart>
+            </ba-card>
+          </div>
+
+          <div class="col-md-6 ">
+            <!--<ba-card title="chart.bars" baCardClass="with-scroll">-->
+              <ba-card title="User History" baCardClass="with-scroll">
+              <h5 translate>{{'chart.simple_bar_chart'}}</h5>
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="data['simpleBarData']"
+                [baChartistChartOptions]="data['simpleBarOptions']">
+              </ba-chartist-chart>
+            </ba-card>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <!--<ba-card title="chart.simple_pie" baCardClass="with-scroll">-->
+              <ba-card title="chart.simple_pie" baCardClass="with-scroll">
+              <!--<div class="row">-->
+              <!--<div class="col-md-12 col-lg-4">-->
+              <h5 translate>{{'chart.simple_pie'}}</h5>
+              <ba-chartist-chart baChartistChartClass="ct-chart stacked-bar" baChartistChartType="Pie" [baChartistChartData]="data['simplePieData']"
+                [baChartistChartOptions]="data['simplePieOptions']" [baChartistChartResponsive]="getResponsive(20, 80)">
+              </ba-chartist-chart>
+              <!--</div>-->
+              <!--<div class="col-md-12 col-lg-4">-->
+              <!--<h5 translate>{{'chart.pie_with_labels'}}</h5>
             <ba-chartist-chart baChartistChartClass="ct-chart stacked-bar"
                                baChartistChartType="Pie"
                                [baChartistChartData]="data['labelsPieData']"
                                [baChartistChartOptions]="data['labelsPieOptions']">
-            </ba-chartist-chart>
-          </div>
+            </ba-chartist-chart>-->
+              <!--</div>
           <div class="col-md-12 col-lg-4"><h5 translate>{{'chart.donut'}}</h5>
             <ba-chartist-chart baChartistChartClass="ct-chart stacked-bar"
                                baChartistChartType="Pie"
@@ -92,62 +171,125 @@
                                [baChartistChartResponsive]="getResponsive(5, 40)">
             </ba-chartist-chart>
           </div>-->
-            <!--</div>-->
-          </ba-card>
-        </div>
-        <div class="col-md-6 ">
-          <ba-card title="chart.donut" baCardClass="with-scroll">
-            <h5 translate>{{'chart.donut'}}</h5>
-            <ba-chartist-chart baChartistChartClass="ct-chart stacked-bar" baChartistChartType="Pie" [baChartistChartData]="data['simpleDonutData']"
-              [baChartistChartOptions]="data['simpleDonutOptions']" [baChartistChartResponsive]="getResponsive(5, 40)">
-            </ba-chartist-chart>
-          </ba-card>
+              <!--</div>-->
+            </ba-card>
+          </div>
+          <div class="col-md-6 ">
+            <ba-card title="chart.donut" baCardClass="with-scroll">
+              <h5 translate>{{'chart.donut'}}</h5>
+              <ba-chartist-chart baChartistChartClass="ct-chart stacked-bar" baChartistChartType="Pie" [baChartistChartData]="data['simpleDonutData']"
+                [baChartistChartOptions]="data['simpleDonutOptions']" [baChartistChartResponsive]="getResponsive(5, 40)">
+              </ba-chartist-chart>
+            </ba-card>
+          </div>
         </div>
       </div>
     </ba-card>
   </div>
 
-  <div class="row" *ngIf="fieldBasedView">
-    <!--<div class="row">-->
-    <div class="col-md-12">
-      <ba-card class="pie-chart-item-container col-md-12">
-        <div class="horizontal-scroll">
+  <div class="row" *ngIf="selectedView">
+    <ba-card title="Select Reports" baCardClass="with-scroll" class="col-md-12">
+      <!--<div class="row">-->
+      <div class="col-md-12">
+        <ba-card class="pie-chart-item-container col-md-12">
+          <div class="horizontal-scroll">
+            <div class="row">
 
-        </div>
-      </ba-card>
-    </div>
-    <!--</div>-->
-    <div class="col-md-6 ">
-      <ba-card title="CityWise Compare" baCardClass="with-scroll">
-        <h5 translate>CityWise Filter Charts</h5>
-        <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
-          [baChartistChartOptions]="data['simpleLineOptions']">
-        </ba-chartist-chart>
+              <div class="col-md-2">
+                Report For :
+              </div>
+              <div class="col-md-4">
+                <!--<select id="compare" class="form-control" value="State" [(ngModel)]="compareTwo">-->
+                <select id="compare" class="form-control" value="Province" (change)="onChangeFieldforSelectReport($event.target.value)">
+                            <option value="">--- Select ---</option>
+                            <option value="Province">Province</option>
+                            <option value="District">District</option>
+                          </select>
+              </div>
 
-        <!--<h5 translate>{{'chart.line_chart'}}</h5>
-        <ba-chartist-chart baChartistChartClass="ct-chart"
-                           baChartistChartType="Line"
-                           [baChartistChartData]="data['areaLineData']"
-                           [baChartistChartOptions]="data['areaLineOptions']">
-        </ba-chartist-chart>
+            </div>
+            <div class="col-md-12" *ngIf="selectType == 'Province'">
+              <ba-card class="pie-chart-item-container col-md-12">
+                <div class="row">
+                  <div class="form-group row col-sm-6">
+                    <label for="selectprovince" class="col-sm-4 control-label">Province :</label>
+                    <div class="col-sm-6">
+                      <select class="form-control" id="selecttprovince" (change)="onChangeSelectProvince($event.target.value)">
+                    <option value="">--Select Province--</option>
+                    <!--<option [value]="p.name" *ngFor="let p of provinceList">{{p.name}}</option>-->
+                    <option value="Baghdad">Baghdad</option>
+                  </select>
+                    </div>
+                  </div>
+                  <div class="form-group row col-sm-2">
+                    <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForSelect()">Generate Report</button>
+                  </div>
 
-        <h5 translate>{{'chart.bi_polar_line_chart'}}</h5>
-        <ba-chartist-chart baChartistChartClass="ct-chart"
+                </div>
+              </ba-card>
+            </div>
+            <div class="col-md-12" *ngIf="selectType == 'District'">
+              <ba-card class="pie-chart-item-container col-md-12">
+                <div class="row">
+                  <div class="form-group row col-sm-6">
+                    <label for="selectdistrict" class="col-sm-4 control-label">District :</label>
+                    <div class="col-sm-6">
+                      <select class="form-control" id="selectdistrict" (change)="onChangeSelectDistrict($event.target.value)">
+                    <option value="">--Select District--</option>
+                    <!--<option [value]="p.district" *ngFor="let p of districtListforDD">{{p.district}}</option>-->
+                    <option value="Baghdad">Baghdad</option>
+                    <option value="Sadr">Sadr</option>
+                  </select>
+                    </div>
+                  </div>
+                  <div class="form-group row col-sm-2">
+                    <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForSelect()">Generate Report</button>
+                  </div>
+                </div>
+              </ba-card>
+            </div>
+            <!--<div class="col-md-12">
+              <ba-card class="pie-chart-item-container col-md-12">
+                <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="genrateReportForSelect()">Generate Report</button></a></div>
+              </ba-card>
+            </div>
+            <div class="col-md-12">
+            </div>-->
+          </div>
+        </ba-card>
+      </div>
+      <!--</div>-->
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6 ">
+            <ba-card title="Line Charts" baCardClass="with-scroll">
+              <!--  <h5 translate>CityWise Filter Charts</h5>
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
+                [baChartistChartOptions]="data['simpleLineOptions']">
+              </ba-chartist-chart>-->
+
+              <h5 translate>{{'chart.line_chart'}}</h5>
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['areaLineData']"
+                [baChartistChartOptions]="data['areaLineOptions']">
+              </ba-chartist-chart>
+
+              <!--<h5 translate>{{'chart.bi_polar_line_chart'}}</h5>
+                <ba-chartist-chart baChartistChartClass="ct-chart"
                            baChartistChartType="Line"
                            [baChartistChartData]="data['biLineData']"
                            [baChartistChartOptions]="data['biLineOptions']">
-        </ba-chartist-chart>-->
-      </ba-card>
-    </div>
+                </ba-chartist-chart>-->
+            </ba-card>
+          </div>
 
-    <div class="col-md-6 ">
-      <ba-card title="chart.bars" baCardClass="with-scroll">
-        <h5 translate>{{'chart.simple_bar_chart'}}</h5>
-        <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="data['simpleBarData']"
-          [baChartistChartOptions]="data['simpleBarOptions']">
-        </ba-chartist-chart>
+          <div class="col-md-6 ">
+            <ba-card title="chart.bars" baCardClass="with-scroll">
+              <h5 translate>{{'chart.simple_bar_chart'}}</h5>
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="data['simpleBarData']"
+                [baChartistChartOptions]="data['simpleBarOptions']">
+              </ba-chartist-chart>
 
-        <!--<h5 translate>{{'chart.multi_line_labels_bar_chart'}}</h5>
+              <!--<h5 translate>{{'chart.multi_line_labels_bar_chart'}}</h5>
         <ba-chartist-chart baChartistChartClass="ct-chart"
                            baChartistChartType="Bar"
                            [baChartistChartData]="data['multiBarData']"
@@ -161,8 +303,11 @@
                            [baChartistChartData]="data['stackedBarData']"
                            [baChartistChartOptions]="data['stackedBarOptions']">
         </ba-chartist-chart>-->
-      </ba-card>
-    </div>
+            </ba-card>
+          </div>
+        </div>
+      </div>
+    </ba-card>
   </div>
 
 </section>

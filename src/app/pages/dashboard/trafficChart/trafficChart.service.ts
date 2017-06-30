@@ -1,7 +1,7 @@
 import { forEach } from '@angular/router/src/utils/collection';
 
-import {Injectable} from '@angular/core';
-import {BaThemeConfigProvider, colorHelper} from '../../../theme';
+import { Injectable } from '@angular/core';
+import { BaThemeConfigProvider, colorHelper } from '../../../theme';
 import { DashboardService } from './../../../core/services/dashboard/dashboard.service';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class TrafficChartService {
       if (data !== null) {
         this.provinceData = data;
         this.provinceData.forEach( ele => {
-          console.log(ele);
+          //console.log(ele);
              this.proprovinceData.push({ value: 350,
                 color: ele.color, 
                highlight: colorHelper.shade(ele.color, 15),
@@ -41,7 +41,7 @@ export class TrafficChartService {
                 order: ele.order,
               });
         });
-        console.log(this.proprovinceData);
+        //console.log(this.proprovinceData);
       }
     });
     

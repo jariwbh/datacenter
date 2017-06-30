@@ -88,7 +88,7 @@ router.route('/lookup/area')
     .get(function(req, res) {        
         console.log("Api called");
         Area.find(function (err, docs) {            
-            console.log(docs);
+            //console.log(docs);
             res.json(docs);
         });
 
@@ -125,7 +125,6 @@ router.route('/setting')
 router.route('/setting')
     // create a person 
     .post(function(req, res) {
-          console.log();
         var setting = new Setting();      // create a new instance of the Bear model
         setting.noOfUserInProvince = req.body.noOfUserInProvince;  // set the bears name (comes from the request)
         setting.noOfUserInArea = req.body.noOfUserInArea;  // set the bears name (comes from the request)
@@ -139,7 +138,8 @@ router.route('/setting')
 
             if (out!=null)
             {
-                out.noOfUserInCity = req.body.noOfUserInCity;  // set the bears name (comes from the request)
+                out.noOfUserInProvince = req.body.noOfUserInProvince;  // set the bears name (comes from the request)
+                out.noOfUserInArea = req.body.noOfUserInArea;  // set the bears name (comes from the request)
                 out.noOfUserInDistrict = req.body.noOfUserInDistrict;  // set the bears name (comes from the request)
                 out.noOfUserInSocial = req.body.noOfUserInSocial;  // set the bears name (comes from the request)
                 out.noOfUsers = req.body.noOfUsers;  // set the bears name (comes from the request)
