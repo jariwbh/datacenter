@@ -1,26 +1,24 @@
 <section class="">
   <div class="row">
     <div class="col-md-10">
-      <ba-card title="User Count for City" baCardClass="with-scroll">
+      <ba-card title="User Count for Province" baCardClass="with-scroll">
         <!--<div class="row">-->
-        <form [formGroup]="formAreaCount" name="formAreaCount" class="row">
+        <form [formGroup]="formProvinceCount" name="formProvinceCount" class="row">
           <div class="col-sm-3">
 
-            <select class="form-control" formControlName="province" id="province" (change)="onChange($event.target.value)" [(ngModel)]="_AreaCountModel.province">
+            <select class="form-control" formControlName="province" id="province" (change)="onChange($event.target.value)" [(ngModel)]="_ProvinceCountModel.province">
                     <option value="">--Select Province--</option>
                     <option [value]="p.name" *ngFor="let p of provinceList">{{p.name}}</option>
                     <!--<option value="Baghdad">Baghdad</option>-->
                   </select>
 
           </div>
-          <div class="col-sm-3">
+          <!--<div class="col-sm-3">
 
             <select class="form-control" formControlName="district" id="district" [(ngModel)]="_AreaCountModel.district">
                     <option value="">--Select District--</option>
                     <option [value]="p.district" *ngFor="let p of districtListforDD">{{p.district}}</option>
-                    <!--<option value="Baghdad">Baghdad</option>
-                    <option value="Sadr">Sadr</option>-->
-                  </select>
+            </select>
 
           </div>
           <div class="col-sm-3">
@@ -28,20 +26,18 @@
             <select class="form-control" formControlName="area" id="area" [(ngModel)]="_AreaCountModel.area">
                     <option value="">--Select Area--</option>
                     <option [value]="p.area" *ngFor="let p of areaListforDD">{{p.area}}</option>
-                    <!--<option value="Nissan">Nissan</option>
-                    <option value="Ishbiliya">Ishbiliya</option>-->
             </select>
 
-          </div>
+          </div>-->
           <div class="col-sm-2">
             <!--<input type="number" min="0" [disabled]="!_DistrictCountModel.area" formControlName="count" id="count" [value]="" class="form-control"
               placeholder="Count" [(ngModel)]="_AreaCountModel.count">-->
               <input type="number" min="0" formControlName="count" id="count" [value]="" class="form-control"
-              placeholder="Count" [(ngModel)]="_AreaCountModel.count">
+              placeholder="Count" [(ngModel)]="_ProvinceCountModel.count">
           </div>
           <div class="col-sm-1">
-            <button [disabled]="!_AreaCountModel.count || !_AreaCountModel.area || !_AreaCountModel.district || !_AreaCountModel.province "
-              (click)="addAreaCountSettings()" type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>
+            <button [disabled]="!_ProvinceCountModel.count ||!_ProvinceCountModel.province "
+              (click)="addProvinceCountSettings()" type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>
 <!--<button (click)="addAreaCountSettings()" type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>-->
           </div>
         </form>
@@ -55,23 +51,20 @@
                     <tr>
                       <!--<th class="table-id">#</th>-->
                       <th>Province</th>
-                      <th>District</th>
-                      <th>Area</th>
+                      <!--<th>District</th>
+                      <th>Area</th>-->
                       <th>Count</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let item of areaCountSettingsList">
+                    <tr *ngFor="let item of provinceCountSettingsList">
                       <!--<td class="table-id">{{ item.id }}</td>-->
                       <td>{{ item.province }}</td>
-                      <td>{{ item.district }}</td>
-                      <td>{{ item.area }}</td>
+                      <!--<td>{{ item.district }}</td>
+                      <td>{{ item.area }}</td>-->
                       <td>{{ item.count }}</td>
-                      <td><button (click)="removeAreaCountSettings(item)" type="button" class="btn btn-danger btn-icon"><i class="ion-minus"></i></button></td>
-                      <!--<td>
-                    <button ngClass="{status-button btn btn-xs btn-{{ item.status }}">{{ item.status }}</button>
-                  </td>-->
+                      <td><button (click)="removeProvinceCountSettings(item)" type="button" class="btn btn-danger btn-icon"><i class="ion-minus"></i></button></td>
                     </tr>
                   </tbody>
                 </table>
@@ -142,6 +135,74 @@
                       <!--<td>
                     <button ngClass="{status-button btn btn-xs btn-{{ item.status }}">{{ item.status }}</button>
                   </td>-->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ba-card>
+          </div>
+        </div>
+      </ba-card>
+    </div>
+    <div class="col-md-10">
+      <ba-card title="User Count for Area" baCardClass="with-scroll">
+        <!--<div class="row">-->
+        <form [formGroup]="formAreaCount" name="formAreaCount" class="row">
+          <div class="col-sm-3">
+
+            <select class="form-control" formControlName="province" id="province" (change)="onChange($event.target.value)" [(ngModel)]="_AreaCountModel.province">
+                    <option value="">--Select Province--</option>
+                    <option [value]="p.name" *ngFor="let p of provinceList">{{p.name}}</option>
+                    <!--<option value="Baghdad">Baghdad</option>-->
+                  </select>
+
+          </div>
+          <div class="col-sm-3">
+
+            <select class="form-control" formControlName="area" id="area" [(ngModel)]="_AreaCountModel.area">
+                    <option value="">--Select Area--</option>
+                    <option [value]="p.area" *ngFor="let p of areaListforDD">{{p.area}}</option>
+                    <!--<option value="Baghdad">Baghdad</option>
+                    <option value="Sadr">Sadr</option>-->
+                  </select>
+
+          </div>
+
+          <div class="col-sm-2">
+            <!--<input type="number" min="0" [disabled]="!_DistrictCountModel.district" formControlName="count" id="count" [value]="" class="form-control"
+              placeholder="Count" [(ngModel)]="_DistrictCountModel.count">-->
+              <input type="number" min="0" formControlName="count" id="count" [value]="" class="form-control"
+              placeholder="Count" [(ngModel)]="_AreaCountModel.count">
+          </div>
+          <div class="col-sm-1">
+            <button [disabled]="!_AreaCountModel.count || !_AreaCountModel.area || !_AreaCountModel.province" (click)="addAreaCountSettings()"
+              type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>
+
+          </div>
+        </form>
+        <!--</div>-->
+        <div class="row">
+          <div class="col-md-12">
+            <ba-card class="pie-chart-item-container col-md-12">
+              <div class="horizontal-scroll">
+                <table class="table table-condensed">
+                  <thead>
+                    <tr>
+                      <!--<th class="table-id">#</th>-->
+                      <th>Province</th>
+                      <th>Area</th>
+                      <th>Count</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of areaCountSettingsList">
+                      <!--<td class="table-id">{{ item.id }}</td>-->
+                      <td>{{ item.province }}</td>
+                      <td>{{ item.area }}</td>
+                      <td>{{ item.count }}</td>
+                      <td><button (click)="removeAreaCountSettings(item)" type="button" class="btn btn-danger btn-icon"><i class="ion-minus"></i></button></td>
+                     
                     </tr>
                   </tbody>
                 </table>

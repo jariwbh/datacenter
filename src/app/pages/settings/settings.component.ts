@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { SettingsService } from './../../core/services/settings/settings.service';
 import {
   AreaCountModel, DistrictCountModel,
-  SettingModel, SocialCountModel,
+  SettingModel, SocialCountModel, ProvinceCountModel,
 } from './../../core/models/settings/settings.model';
 import { Message } from 'primeng/primeng';
 
@@ -17,7 +17,7 @@ import { Message } from 'primeng/primeng';
   templateUrl: './settings.html',
 })
 export class Settings {
-
+  formProvinceCount: FormGroup;
   formAreaCount: FormGroup;
   formDistrictCount: FormGroup;
   formSetting: FormGroup;
@@ -30,10 +30,13 @@ export class Settings {
 
   districtListforDD: any[] = [];
   areaListforDD: any[] = [];
-  areaCountSettingsList: any[] = [];
+
+  provinceCountSettingsList: any[] = [];
   districtCountSettingsList: any[] = [];
+  areaCountSettingsList: any[] = [];
 
   _SettingModel: SettingModel = new SettingModel();
+  _ProvinceCountModel: ProvinceCountModel = new ProvinceCountModel();
   _AreaCountModel: AreaCountModel = new AreaCountModel();
   _DistrictCountModel: DistrictCountModel = new DistrictCountModel();
 
@@ -46,16 +49,19 @@ export class Settings {
     this.getAllProvince();
     this.getAllDistrict();
     this.getAllArea();
-    this.formAreaCount = fb.group({
-      'province': [this._AreaCountModel.province, [Validators.required]],
-      'district': [this._AreaCountModel.district, [Validators.required]],
-      'area': [this._AreaCountModel.area, [Validators.required]],
-      'count': [this._AreaCountModel.count, [Validators.required]],
+    this.formProvinceCount = fb.group({
+      'province': [this._ProvinceCountModel.province, [Validators.required]],
+      'count': [this._ProvinceCountModel.count, [Validators.required]],
     });
     this.formDistrictCount = fb.group({
       'province': [this._DistrictCountModel.province, [Validators.required]],
       'district': [this._DistrictCountModel.district, [Validators.required]],
       'count': [this._DistrictCountModel.count, [Validators.required]],
+    });
+    this.formAreaCount = fb.group({
+      'province': [this._AreaCountModel.province, [Validators.required]],    
+      'area': [this._AreaCountModel.area, [Validators.required]],
+      'count': [this._AreaCountModel.count, [Validators.required]],
     });
     this.formSetting = fb.group({
       'facebookUserCount': [this._SettingModel.userCountofSocial.facebookUserCount, [Validators.required]],
@@ -72,11 +78,14 @@ export class Settings {
   getAllSettings() {
     this._Settings.GetAllSetting().subscribe(data => {
       if (data !== null) {
-        if (data.noOfUserInCity !== null) {
-          this.areaCountSettingsList = data.noOfUserInCity;
+        if (data.noOfUserInProvince !== null) {
+          this.provinceCountSettingsList = data.noOfUserInProvince;
         }
         if (data.noOfUserInDistrict !== null) {
           this.districtCountSettingsList = data.noOfUserInDistrict;
+        }
+        if (data.noOfUserInArea !== null) {
+          this.areaCountSettingsList = data.noOfUserInArea;
         }
         if (data.noOfUsers !== null) {
           this._SettingModel.noOfUsers = data.noOfUsers;
@@ -138,28 +147,23 @@ export class Settings {
       this.areaListforDD = [];
     }
   }
-  addAreaCountSettings() {
-    let tempObj = Object.assign({}, this._AreaCountModel);
+
+  addProvinceCountSettings() {
+    let tempObj = Object.assign({}, this._ProvinceCountModel);
     let isExist = false;
-    this.areaCountSettingsList.forEach(areasetng => {
-      if (areasetng.province === tempObj.province) {
-        if (areasetng.district === tempObj.district) {
-          if (areasetng.area === tempObj.area) {
+    this.provinceCountSettingsList.forEach(provincesetng => {
+      if (provincesetng.province === tempObj.province) {
             isExist = true;
-            areasetng.count = tempObj.count;
-          } else {
+            provincesetng.count = tempObj.count;
+      } else {
             isExist = false;
-          }
-        }
       }
     });
     if (!isExist) {
-      this.areaCountSettingsList.push(tempObj);
+      this.provinceCountSettingsList.push(tempObj);
     }
-    this._AreaCountModel.province = '';
-    this._AreaCountModel.district = '';
-    this._AreaCountModel.area = '';
-    this._AreaCountModel.count = 0;
+    this._ProvinceCountModel.province = '';
+    this._ProvinceCountModel.count = 0;
   }
 
   addDistrictCountSettings() {
@@ -183,11 +187,33 @@ export class Settings {
     this._DistrictCountModel.count = 0;
   }
 
-  removeAreaCountSettings(areaset) {
-    this.areaCountSettingsList.forEach(element => {
-      if (this.areaCountSettingsList.indexOf(areaset) === this.areaCountSettingsList.indexOf(element)) {
-        const idx = this.areaCountSettingsList.indexOf(areaset);
-        this.areaCountSettingsList.splice(idx);
+  addAreaCountSettings() {
+    let tempObj3 = Object.assign({}, this._AreaCountModel);
+    let isExist = false;
+    this.areaCountSettingsList.forEach(areasetng => {
+      if (areasetng.province === tempObj3.province) {
+          if (areasetng.area === tempObj3.area) {
+            isExist = true;
+            areasetng.count = tempObj3.count;
+          } else {
+            isExist = false;
+          }
+      }
+    });
+    if (!isExist) {
+      this.areaCountSettingsList.push(tempObj3);
+    }
+    this._AreaCountModel.province = '';
+    this._AreaCountModel.area = '';
+    this._AreaCountModel.count = 0;
+  }
+
+
+  removeProvinceCountSettings(provinceset) {
+    this.provinceCountSettingsList.forEach(element => {
+      if (this.provinceCountSettingsList.indexOf(provinceset) === this.provinceCountSettingsList.indexOf(element)) {
+        const idx = this.provinceCountSettingsList.indexOf(provinceset);
+        this.provinceCountSettingsList.splice(idx);
       }
     });
   }
@@ -199,14 +225,23 @@ export class Settings {
       }
     });
   }
+   removeAreaCountSettings(areaset) {
+    this.areaCountSettingsList.forEach(element => {
+      if (this.areaCountSettingsList.indexOf(areaset) === this.areaCountSettingsList.indexOf(element)) {
+        const idx = this.areaCountSettingsList.indexOf(areaset);
+        this.areaCountSettingsList.splice(idx);
+      }
+    });
+  }
   saveSettings(value: any, isValid: boolean) {
     if (!isValid) {
       this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
       return false;
     }
     const that = this;
-    this._SettingModel.noOfUserInCity = this.areaCountSettingsList;
+    this._SettingModel.noOfUserInProvince = this.provinceCountSettingsList;
     this._SettingModel.noOfUserInDistrict = this.districtCountSettingsList;
+    this._SettingModel.noOfUserInArea = this.areaCountSettingsList;
     Object.keys(this._SettingModel.userCountofSocial).forEach(function (key, index) {
       that._SettingModel.noOfUserInSocial.push({ [key]: that._SettingModel.userCountofSocial[key] });
     });
@@ -220,13 +255,15 @@ export class Settings {
   }
   resetModel() {
     this._AreaCountModel.province = '';
-    this._AreaCountModel.district = '';
     this._AreaCountModel.area = '';
     this._AreaCountModel.count = 0;
 
     this._DistrictCountModel.province = '';
     this._DistrictCountModel.district = '';
     this._DistrictCountModel.count = 0;
+
+    this._ProvinceCountModel.province = '';
+    this._ProvinceCountModel.count = 0;
   }
   // groupBy(array, f) {
   //   const groups = {};
