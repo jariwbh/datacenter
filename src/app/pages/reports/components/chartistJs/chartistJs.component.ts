@@ -10,6 +10,7 @@ import { ChartistJsService } from './chartistJs.service';
 })
 
 export class ChartistJsComponent {
+  selectType: string;
 
   data: any;
   //allView: boolean = true;
@@ -41,26 +42,47 @@ export class ChartistJsComponent {
     }
   }
 
-  onChangeFieldToCompare( fieldsToCompare) {
-    if ( fieldsToCompare === 'Province') {
-          this.compareTwo = 'Province';
-    } else if ( fieldsToCompare === 'District' ) {
-          this.compareTwo = 'District';
+  onChangeFieldToCompare(fieldsToCompare) {
+    if (fieldsToCompare === 'Province') {
+      this.compareTwo = 'Province';
+    } else if (fieldsToCompare === 'District') {
+      this.compareTwo = 'District';
     }
 
   }
+  onChangeFieldforSelectReport(selectedField) {
+    if (selectedField === 'Province') {
+      this.selectType = 'Province';
+    } else if (selectedField === 'District') {
+      this.selectType = 'District';
+    }
+  }
 
-  onChangeFirstProvince () {
-    
+  onChangeFirstProvince() {
+
   }
-  onChangeSecondProvince () {
-    
+  onChangeSecondProvince() {
+
   }
-  onChangeFirstDistrict () {
-    
+  onChangeFirstDistrict() {
+
   }
-  onChangeSecondDistrict () {
-    
+  onChangeSecondDistrict() {
+
+  }
+
+  onChangeSelectProvince() {
+
+  }
+  onChangeSelectDistrict() {
+
+  }
+
+  genrateReportForCompare() {
+
+  }
+  genrateReportForSelect() {
+
   }
 
   getResponsive(padding, offset) {
