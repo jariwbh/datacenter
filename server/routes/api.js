@@ -127,7 +127,8 @@ router.route('/setting')
     .post(function(req, res) {
           console.log();
         var setting = new Setting();      // create a new instance of the Bear model
-        setting.noOfUserInCity = req.body.noOfUserInCity;  // set the bears name (comes from the request)
+        setting.noOfUserInProvince = req.body.noOfUserInProvince;  // set the bears name (comes from the request)
+        setting.noOfUserInArea = req.body.noOfUserInArea;  // set the bears name (comes from the request)
         setting.noOfUserInDistrict = req.body.noOfUserInDistrict;  // set the bears name (comes from the request)
         setting.noOfUserInSocial = req.body.noOfUserInSocial;  // set the bears name (comes from the request)
         setting.noOfUsers = req.body.noOfUsers;  // set the bears name (comes from the request)
