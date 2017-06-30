@@ -14,7 +14,7 @@ export class ChartistJsComponent {
   data: any;
   //allView: boolean = true;
   compareView: boolean = true;
-  fieldBasedView: boolean = true;
+  selectedView: boolean = false;
   compareTwo: string;
 
   constructor(private _chartistJsService: ChartistJsService) {
@@ -25,19 +25,42 @@ export class ChartistJsComponent {
   }
 
   switchView(view: string) {
-    if (view === 'All') {
-      //this.allView = true;
-      this.compareView = true;
-      this.fieldBasedView = true;
-    } else if (view === 'CompareView') {
+    // if (view === 'All') {
+    //   //this.allView = true;
+    //   this.compareView = true;
+    //   this.fieldBasedView = true;
+    // } else 
+    if (view === 'CompareView') {
       //this.allView = false;
       this.compareView = true;
-      this.fieldBasedView = false;
-    } else if (view === 'FieldBasedView') {
+      this.selectedView = false;
+    } else if (view === 'SelectedView') {
       //this.allView = false;
       this.compareView = false;
-      this.fieldBasedView = true;
+      this.selectedView = true;
     }
+  }
+
+  onChangeFieldToCompare( fieldsToCompare) {
+    if ( fieldsToCompare === 'Province') {
+          this.compareTwo = 'Province';
+    } else if ( fieldsToCompare === 'District' ) {
+          this.compareTwo = 'District';
+    }
+
+  }
+
+  onChangeFirstProvince () {
+    
+  }
+  onChangeSecondProvince () {
+    
+  }
+  onChangeFirstDistrict () {
+    
+  }
+  onChangeSecondDistrict () {
+    
   }
 
   getResponsive(padding, offset) {

@@ -1,8 +1,8 @@
 <section class="chartist">
   <div class="row">
-    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('All')"><span>All</span> </button></a></div>
+    <!--<div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('All')"><span>All</span> </button></a></div>-->
     <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('CompareView')"><span>Compare Reports</span> </button></a></div>
-    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('FieldBasedView')"><span>FieldBased Reports</span> </button></a></div>
+    <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView('SelectedView')"><span>Selected Reports</span> </button></a></div>
   </div>
   <!--<div class="row" *ngIf="All">
     <div class="col-md-6 ">
@@ -37,24 +37,64 @@
               </div>
               <div class="col-md-4">
                 <!--<select id="compare" class="form-control" value="State" [(ngModel)]="compareTwo">-->
-                  <select id="compare" class="form-control" value="State" >
+                  <select id="compare" class="form-control" value="Province" (change)="onChangeFieldToCompare($event.target.value)">
                             <option value="">--- Select ---</option>
-                            <option value="opt">State</option>
-                            <option value="opt">City</option>
-                            <option value="opt">User</option>
+                            <option value="Province">Province</option>
+                            <option value="District">District</option>
                           </select>
               </div>
 
             </div>
-            <div class="col-md-12" *ngIf="compareTwo == 'State'">
-             
+            <div class="col-md-12" *ngIf="compareTwo == 'Province'">
+             <div class="row">
+              <div class="form-group row col-sm-6">
+                <label for="firstprovince" class="col-sm-4 control-label">First Province</label>
+                <div class="col-sm-6">
+                  <select class="form-control" id="firstprovince" (change)="onChangeFirstProvince($event.target.value)">
+                    <option value="">--Select Province--</option>
+                    <!--<option [value]="p.name" *ngFor="let p of provinceList">{{p.name}}</option>-->
+                    <option value="Baghdad">Baghdad</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row col-sm-6">
+                <label for="secondprovince" class="col-sm-4 control-label">Second Province</label>
+                <div class="col-sm-6">
+                  <select class="form-control" id="secondprovince" (change)="onChangeSecondProvince($event.target.value)">
+                    <option value="">--Select Province--</option>
+                    <!--<option [value]="p.name" *ngFor="let p of provinceList">{{p.name}}</option>-->
+                    <option value="Baghdad">Baghdad</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
             </div>
-            <div class="col-md-12" *ngIf="compareTwo == 'City'">
-             
+            <div class="col-md-12" *ngIf="compareTwo == 'District'">
+             <div class="row">
+              <div class="form-group row col-sm-6">
+                <label for="firstdistrict" class="col-sm-4 control-label">First District</label>
+                <div class="col-sm-6">
+                  <select class="form-control" id="firstdistrict" (change)="onChangeFirstDistrict($event.target.value)">
+                    <option value="">--Select District--</option>
+                    <!--<option [value]="p.district" *ngFor="let p of districtListforDD">{{p.district}}</option>-->
+                    <option value="Baghdad">Baghdad</option>
+                    <option value="Sadr">Sadr</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row col-sm-6">
+                <label for="seconddistrict" class="col-sm-4 control-label">First District</label>
+                <div class="col-sm-6">
+                  <select class="form-control" id="seconddistrict" (change)="onChangeSecondDistrict($event.target.value)">
+                    <option value="">--Select District--</option>
+                    <!--<option [value]="p.district" *ngFor="let p of districtListforDD">{{p.district}}</option>-->
+                    <option value="Baghdad">Baghdad</option>
+                    <option value="Sadr">Sadr</option>
+                  </select>
+                </div>
+              </div>
             </div>
-            <div class="col-md-12" *ngIf="compareTwo == 'User'">
-              
             </div>
             <div class="col-md-12">
               <ba-card class="pie-chart-item-container col-md-12">
@@ -107,7 +147,7 @@
     </ba-card>
   </div>
 
-  <div class="row" *ngIf="fieldBasedView">
+  <div class="row" *ngIf="selectedView">
     <!--<div class="row">-->
     <div class="col-md-12">
       <ba-card class="pie-chart-item-container col-md-12">

@@ -155,10 +155,9 @@ export class Settings {
       if (provincesetng.province === tempObj.province) {
             isExist = true;
             provincesetng.count = tempObj.count;
-      } else {
-            isExist = false;
       }
     });
+    
     if (!isExist) {
       this.provinceCountSettingsList.push(tempObj);
     }
@@ -174,8 +173,6 @@ export class Settings {
         if (districtsetng.district === tempObj2.district) {
           isExist = true;
           districtsetng.count = tempObj2.count;
-        } else {
-          isExist = false;
         }
       }
     });
@@ -195,8 +192,6 @@ export class Settings {
           if (areasetng.area === tempObj3.area) {
             isExist = true;
             areasetng.count = tempObj3.count;
-          } else {
-            isExist = false;
           }
       }
     });
