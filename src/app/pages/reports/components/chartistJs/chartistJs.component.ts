@@ -1,7 +1,9 @@
+
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 import { ChartistJsService } from './chartistJs.service';
+import { ReportService } from './../../../../core/services/report/report.service';
 
 @Component({
   selector: 'nga-chartist-js',
@@ -17,14 +19,31 @@ export class ChartistJsComponent {
   compareView: boolean = true;
   selectedView: boolean = false;
   compareTwo: string;
-
-  constructor(private _chartistJsService: ChartistJsService) {
+  provinceList: any[] = [];
+  districtList: any[] = [];
+  constructor(private _chartistJsService: ChartistJsService, private _ReportService: ReportService) {
   }
 
   ngOnInit() {
     this.data = this._chartistJsService.getAll();
+    this.getAllProvince();
+    this.getAllDistrict();
   }
 
+ getAllProvince() {
+    this._ReportService.GetAllProvince().subscribe(data => {
+      if (data) {
+        this.provinceList = data;
+      }
+    });
+  }
+  getAllDistrict() {
+    this._ReportService.GetAllDistrict().subscribe(data => {
+      if (data) {
+        this.districtList = data;
+      }
+    });
+  }
   switchView(view: string) {
     // if (view === 'All') {
     //   //this.allView = true;
