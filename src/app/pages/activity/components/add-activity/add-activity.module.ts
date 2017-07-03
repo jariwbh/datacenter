@@ -10,7 +10,7 @@ import { AddActivityComponent } from './add-activity.component';
 import { AppTranslationModule } from '../../../../app.translation.module';
 
 import { ActivityService } from '../../../../core/services/activity/activity.service';
-import { UsersService } from '../../../../core/services/users/users.service';
+import { ManagepeopleService } from '../../../../core/services/people/manage-people.service';
 
 import { GrowlModule, AutoCompleteModule } from 'primeng/primeng';
 import { EditorModule, SharedModule, FileUploadModule } from 'primeng/primeng';
@@ -35,7 +35,7 @@ import { EditorModule, SharedModule, FileUploadModule } from 'primeng/primeng';
   ],
   providers: [
     ActivityService,
-    UsersService,
+    ManagepeopleService,
   ],
 })
 export class AddActivityModule {}

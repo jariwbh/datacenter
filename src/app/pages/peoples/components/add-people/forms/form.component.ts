@@ -11,6 +11,15 @@ import { Message } from 'primeng/primeng';
 
 import {} from '@types/googlemaps';
 
+import { 
+          BasicValidators, 
+          ValidUrlValidator, 
+          OnlyNumberValidator, 
+          ValidMobileNumberValidator } from '../../../../../shared/components/basicValidators';
+
+import { ConfirmationService } from 'primeng/primeng';
+import { AuthService } from '../../../../../core/services/common/auth.service';
+
 @Component({
   selector: 'nga-add-people-form',
   templateUrl: './form.html',
@@ -55,6 +64,8 @@ export class FormComponent {
       draggable: boolean;
   // Google Map End
 
+  isidexist: boolean;
+  authRole: string;
 
   constructor(
     private fb: FormBuilder,
@@ -62,8 +73,19 @@ export class FormComponent {
     private _route: ActivatedRoute,
     private _fieldsService: FieldsService,
     private _managepeopleService: ManagepeopleService,
+    private confirmationService: ConfirmationService,
+    private _authService: AuthService,
   ) {
+
+    if (this._authService.auth_user.role === '') {
+        this.authRole = null;
+    } else {
+      this.authRole = this._authService.auth_user.role;
+    }
+
+
     this.form = fb.group({
+        'id': [this._fieldsModel._id],
         'fieldtype': [this._fieldsModel.fieldtype, Validators.required],
         'lookupdata': [this._fieldsModel.lookupdata],
         'displayname': [this._fieldsModel.displayname],
@@ -71,7 +93,7 @@ export class FormComponent {
         'description': [this._fieldsModel.description, Validators.required],
         'isMandatory': [this._fieldsModel.isMandatory, Validators.required],
         'isDisplayOnList': [this._fieldsModel.isDisplayOnList, Validators.required],
-        'formorder': [this._fieldsModel.formorder, Validators.required],
+        'formorder': [this._fieldsModel.formorder, [Validators.required, OnlyNumberValidator.insertonlynumber]],
     });
 
     // Made Sample Json Data For Lookup
@@ -161,7 +183,7 @@ export class FormComponent {
             const group: any = {};
             data.forEach(element => {
               
-              if(element.fieldtype == 'map') {
+              if (element.fieldtype == 'map') {
                  this.overlays[element.labelname] = [];
                  this.dialogVisible[element.labelname] = false;
                  this.errorMap[element.labelname] = false;
@@ -180,6 +202,53 @@ export class FormComponent {
             this.dynamicForm = this.fb.group(group);
         });
   }
+
+  editFields(id: any) {
+    this._fieldsService
+          .GetById(id)
+          .subscribe(
+          data => {
+            this._fieldsModel = data;
+            if (this._fieldsModel) {
+              this._sampleJson = JSON.stringify(this._fieldsModel.lookupdata);
+              const isButton = <HTMLInputElement> document.getElementById('formfieldButton');
+              isButton.click();
+            }
+        });
+  }
+  deleteFields(id: any) {
+
+    this.confirmationService.confirm({
+          message: 'Do you want to delete this record?',
+          header: 'Delete Confirmation',
+          icon: 'fa fa-trash',
+          accept: () => {
+            this._fieldsService
+              .Delete(id)
+              .subscribe(
+              data => {
+                this.getAllFields();
+                this.msgs = [{ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' }];
+            });
+          },
+          reject: () => {
+              this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+          },
+      });
+
+    
+  }
+  clearFormFields() {
+    this._fieldsModel._id = null;
+    this._fieldsModel.fieldtype = null;
+    this._fieldsModel.lookupdata = null;
+    this._fieldsModel.displayname = null;
+    this._fieldsModel.labelname = null;
+    this._fieldsModel.description = null;
+    this._fieldsModel.isMandatory = null;
+    this._fieldsModel.formorder = null;
+  }
+
   onChangeProvince(value: any) {
       this._districtOptionLists = [];
       this._areaOptionLists = [];
@@ -214,15 +283,15 @@ export class FormComponent {
             let isMap = <HTMLInputElement> document.getElementById('map_' + element.labelname);
             value[element.labelname] = isMap.value;
             
-            if(element.isMandatory) {
-              if(value[element.labelname] == '') {
+            if (element.isMandatory) {
+              if (value[element.labelname] == '') {
                 this.errorMap[element.labelname] = true;
                 cnt++;
               }
             }
           }
         });
-        if(cnt == 0) {
+        if (cnt == 0) {
           this._managepeopleService
             .Add(value)
             .subscribe(
@@ -242,6 +311,17 @@ export class FormComponent {
       if (!isValid) {
           return false;
       } else {
+
+        if (this._fieldsModel._id == null) {
+            this._fieldsModel._id = (function () { return undefined; })();
+        }
+
+        if (this._fieldsModel._id) {
+          this.isidexist = true;
+        } else {
+          this.isidexist = false;
+        }
+
         let lookupJson = [];
         if (value.lookupdata) {
           lookupJson = JSON.parse(value.lookupdata);
@@ -267,7 +347,28 @@ export class FormComponent {
         } else {
           this._fieldsModel.isDisplayOnList = false;
         }
-        this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
+
+        if (this.isidexist) {
+
+            this._fieldsService
+                .Update(this._fieldsModel._id, this._fieldsModel)
+                .subscribe(
+                data => {
+                  const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+                  if (isClosed) {
+                    isClosed.click();
+                    this.getAllFields();
+                    this.clearFormFields();
+                    this.msgs = [];
+                    this.msgs.push ({ 
+    severity: 'info', summary: 'Update Message', detail: 'Fields has been Updated Successfully!!!' });
+                    
+                  }
+              });
+        } else {
+          this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
+        }
+        
       }
   }
   

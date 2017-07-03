@@ -14,76 +14,64 @@
                     (ngSubmit)="onSubmit(form.value,form.valid)" 
                     novalidate 
                     class="form-horizontal">
-                    <div class="form-group">
-                        <p-selectButton formControlName="type" (onChange)="buttonChnage($event)" [options]="types" [(ngModel)]="selectedType"></p-selectButton>
-                    </div>
                     
-                    <div *ngIf="_provinceVisibility">
-                        <div class="form-group">
-                            <label for="input01">Province</label>
-                            <select 
-                                class="form-control" 
-                                (change)="onChangeProvince($event.target.value)" 
-                                formControlName="province"
-                                [(ngModel)]="_pointsModel.province">
-                                <option value="">-----Select----</option>
-                                <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
-                            </select>
-                        </div>
-                        <div class="form-group" *ngIf="_districtVisibility">
-                            <label for="input01">District</label>
-                            <select 
-                                (change)="onChangeDistrict($event.target.value)" 
-                                class="form-control"
-                                formControlName="district"
-                                [(ngModel)]="_pointsModel.district">
-                                <option value="">-----Select----</option>
-                                <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
-                            </select>
-                        </div>
-                        <div class="form-group" *ngIf="_areaVisibility">
-                            <label for="input01">Area</label>
-                            <select 
-                                (change)="onChangeArea($event.target.value)" 
-                                class="form-control"
-                                formControlName="area"
-                                [(ngModel)]="_pointsModel.area">
-                                <option value="">-----Select----</option>
-                                <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
-                            </select>
-                        </div>
-                        <div *ngIf="errorFields" class="alert alert-danger clear-fix">
-                            choose depended fields
-                        </div>
-                    </div>
-                    <div *ngIf="usererrorFields" class="alert alert-danger clear-fix">
-                            Select Atleast one user
-                    </div>
-                    <div class="form-group" *ngIf="_tableVisibility">
+                    <div class="form-group">
                         <label for="input01">List of User</label>
                         <div class="horizontal-scroll" style="margin-top: 20px;">
-                            <table class="table table-condensed">
+                            <table class="table table-bordered">
                                 <thead>
-                                <tr>
-                                    <th>Full Name</th>
-                                    <th>Email</th>
-                                    <th>province</th>
-                                    <th>district</th>
-                                    <th>area</th>
-                                    <th>Action</th>
-                                </tr>
+                                    <tr>
+                                        <th class="browser-icons"><input type="checkbox"></th>
+                                        <th class="align-right">Full Name</th>
+                                        <th class="align-right">Email</th>
+                                        <th class="align-right">Province</th>
+                                        <th class="align-right">District</th>
+                                        <th class="align-right">Area</th>
+                                        <th class="align-right">Action</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let user of pagedItems">
-                                    <td>{{ user.fullname }}</td>
-                                    <td><a class="email-link" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
-                                    <td>{{ user.province }}</td>
-                                    <td>{{ user.district }}</td>
-                                    <td>{{ user.area }}</td>
-                                    <td>
-                                        <button type="button" (click)="confirm(user.id)" class="status-button btn btn-xs btn-danger">Delete</button>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td class="align-right"></td>
+                                        <td class="align-right"></td>
+                                        <td class="align-right"></td>
+                                        <td class="align-right">
+                                            <select 
+                                                (change)="onChangeProvince($event.target.value)"
+                                                class="form-control">
+                                                <option>----</option>
+                                                <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
+                                            </select>
+                                        </td>
+                                        <td class="align-right">
+                                            <select 
+                                                (change)="onChangeDistrict($event.target.value)"
+                                                class="form-control">
+                                                <option>----</option>
+                                                <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
+                                            </select>
+                                        </td>
+                                        <td class="align-right">
+                                            <select 
+                                                (change)="onChangeArea($event.target.value)"
+                                                class="form-control">
+                                                <option>----</option>
+                                                <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
+                                            </select>
+                                        </td>
+                                        <td class="align-right"></td>
+                                    </tr>
+                                    <tr *ngFor="let user of pagedItems">
+                                        <td class="align-right"> <input type="checkbox"> </td>
+                                        <td class="align-right">{{ user.fullname }}</td>
+                                        <td class="align-right"><a class="email-link" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                                        <td class="align-right">{{ user.province }}</td>
+                                        <td class="align-right">{{ user.district }}</td>
+                                        <td class="align-right">{{ user.area }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning">Add</button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <nav class="ng2-smart-pagination-nav">
@@ -122,10 +110,7 @@
                             
                         </div>
                     </div>
-                    <div *ngIf="_loadData">
-                        <img style="text-align: cenetr" src="assets/img/loader.gif">
-                    </div>
-
+                    
                     <div class="form-group">
                         <label for="input01">Points</label>
                         <input type="text" class="form-control" formControlName="points" [(ngModel)]="_pointsModel.points">

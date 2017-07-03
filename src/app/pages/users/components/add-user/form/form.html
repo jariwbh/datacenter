@@ -1,5 +1,6 @@
 <section class="addAdmin">
   <p-growl [value]="msgs"></p-growl>
+  <p-confirmDialog></p-confirmDialog>
   
   <div class="row">
     <div class="col-md-12">
@@ -28,7 +29,16 @@
       <div *ngIf="informationVisibilty">
         <ba-card title="Information Form" baCardClass="with-scroll">
           <div class="clearfix">
-            <button type="button" class="btn btn-warning btn-raised pull-right" data-toggle="modal" data-target="#myModalAddFields" data-backdrop="static" data-keyboard="false">Add New Field</button>
+            <button
+                  type="button" 
+                  id="formfieldButton" 
+                  class="btn btn-warning btn-raised pull-right" 
+                  data-toggle="modal" 
+                  data-target="#myModalAddFields" 
+                  data-backdrop="static" 
+                  data-keyboard="false">
+                  Add New Field
+            </button>
           </div>
           <form 
               *ngIf="dynamicForm"
@@ -38,6 +48,10 @@
               <div *ngFor="let fields of fieldLists" class="form-group">
                 <div [ngSwitch]="fields.fieldtype">
                   <label for="exampleInputname1">{{fields.displayname}}</label>
+                  <div *ngIf="authRole == 'A'">
+                    <a *ngIf="!fields.issystemfield" (click)="editFields(fields._id)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
+                    <a *ngIf="!fields.issystemfield" (click)="deleteFields(fields._id)" style="cursor: pointer; margin-left: 20px;"><i class="ion-trash-a"></i></a>
+                  </div>
                   <div *ngSwitchCase="'text'">
                     <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
                   </div>
@@ -259,7 +273,7 @@
     <div class="modal-content main_cls">
       <div class="modal-header">
         <h4 class="modal-title">Add Fields</h4>
-        <button class="close" aria-label="Close" id="closeAddFields" data-dismiss="modal">
+        <button class="close" (click)="clearFormFields()" aria-label="Close" id="closeAddFields" data-dismiss="modal">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -269,6 +283,7 @@
               <ba-card>
                 <form [formGroup]="form" (ngSubmit)="onSubmit(form.value,form.valid)" novalidate class="form-horizontal">
                   <div class="form-group">
+                    <input type="hidden" class="form-control" formControlName="id" [(ngModel)]="_fieldsModel._id">
                     <label for="input01">Field</label>
                     <select 
                         class="form-control" 
@@ -298,7 +313,10 @@
                   </div>
                   <div class="form-group">
                     <label for="input01">Label Name</label>
-                    <input type="text" (keypress)="labelvaluechange()" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
+                    <input type="text" [readonly]="_fieldsModel._id ? 'true' : false" (keypress)="labelvaluechange()" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
+                    <span *ngIf="_fieldsModel._id" class="help-block sub-little-text" style="color: #ecc839">
+                      You cannt edit Label Name on Edit Mode. [ READ ONLY PROPERTY ]
+                    </span>
                     <div [hidden]="form.get('labelname').valid || (form.get('labelname').pristine && !submitted)" class="alert alert-danger">
                         labelname is required.
                     </div>
@@ -344,7 +362,7 @@
                     <label for="input01">Field Order</label>
                     <input type="text" class="form-control form-control-lg" formControlName="formorder" [(ngModel)]="_fieldsModel.formorder" placeholder="Field Order">
                     <div [hidden]="form.get('formorder').valid || (form.get('formorder').pristine && !submitted)" class="alert alert-danger">
-                        formorder is required.
+                        formorder accept only Numbers.
                     </div>
                   </div>
                   <button class="btn btn-success" type="submit">Save changes</button>
