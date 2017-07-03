@@ -15,6 +15,7 @@ import { FileUploadModule } from 'primeng/primeng';
 import { GrowlModule } from 'primeng/primeng';
 
 import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/primeng';
+import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/
     GMapModule,
     GMapModule,
     SharedModule,
-    DialogModule
+    DialogModule,
+    ConfirmDialogModule,
   ],
   declarations: [
     AddPeopleComponent,
@@ -38,6 +40,7 @@ import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/
   providers: [
     ManagepeopleService,
     FieldsService,
+    ConfirmationService,
   ],
 })
 export class AddPeopleModule {}

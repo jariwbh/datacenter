@@ -30,7 +30,7 @@ export class FieldsService {
 
     public GetById = (id: number): Observable<any> => {
        return this.http
-           .get(this.actionUrl + 'ManagePeople/GetPeopleById/' + id)
+           .get(this.actionUrl + 'formfieldByID/' + id)
            .map(res => <any>res.json());
     }
 
@@ -43,14 +43,14 @@ export class FieldsService {
     public Update = (id: number, data: any): Observable<any> => {
        const toAdd = JSON.stringify(data);
        //console.log(toAdd);
-       return this.http.post(this.actionUrl + 'ManagePeople/UpdatePeople/' + id, toAdd, { headers: this.headers })
+       return this.http.put(this.actionUrl + 'formfield/' + id, toAdd, { headers: this.headers })
            .map(res => <any>res.json());
     }
 
     public Delete = (id: number): Observable<any> => {
        //console.log(id);
        return this.http
-           .get(this.actionUrl + 'ManagePeople/DeletePeopleById/' + id)
+           .delete(this.actionUrl + 'formfield/' + id)
            .map(res => <any>res.json());
     }
 

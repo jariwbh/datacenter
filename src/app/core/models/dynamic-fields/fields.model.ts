@@ -1,5 +1,5 @@
 export class FieldsModel {
-    id: number;
+    _id: number;
     formname: string;
     fieldtype: string;
     lookupdata: string[];

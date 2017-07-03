@@ -39,7 +39,7 @@ export class ManagePeopleComponent {
           data => {
            this.fieldLists = data;
            data.forEach(element => {
-            if (element.isDisplayOnList) {
+            if (element.isDisplayOnList || element.issystemfield) {
               this._fieldLists.push(element);
             }
            });

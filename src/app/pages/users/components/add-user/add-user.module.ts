@@ -14,6 +14,8 @@ import { UsersService } from '../../../../core/services/users/users.service';
 import { GrowlModule } from 'primeng/primeng';
 import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/primeng';
 
+import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/
     CheckboxModule,
     SharedModule,
     DialogModule,
+    ConfirmDialogModule,
   ],
   declarations: [
     AddUserComponent,
@@ -35,6 +38,7 @@ import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/
   providers: [
     FieldsService,
     UsersService,
+    ConfirmationService,
   ],
 })
 export class AddUserModule {}

@@ -1,6 +1,6 @@
 <section class="addpeople">
   <p-growl [value]="msgs"></p-growl>
-  
+  <p-confirmDialog></p-confirmDialog>
   <div class="col-sm-4 col-6">
     
   </div> 
@@ -9,6 +9,7 @@
       <div class="col-md-10">
         <div class="clearfix">
             <button 
+                id="formfieldButton"
                 type="button" 
                 class="btn btn-warning btn-raised pull-right" 
                 data-toggle="modal" 
@@ -27,6 +28,10 @@
               <div *ngFor="let fields of fieldLists" class="form-group">
                 <div [ngSwitch]="fields.fieldtype">
                   <label for="exampleInputname1">{{fields.displayname}}</label>
+                  <div *ngIf="authRole == 'A'">
+                    <a *ngIf="!fields.issystemfield" (click)="editFields(fields._id)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
+                    <a *ngIf="!fields.issystemfield" (click)="deleteFields(fields._id)" style="cursor: pointer; margin-left: 20px;"><i class="ion-trash-a"></i></a>
+                  </div>
                   <div *ngSwitchCase="'text'">
                     <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
                   </div>
@@ -177,7 +182,7 @@
     <div class="modal-content main_cls">
       <div class="modal-header">
         <h4 class="modal-title">Add Fields</h4>
-        <button class="close" aria-label="Close" id="closeAddFields" data-dismiss="modal">
+        <button class="close" (click)="clearFormFields()" aria-label="Close" id="closeAddFields" data-dismiss="modal">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -216,7 +221,10 @@
                   </div>
                   <div class="form-group">
                     <label for="input01">Label Name</label>
-                    <input type="text" (keypress)="labelvaluechange()" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
+                    <input [readonly]="_fieldsModel._id ? 'true' : false" type="text" (keypress)="labelvaluechange()" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
+                    <span *ngIf="_fieldsModel._id" class="help-block sub-little-text" style="color: #ecc839">
+                      You cannt edit Label Name on Edit Mode. [ READ ONLY PROPERTY ]
+                    </span>
                     <div [hidden]="form.get('labelname').valid || (form.get('labelname').pristine && !submitted)" class="alert alert-danger">
                         labelname is required.
                     </div>
@@ -229,13 +237,13 @@
                     <div class="input-demo radio-demo row">
                     <div class="col-md-4">
                       <label class="radio-inline custom-radio nowrap">
-                        <input id="inlineRadio1" checked formControlName="isMandatory" [checked]="_fieldsModel.isMandatory" type="radio" [value]="0">
+                        <input id="inlineRadio1" checked formControlName="isMandatory" [(ngModel)]="_fieldsModel.isMandatory" [checked]="_fieldsModel.isMandatory" type="radio" [value]="0">
                         <span translate="">Yes</span>
                       </label>
                     </div>
                     <div class="col-md-4">
                       <label class="radio-inline custom-radio nowrap">
-                        <input id="inlineRadio2" formControlName="isMandatory"  type="radio" [value]="1">
+                        <input id="inlineRadio2" formControlName="isMandatory" [(ngModel)]="_fieldsModel.isMandatory"  type="radio" [value]="1">
                         <span>No</span>
                       </label>
                     </div>
@@ -282,7 +290,7 @@
                     <label for="input01">Field Order</label>
                     <input type="text" class="form-control form-control-lg" formControlName="formorder" [(ngModel)]="_fieldsModel.formorder" placeholder="Field Order">
                     <div [hidden]="form.get('formorder').valid || (form.get('formorder').pristine && !submitted)" class="alert alert-danger">
-                        formorder is required.
+                        formorder accept only Numbers.
                     </div>
                   </div>
                   <button class="btn btn-success" type="submit">Save changes</button>

@@ -13,6 +13,13 @@ import { AuthService } from '../../../../../core/services/common/auth.service';
 
 import {} from '@types/googlemaps';
 
+import { 
+          BasicValidators, 
+          ValidUrlValidator, 
+          OnlyNumberValidator, 
+          ValidMobileNumberValidator } from '../../../../../shared/components/basicValidators';
+
+import { ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'nga-add-user-form',
@@ -75,25 +82,36 @@ export class FormComponent {
       draggable: boolean;
   // Google Map End
 
+   isidexist: boolean;
+   authRole: string;
+
   constructor(
     private fb: FormBuilder,
     private _router: Router,
     private _route: ActivatedRoute,
     private _fieldsService: FieldsService,
     private _usersService: UsersService,
-    private _authService: AuthService) {
+    private _authService: AuthService,
+    private confirmationService: ConfirmationService) {
+
+      if (this._authService.auth_user.role === '') {
+        this.authRole = null;
+      } else {
+        this.authRole = this._authService.auth_user.role;
+      }
 
     // Default Sub Admin
     this._usersModel.role = 'S';
 
       this.form = fb.group({
+        'id': [this._fieldsModel._id],
         'fieldtype': [this._fieldsModel.fieldtype, Validators.required],
         'lookupdata': [this._fieldsModel.lookupdata],
         'displayname': [this._fieldsModel.displayname],
         'labelname': [this._fieldsModel.labelname, Validators.required],
         'description': [this._fieldsModel.description, Validators.required],
         'isMandatory': [this._fieldsModel.isMandatory, Validators.required],
-        'formorder': [this._fieldsModel.formorder, Validators.required],
+        'formorder': [this._fieldsModel.formorder, [Validators.required, OnlyNumberValidator.insertonlynumber]],
       });
 
       this.usernamepasswordForm = fb.group({
@@ -190,6 +208,51 @@ export class FormComponent {
             });
         });
   }
+  editFields(id: any) {
+    this._fieldsService
+          .GetById(id)
+          .subscribe(
+          data => {
+            this._fieldsModel = data;
+            if (this._fieldsModel) {
+              this._sampleJson = JSON.stringify(this._fieldsModel.lookupdata);
+              const isButton = <HTMLInputElement> document.getElementById('formfieldButton');
+              isButton.click();
+            }
+        });
+  }
+  deleteFields(id: any) {
+
+    this.confirmationService.confirm({
+          message: 'Do you want to delete this record?',
+          header: 'Delete Confirmation',
+          icon: 'fa fa-trash',
+          accept: () => {
+            this._fieldsService
+              .Delete(id)
+              .subscribe(
+              data => {
+                this.getAllFields();
+                this.msgs = [{ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' }];
+            });
+          },
+          reject: () => {
+              this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+          },
+      });
+
+    
+  }
+  clearFormFields() {
+    this._fieldsModel._id = null;
+    this._fieldsModel.fieldtype = null;
+    this._fieldsModel.lookupdata = null;
+    this._fieldsModel.displayname = null;
+    this._fieldsModel.labelname = null;
+    this._fieldsModel.description = null;
+    this._fieldsModel.isMandatory = null;
+    this._fieldsModel.formorder = null;
+  }
   onChangeProvince(value: any) {
       this._districtOptionLists = [];
       this._areaOptionLists = [];
@@ -222,7 +285,7 @@ export class FormComponent {
             this.fieldLists = data;
             const group: any = {};
             data.forEach(element => {
-              if(element.fieldtype == 'map') {
+              if (element.fieldtype == 'map') {
                  this.overlays[element.labelname] = [];
                  this.dialogVisible[element.labelname] = false;
                  this.errorMap[element.labelname] = false;
@@ -253,30 +316,30 @@ export class FormComponent {
             value[element.labelname] = [];
             let cnt = 0;
             element.lookupdata.forEach(ele => {
-              let isChecked = <HTMLInputElement> document.getElementById('check_' + element.labelname + '_' + cnt);
-              let grp = {
+              const isChecked = <HTMLInputElement> document.getElementById('check_' + element.labelname + '_' + cnt);
+              const grp = {
                 value: ele.value,
                 key: ele.key,
-                check: isChecked.checked
-              }
+                check: isChecked.checked,
+              };
               value[element.labelname].push(grp);
               
               cnt++;
             });
           }
           if (element.fieldtype == 'map') {
-            let isMap = <HTMLInputElement> document.getElementById('map_' + element.labelname);
+            const isMap = <HTMLInputElement> document.getElementById('map_' + element.labelname);
             value[element.labelname] = isMap.value;
             
-            if(element.isMandatory) {
-              if(value[element.labelname] == '') {
+            if (element.isMandatory) {
+              if (value[element.labelname] == '') {
                 this.errorMap[element.labelname] = true;
                 cnt++;
               }
             }
           }
         });
-        if(cnt == 0) {
+        if (cnt == 0) {
           this._usersService
             .Add(value)
             .subscribe(
@@ -383,6 +446,17 @@ export class FormComponent {
       if (!isValid) {
           return false;
       } else {
+
+        if (this._fieldsModel._id == null) {
+            this._fieldsModel._id = (function () { return undefined; })();
+        }
+
+        if (this._fieldsModel._id) {
+          this.isidexist = true;
+        } else {
+          this.isidexist = false;
+        }
+
         let lookupJson = [];
         if (value.lookupdata) {
           lookupJson = JSON.parse(value.lookupdata);
@@ -402,7 +476,27 @@ export class FormComponent {
         } else {
           this._fieldsModel.isMandatory = false;
         }
-        this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
+
+        if (this.isidexist) {
+          this._fieldsService
+              .Update(this._fieldsModel._id, this._fieldsModel)
+              .subscribe(
+              data => {
+                const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+                if (isClosed) {
+                  isClosed.click();
+                  this.getAllFields();
+                  this.clearFormFields();
+                  this.msgs = [];
+                  this.msgs.push ({ 
+  severity: 'info', summary: 'Update Message', detail: 'Fields has been Updated Successfully!!!' });
+                  
+                }
+            });
+        } else {
+           this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
+        }
+        
       }
   }
   labelvaluechange() {
@@ -428,7 +522,7 @@ export class FormComponent {
                 if (isClosed) {
                   isClosed.click();
                   this.getAllFields();
-                  this.form.reset();
+                  this.clearFormFields();
                           this.msgs = [];
                           this.msgs.push ({ 
   severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
@@ -457,7 +551,7 @@ export class FormComponent {
   // Google Map Start
     handleMapClick(event, val) {
       this.errorMap[val] = false;
-      if(this.overlays[val].length == 0) {
+      if (this.overlays[val].length == 0) {
         this.dialogVisible[val] = true;
         this.selectedPosition = event.latLng;
       }
@@ -483,7 +577,7 @@ export class FormComponent {
               title: this.markerTitle, draggable: this.draggable }));
           this.markerTitle = null;
           this.dialogVisible[id] = false;
-          let mapValue = this.selectedPosition.lat() + '####' + this.selectedPosition.lng();
+          const mapValue = this.selectedPosition.lat() + '####' + this.selectedPosition.lng();
           const isClosed = <HTMLInputElement> document.getElementById('map_' + id);
           isClosed.value = mapValue;
 

@@ -328,6 +328,8 @@ router.route('/formfield/add')
         formfield.labelname = req.body.labelname;
         formfield.description = req.body.description;
         formfield.isMandatory = req.body.isMandatory;
+        formfield.issystemfield = req.body.issystemfield;
+        formfield.isDisplayOnList = req.body.isDisplayOnList;
         formfield.formorder = req.body.formorder;
 
         // save the formfield and check for errors
@@ -354,6 +356,60 @@ router.route('/formfield/:formname')
 
        }
     });
+
+router.route('/formfieldByID/:id')
+    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    .get(function(req, res) {
+       if (req.params.id) {
+            Formfield.findById(req.params.id, function (err, docs) {
+                res.json(docs);
+            });
+       }
+    });
+
+router.route('/formfield/:id')
+    .put(function(req, res) {
+        // use our bear model to find the bear we want
+        Formfield.findById(req.params.id, function(err, formfield) {
+            if (err)
+                res.send(err);
+
+            formfield.formname = req.body.formname;  // set the bears name (comes from the request)        
+            formfield.fieldtype = req.body.fieldtype;
+            formfield.lookupdata = req.body.lookupdata;
+            formfield.displayname = req.body.displayname;
+            formfield.labelname = req.body.labelname;
+            formfield.description = req.body.description;
+            formfield.isMandatory = req.body.isMandatory;
+            formfield.issystemfield = req.body.issystemfield;
+            formfield.isDisplayOnList = req.body.isDisplayOnList;
+            formfield.formorder = req.body.formorder;
+
+            // save the bear
+            formfield.save(function(err, data) {
+                if (err)
+                    res.send(err);
+
+                res.json(data);
+            });
+
+        });
+    });
+
+router.route('/formfield/:id')
+    .delete(function(req, res) {
+
+        Formfield.remove({
+            _id: req.params.id
+        }, function(err, formfield) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+
+    });
+
 
 router.route('/admin/login')
 

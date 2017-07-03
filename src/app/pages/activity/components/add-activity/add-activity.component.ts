@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
-import { UsersService } from '../../../../core/services/users/users.service';
+import { ManagepeopleService } from '../../../../core/services/people/manage-people.service';
 
 import { ActivityService } from '../../../../core/services/activity/activity.service';
 import { ActivityModel } from '../../../../core/models/activity/activity.model';
@@ -43,7 +43,7 @@ constructor(
     private _router: Router,
     private _route: ActivatedRoute,
     private _activityService: ActivityService,
-    private _usersService: UsersService,
+    private _managepeopleService: ManagepeopleService,
   ) {
 
     this.typeForm = fb.group({
@@ -60,7 +60,7 @@ constructor(
         'name': [this._activityModel.name],
     });
 
-    this.getAllUserEmail();
+    this.getAllPersonrEmail();
   }
   
   onUploadPhoto(event) {
@@ -86,14 +86,14 @@ constructor(
       }
   }
 
-  getAllUserEmail() {
-      this._usersService
+  getAllPersonrEmail() {
+      this._managepeopleService
         .GetAll()
         .subscribe(
         data => {
           data.forEach(element => {
             const id = element._id;
-            const email = element.admin.email;
+            const email = element.person.email;
             const grp = {
               name: email,
               code: id,
