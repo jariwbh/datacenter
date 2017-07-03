@@ -10,6 +10,7 @@ var Setting     = require('../models/setting');
 var Activity     = require('../models/activity');
 var Admin     = require('../models/admin');
 var Point     = require('../models/point');
+var Audit     = require('../models/audit');
 var Formfield     = require('../models/form-field');
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const app = express();
@@ -20,6 +21,34 @@ router.get('/', (req, res) => {
   res.send('api works');
 });
 
+function saveAudit(activity, date, adminid )
+{
+
+    var audit = new Audit();      
+    audit.activity = activity; 
+    audit.date = date; 
+    audit.adminid = adminid;  
+    
+    audit.save(function(err, data) {
+        if (err)
+            res.send(err);
+
+        return "Saved";
+    });
+
+}
+
+router.route('/audit/:adminid')
+    .get(function(req, res) {
+
+        Audit.find({ adminid: req.params.adminid })        
+        .sort({'date': -1})
+        .limit(10)
+        .exec(function(err, audits) {
+            res.json(audits);
+        });
+
+    });
 
 router.route('/point')
     // create a point 
@@ -164,7 +193,7 @@ router.route('/setting')
 
     });
 
-router.route('/person')
+router.route('/person/:adminid')
     // create a person 
     .post(function(req, res) {
 
@@ -175,6 +204,8 @@ router.route('/person')
         person.save(function(err, data) {
             if (err)
                 res.send(err);
+            
+            saveAudit("Person added", Date.now(), req.params.adminid);
 
             res.json(data);
         });
@@ -190,8 +221,41 @@ router.route('/person')
 
     });
 
+
+router.route('/person/province/:province')
+    .get(function(req, res) {
+
+        Person.find({ province: req.params.province }, function (err, docs) {
+            res.json(docs);
+        });
+
+    });
+
+
+router.route('/person/search')
+    .post(function(req, res) {
+
+        var search = req.body.search;
+        if (search=="facebook"){
+            Person.find({ facebookurl: { $ne: null } }, function (err, docs) {
+                res.json(docs);
+            });
+        }
+        else if (search=="twitter"){
+            Person.find({ twitterurl: { $ne: null } }, function (err, docs) {
+                res.json(docs);
+            });
+        }
+        else if (search=="whatsup"){
+            Person.find({ whatsup: { $ne: null } }, function (err, docs) {
+                res.json(docs);
+            });
+        }
+    });
+
+
 router.route('/person/:id')
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    
     .get(function(req, res) {
 
        if (req.params.id) {
@@ -268,9 +332,12 @@ router.route('/formfield/:formname')
     .get(function(req, res) {
 
        if (req.params.formname) {
-            Formfield.find({ formname: req.params.formname }, function (err, docs) {
-                res.json(docs);
-            });
+            Formfield.find({ formname: req.params.formname })
+                    .sort({'formorder': 1})                    
+                    .exec(function(err, formfields) {
+                        res.json(formfields);
+                    });
+
        }
     });
 

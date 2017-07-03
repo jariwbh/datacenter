@@ -9,6 +9,13 @@ var SettingSchema   = new Schema({
     noOfUserInDistrict: Array,
     noOfUserInSocial: Array,
     noOfUsers: Number,
+    addPersonPointsAdmin: Number,    
+    addPointPointsAdmin: Number,    
+    addActivityPointsAdmin: Number,    
+    addhashtagPoints: Number,
+    addfacebookPoints: Number,
+    addtelegramPoints: Number,
+    addOtherPoints: Number,
     websiteTitle: String
 });
 
