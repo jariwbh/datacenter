@@ -50,7 +50,7 @@ router.route('/audit/:adminid')
 
     });
 
-router.route('/point')
+router.route('/point/:adminid')
     // create a point 
     .post(function(req, res) {
 
@@ -64,6 +64,8 @@ router.route('/point')
         point.save(function(err, data) {
             if (err)
                 res.send(err);
+            
+            saveAudit("Point added", Date.now(), req.params.adminid);
 
             res.json(data);
         });
@@ -115,7 +117,7 @@ router.route('/dashboard/province')
 router.route('/lookup/area')
     
     .get(function(req, res) {        
-        console.log("Api called");
+        
         Area.find(function (err, docs) {            
             //console.log(docs);
             res.json(docs);
@@ -520,7 +522,7 @@ router.route('/admin/:id')
     });
 
 
-router.route('/activity')
+router.route('/activity/:adminid')
     // create a person 
     .post(function(req, res) {
 
@@ -536,6 +538,8 @@ router.route('/activity')
         activity.save(function(err, data) {
             if (err)
                 res.send(err);
+
+            saveAudit("Activity added", Date.now(), req.params.adminid);
 
             res.json(data);
         });
