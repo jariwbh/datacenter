@@ -44,19 +44,38 @@ export class ManageActivityComponent {
           } else {
             element.customClass = 'timeline-inverted';
           }
+          
+
+          let startDateTime = new Date(element['createdAt']); 
+          let startStamp = startDateTime.getTime();
+          element.customSinceTime = this.updateClock(startStamp);
+          
         cnt++;
-        });
+      });
+      //console.log(this._allActivites);
       });
   }
+
   
-  convertDate(inputFormat: any) {
-        function pad(s: any) { return (s < 10) ? '0' + s : s; }
-        let d = new Date(inputFormat);
-        return [pad(d.getMonth() + 1), pad(d.getDate()), d.getFullYear()].join('/');
-  }
+  updateClock(startStamp) {
+    let newDate = new Date();
+    let newStamp = newDate.getTime();
+    let diff = Math.round((newStamp-startStamp)/1000);
+    
+    let d = Math.floor(diff/(24*60*60)); /* though I hope she won't be working for consecutive days :) */
+    diff = diff-(d*24*60*60);
+    let h = Math.floor(diff/(60*60));
+    diff = diff-(h*60*60);
+    let m = Math.floor(diff/(60));
+    diff = diff-(m*60);
+    let s = diff;
+    
+    return  d + " day(s), " + h + " hour(s), " + m + " minute(s), " + s + " second(s) ago";
+}
+
 
   edit(id: any) {
-    this._router.navigate(['/pages/activities/add-activity/form/' + id ]);
+    this._router.navigate(['/pages/activities/add-activity/form/' + id]);
   }
 
   delete(id: any) { 
