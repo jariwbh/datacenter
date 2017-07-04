@@ -15,13 +15,16 @@
                     novalidate 
                     class="form-horizontal">
                     
+                    
                     <div class="form-group">
                         <label for="input01">List of User</label>
                         <div class="horizontal-scroll" style="margin-top: 20px;">
-                            <table class="table table-bordered">
+                            <div *ngIf="_loadData" class="center"> 
+                                <img src="assets/img/loader1.gif">
+                            </div>
+                            <table class="table table-bordered" [ngClass]="_tableVisibility ? 'show' : 'hide'">
                                 <thead>
                                     <tr>
-                                        <th class="browser-icons"><input type="checkbox"></th>
                                         <th class="align-right">Full Name</th>
                                         <th class="align-right">Email</th>
                                         <th class="align-right">Province</th>
@@ -36,7 +39,8 @@
                                         <td class="align-right"></td>
                                         <td class="align-right"></td>
                                         <td class="align-right">
-                                            <select 
+                                            <select
+                                                id="provice"
                                                 (change)="onChangeProvince($event.target.value)"
                                                 class="form-control">
                                                 <option>----</option>
@@ -45,6 +49,7 @@
                                         </td>
                                         <td class="align-right">
                                             <select 
+                                                id="district"
                                                 (change)="onChangeDistrict($event.target.value)"
                                                 class="form-control">
                                                 <option>----</option>
@@ -53,6 +58,7 @@
                                         </td>
                                         <td class="align-right">
                                             <select 
+                                                id="area"
                                                 (change)="onChangeArea($event.target.value)"
                                                 class="form-control">
                                                 <option>----</option>
@@ -62,7 +68,6 @@
                                         <td class="align-right"></td>
                                     </tr>
                                     <tr *ngFor="let user of pagedItems">
-                                        <td class="align-right"> <input type="checkbox"> </td>
                                         <td class="align-right">{{ user.fullname }}</td>
                                         <td class="align-right"><a class="email-link" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
                                         <td class="align-right">{{ user.province }}</td>
@@ -74,7 +79,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <nav class="ng2-smart-pagination-nav">
+                            <nav class="ng2-smart-pagination-nav" [ngClass]="_tableVisibility ? 'show' : 'hide'">
                                 <ul *ngIf="pager.pages && pager.pages.length" class="ng2-smart-pagination pagination">
                                     <li [ngClass]="{disabled:pager.currentPage === 1}">
                                         <a (click)="setPage(1)" class="ng2-smart-page-link page-link">

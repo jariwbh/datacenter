@@ -9,7 +9,7 @@ import { PagerService } from '../../core/services/common/pager.service';
 import { FieldsService } from '../../core/services/dynamic-fields/fields.service';
 import { UsersService } from '../../core/services/users/users.service';
 
-import { Message  } from 'primeng/primeng';
+import { Message } from 'primeng/primeng';
 
 import { ConfirmationService } from 'primeng/primeng';
 
@@ -17,6 +17,7 @@ import { ConfirmationService } from 'primeng/primeng';
 @Component({
   selector: 'nga-points',
   templateUrl: './points.html',
+  styleUrls: ['./points.scss'],
 })
 export class PointsComponent {
 
@@ -44,6 +45,9 @@ export class PointsComponent {
   _districtOptionLists: any[] = [];
   _areaOptionLists: any[] = [];
 
+  _loadData = false;
+  _tableVisibility = true;
+
 constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -63,97 +67,154 @@ constructor(
     });
 }
 
-ngOnInit() {
-    this.getAllUsers();
-    this.getAllProvince();
-    this.getAllDistrict();
-    this.getAllArea();
-}
+    ngOnInit() {
+        this.getAllUsers();
+        this.getAllProvince();
+        this.getAllDistrict();
+        this.getAllArea();
+    }
 
-getAllProvince() {
-    this._fieldsService
-          .GetAllProvince()
-          .subscribe(
-          data => {
-            this._provinceLists  = data;
-        });
-  }
-  getAllDistrict() {
-    this._fieldsService
-          .GetAllDistrict()
-          .subscribe(
-          data => {
-            this._districtLists  = data;
-            this._districtLists.forEach(element => {
-              const index = element.province;
-              if ( !this._districtBasedOnProvince[index] ) {
-                this._districtBasedOnProvince[index] = [];
-              }
-              this._districtBasedOnProvince[index].push(element.district);
+    getAllProvince() {
+        this._fieldsService
+            .GetAllProvince()
+            .subscribe(
+            data => {
+                this._provinceLists  = data;
             });
-            
-        });
-  }
-  getAllArea() {
-    this._fieldsService
-          .GetAllArea()
-          .subscribe(
-          data => {
-            this._areaLists  = data;
-            this._areaLists.forEach(element => {
-              const index = element.province;
-              if ( !this._areaBasedOnProvince[index] ) {
-                this._areaBasedOnProvince[index] = [];
-              }
-              this._areaBasedOnProvince[index].push(element.area);
+    }
+    getAllDistrict() {
+        this._fieldsService
+            .GetAllDistrict()
+            .subscribe(
+            data => {
+                this._districtLists  = data;
+                this._districtLists.forEach(element => {
+                const index = element.province;
+                if ( !this._districtBasedOnProvince[index] ) {
+                    this._districtBasedOnProvince[index] = [];
+                }
+                this._districtBasedOnProvince[index].push(element.district);
+                });
+                
             });
-            
-        });
-  }
+    }
+
+    getAllArea() {
+        this._fieldsService
+            .GetAllArea()
+            .subscribe(
+            data => {
+                this._areaLists  = data;
+                this._areaLists.forEach(element => {
+                const index = element.province;
+                if ( !this._areaBasedOnProvince[index] ) {
+                    this._areaBasedOnProvince[index] = [];
+                }
+                this._areaBasedOnProvince[index].push(element.area);
+                });
+                
+            });
+    }
 
 
-getAllUsers() {
+    getAllUsers() {
+        this._usersService
+            .GetAll()
+            .subscribe( data => {
+                data.forEach(element => {
+                    element.admin['id'] = element._id;
+                    this._allUsers.push(element.admin);
+                });
+                if (this._allUsers.length == 0) {
+                    this._tableVisibility = false;
+                } else {
+                    this._tableVisibility = true;
+                }
+                //initialize to page 1
+                this.setPage(1);
+            });
+    }
+
+    setPage(page: number) {
+        if (page < 1 || page > this.pager.totalPages) {
+            return;
+        }
+        // get pager object from service
+        this.pager = this.pagerService.getPager(this._allUsers.length, page);
+        // get current page of items
+        this.pagedItems = this._allUsers.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    }
+
+    onSubmit(value: any, isValid: boolean) {
+        this.submitted = true;
+        if (!isValid) {
+            this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
+            return false;
+        } else {
+            console.log('here');
+        }
+    }
+
+    onChangeProvince(value: any) {
+        
+        this._allUsers = [];
+        this.pagedItems = [];
+        
+        this._tableVisibility = false;
+        this.FilteredUsers('province', value);
+
+        this._districtOptionLists = [];
+        this._areaOptionLists = [];
+
+        this._districtOptionLists = this._districtBasedOnProvince[value];
+        this._areaOptionLists = this._areaBasedOnProvince[value];
+    }
+
+    onChangeDistrict(value: any) {
+        this._tableVisibility = false;
+        this.FilteredUsers('district', value);
+    }
+
+    onChangeArea(value: any) {
+        this._tableVisibility = false;
+        this.FilteredUsers('area', value);
+    }
+
+    FilteredUsers(type, value) {
+    this._loadData = true;
+    this._allUsers = [];
     this._usersService
         .GetAll()
         .subscribe( data => {
             data.forEach(element => {
-                this._allUsers.push(element.admin);
+                if (type == 'province') {
+                    if (element.admin.province == value) {
+                        element.admin['id'] = element._id;
+                        this._allUsers.push(element.admin);
+                    }
+                }
+                if (type == 'district') {
+                    if (element.admin.district == value) {
+                        element.admin['id'] = element._id;
+                        this._allUsers.push(element.admin);
+                    }
+                }
+                if (type == 'area') {
+                    if (element.admin.area == value) {
+                        element.admin['id'] = element._id;
+                        this._allUsers.push(element.admin);
+                    }
+                }
             });
-            console.log(this._allUsers);
-            //initialize to page 1
-            this.setPage(1);
+            setTimeout(() => {   
+                if (this._allUsers.length !== 0) {
+                    //initialize to page 1
+                    this.setPage(1);
+                }
+                this._tableVisibility = true;
+                this._loadData = false;
+            }, 1500);
+            
         });
-}
-
-setPage(page: number) {
-    if (page < 1 || page > this.pager.totalPages) {
-        return;
-    }
-    // get pager object from service
-    this.pager = this.pagerService.getPager(this._allUsers.length, page);
-    // get current page of items
-    this.pagedItems = this._allUsers.slice(this.pager.startIndex, this.pager.endIndex + 1);
-  }
-
-onSubmit(value: any, isValid: boolean) {
-    this.submitted = true;
-      if (!isValid) {
-          this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
-          return false;
-      } else {
-          console.log('here');
-      }
-  }
-
-onChangeProvince(value: any) {
-    
-    this._allUsers = [];
-    this.pagedItems = [];
-    
-    this._districtOptionLists = [];
-    this._areaOptionLists = [];
-
-    this._districtOptionLists = this._districtBasedOnProvince[value];
-    this._areaOptionLists = this._areaBasedOnProvince[value];
 }
 }
