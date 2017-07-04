@@ -36,7 +36,7 @@ export class FieldsService {
 
     public Add = (data: any): Observable<any> => {
        const toAdd = JSON.stringify(data);
-       return this.http.post(this.actionUrl + 'formfield/add/', toAdd, { headers: this.headers })
+       return this.http.post(this.actionUrl + 'formfield/add', toAdd, { headers: this.headers })
            .map(res => <any>res.json());
     }
 

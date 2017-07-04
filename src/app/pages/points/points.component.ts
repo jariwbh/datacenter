@@ -13,6 +13,8 @@ import { Message } from 'primeng/primeng';
 
 import { ConfirmationService } from 'primeng/primeng';
 
+import { AuthService } from '../../core/services/common/auth.service';
+
 
 @Component({
   selector: 'nga-points',
@@ -27,6 +29,7 @@ export class PointsComponent {
   submitted: boolean;
   
   msgs: Message[] = [];
+  errorMsgs: Message[] = [];
 
   _allUsers: any[] = [];
  
@@ -48,6 +51,11 @@ export class PointsComponent {
   _loadData = false;
   _tableVisibility = true;
 
+  _selectedUsersLists: any[] = [];
+  _selectedUsers: any[] = [];
+
+  authId: string;
+
 constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -56,13 +64,16 @@ constructor(
     private _usersService: UsersService,
     private pagerService: PagerService,
     private _fieldsService: FieldsService,
-    private confirmationService: ConfirmationService) {
+    private confirmationService: ConfirmationService,
+    private _authService: AuthService) {
+
+    if (this._authService.auth_id === '') {
+      this.authId = null;
+    } else {
+      this.authId = this._authService.auth_id;
+    }
 
     this.form = fb.group({
-        'type': [this._pointsModel.type, Validators.required],
-        'province': [this._pointsModel.province],
-        'district': [this._pointsModel.district],
-        'area': [this._pointsModel.area],
         'points': [this._pointsModel.points, Validators.required],
     });
 }
@@ -143,6 +154,13 @@ constructor(
         this.pager = this.pagerService.getPager(this._allUsers.length, page);
         // get current page of items
         this.pagedItems = this._allUsers.slice(this.pager.startIndex, this.pager.endIndex + 1);
+        this.pagedItems.forEach(element => {
+            this._selectedUsersLists.forEach(ele => {
+                if (ele.id == element.id) {
+                    element.disabled = true;
+                }
+            });
+        });
     }
 
     onSubmit(value: any, isValid: boolean) {
@@ -151,17 +169,52 @@ constructor(
             this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
             return false;
         } else {
-            console.log('here');
+            if (this._selectedUsersLists.length == 0) {
+                this.msgs = [];
+                this.msgs.push({
+                    severity: 'error', 
+                    summary: 'Error Message', 
+                    detail: 'Select atleast one User',
+                });
+            } else {
+                this._selectedUsersLists.forEach(element => {
+                    let grp = {
+                        name : element.fullname,
+                        id : element.id,
+                    };
+                    this._selectedUsers.push(grp);
+                });
+                this._pointsModel.points = value.points;
+                this._pointsModel.users = this._selectedUsers;
+                if (this.authId) {
+                    this._pointsService
+                        .Add(this.authId, this._pointsModel)
+                        .subscribe(data => {
+                            this.msgs = [];
+                            this.msgs.push({
+                                severity: 'success', 
+                                summary: 'Success Message', 
+                                detail: 'Point has been added Successfully!!',
+                            });
+                            this._router.navigate(['./pages/points']);
+                        });
+                }
+                
+            }
         }
     }
 
     onChangeProvince(value: any) {
-        
         this._allUsers = [];
         this.pagedItems = [];
         
         this._tableVisibility = false;
-        this.FilteredUsers('province', value);
+        if (value == '') {
+            this.getAllUsers();
+        } else {
+            this.FilteredUsers('province', value);
+        }
+        
 
         this._districtOptionLists = [];
         this._areaOptionLists = [];
@@ -171,18 +224,41 @@ constructor(
     }
 
     onChangeDistrict(value: any) {
+        let areaValue = <HTMLInputElement> document.getElementById('area');
+        areaValue.value = '';
         this._tableVisibility = false;
-        this.FilteredUsers('district', value);
+        if (value == '') {
+            let proviceValue = <HTMLInputElement> document.getElementById('provice');
+            if (proviceValue) {
+                this.FilteredUsers('province', proviceValue.value);
+            } else {
+                this.getAllUsers();
+            }
+        } else {
+            this.FilteredUsers('district', value);
+        }
+        
     }
-
     onChangeArea(value: any) {
+        let districtValue = <HTMLInputElement> document.getElementById('district');
+        districtValue.value = '';
         this._tableVisibility = false;
-        this.FilteredUsers('area', value);
+        if (value == '') {
+            let proviceValue = <HTMLInputElement> document.getElementById('provice');
+            if (proviceValue) {
+                this.FilteredUsers('province', proviceValue.value);
+            } else {
+                this.getAllUsers();
+            }
+        } else {
+            this.FilteredUsers('area', value);
+        }
+        
     }
 
     FilteredUsers(type, value) {
-    this._loadData = true;
-    this._allUsers = [];
+        this._loadData = true;
+        this._allUsers = [];
     this._usersService
         .GetAll()
         .subscribe( data => {
@@ -216,5 +292,50 @@ constructor(
             }, 1500);
             
         });
-}
+    }
+    addUser(users: any) {
+        this._selectedUsersLists.push(users);
+        let ischecked = <HTMLInputElement> document.getElementById('addbtn_' + users.id);
+        ischecked.disabled = true;
+
+    }
+    selectAll() {
+        let proviceValue = <HTMLInputElement> document.getElementById('provice');
+        if (proviceValue.value == '') {
+            this.errorMsgs = [];
+            this.errorMsgs.push({ severity: 'error', summary: 'Error Message', detail: 'Select provice failed' });
+        } else {
+            let districtValue = <HTMLInputElement> document.getElementById('district');
+            let areaValue = <HTMLInputElement> document.getElementById('area');
+            if (districtValue.value !== '' || areaValue.value !== '' || proviceValue.value !== '') {
+                if (this._allUsers.length !== 0) {
+                    this._allUsers.forEach(element => {
+                        let existValue = this.checkUserExistsornot(element.id, this._selectedUsersLists);
+                        if (existValue == 0) {
+                            element.disabled = true;
+                            this._selectedUsersLists.push(element);
+                        }
+                    });
+                    this.msgs = [];
+                    this.msgs.push({ 
+                        severity: 'success', summary: 'Success Message', detail: 'User Added Successfully!!',
+                    });
+                } else {
+                   this.errorMsgs = [];
+                    this.errorMsgs.push({ 
+                        severity: 'error', summary: 'Error Message', detail: 'No User Found!!',
+                    }); 
+                }
+            }
+        }
+    }
+    checkUserExistsornot(id: number, array: any) {
+        let cnt = 0;
+        for (let i in array) {
+            if (array[i].id == id) {
+                cnt++;
+            }
+        }
+        return cnt;
+    }
 }

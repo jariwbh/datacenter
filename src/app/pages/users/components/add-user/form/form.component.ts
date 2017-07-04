@@ -84,6 +84,7 @@ export class FormComponent {
 
    isidexist: boolean;
    authRole: string;
+   authId: string;
 
   constructor(
     private fb: FormBuilder,
@@ -93,6 +94,13 @@ export class FormComponent {
     private _usersService: UsersService,
     private _authService: AuthService,
     private confirmationService: ConfirmationService) {
+
+      if (this._authService.auth_id === '') {
+        this.authId = null;
+      } else {
+        this.authId = this._authService.auth_id;
+      }
+
 
       if (this._authService.auth_user.role === '') {
         this.authRole = null;
@@ -340,22 +348,22 @@ export class FormComponent {
           }
         });
         if (cnt == 0) {
-          this._usersService
-            .Add(value)
-            .subscribe(
-            data => {
-              if (data) {
-                this._needToSaveData = data['admin'];
-                this.bindId = data._id;
-              }
-              this.msgs = [];
-              this.msgs.push ({ 
-                severity: 'info', summary: 'Insert Message', detail: 'Admin has been added Successfully!!!' });
-              this._completedStep = 2;
-              this.informationVisibilty = false;
-              this.usernamepasswordVisibilty = true;
-              this.accesscontrolVisibilty = false;
-          });  
+            this._usersService
+              .Add(value)
+              .subscribe(
+              data => {
+                if (data) {
+                  this._needToSaveData = data['admin'];
+                  this.bindId = data._id;
+                }
+                this.msgs = [];
+                this.msgs.push ({ 
+                  severity: 'info', summary: 'Insert Message', detail: 'Admin has been added Successfully!!!' });
+                this._completedStep = 2;
+                this.informationVisibilty = false;
+                this.usernamepasswordVisibilty = true;
+                this.accesscontrolVisibilty = false;
+            });  
         }
       }
   }
@@ -514,25 +522,24 @@ export class FormComponent {
             }
           });
           if (cnt === 0 ) {
-            this._fieldsService
-              .Add(this._fieldsModel)
-              .subscribe(
-              data => {
-                const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
-                if (isClosed) {
-                  isClosed.click();
-                  this.getAllFields();
-                  this.clearFormFields();
-                          this.msgs = [];
-                          this.msgs.push ({ 
-  severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
-                  
-                }
-            });
-
+              this._fieldsService
+                .Add(this._fieldsModel)
+                .subscribe(
+                data => {
+                  const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+                  if (isClosed) {
+                    isClosed.click();
+                    this.getAllFields();
+                    this.clearFormFields();
+                            this.msgs = [];
+                            this.msgs.push ({ 
+    severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
+                    
+                  }
+              });
           } else {
 
-            this.msgs = [];
+          this.msgs = [];
           this.msgs.push ({ 
                   severity: 'error', summary: 'Error  Message', detail: 'Label Name Already Exist.!!!' });
           this.labelnameVisibility = true;
