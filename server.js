@@ -5,9 +5,6 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 
-// Get our API routes
-const api = require('./server/routes/api');
-
 const app = express();
 
 // Parsers for POST data
@@ -17,9 +14,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Point static path to public
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Get our API routes
+const api = require('./server/routes/api');
 // Set our api routes
 app.use('/api', api);
-
 // app.use(function(req, res, next) {
 
 //   // check header or url parameters or post parameters for token

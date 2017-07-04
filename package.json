@@ -61,6 +61,7 @@
     "ammap3": "github:amcharts/ammap3",
     "angular2-datatable": "0.6.0",
     "animate.css": "3.5.2",
+    "app-root-dir": "^1.0.2",
     "body-parser": "^1.17.2",
     "bootstrap": "4.0.0-alpha.6",
     "chart.js": "1.1.1",
@@ -94,6 +95,7 @@
     "quill": "^1.2.6",
     "roboto-fontface": "0.7.0",
     "rxjs": "5.4.0",
+    "uuid": "^3.1.0",
     "zone.js": "0.8.11"
   },
   "devDependencies": {

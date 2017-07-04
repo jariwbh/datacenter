@@ -14,6 +14,8 @@ var Audit     = require('../models/audit');
 var Formfield     = require('../models/form-field');
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const app = express();
+var appRoot = require('app-root-path');
+var uuid  = require('uuid');
 app.set('superSecret',"datacenter");
 
 /* GET api listing. */
@@ -574,31 +576,29 @@ router.route('/activity/:person')
        }
     });
 
-app.use(fileUpload());
+router.use(fileUpload());
  
-app.route('/upload')
+router.route('/upload')
 
     .post(function(req, res) {
 
-        console.log("Api called" + req);
-
         if (!req.files)
-        {
-            console.log("Api called INSIDE");            
+        {                   
             return res.status(400).send('No files were uploaded.');
         }
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file 
-        let sampleFile = req.files.sampleFile;
-        
+        let sampleFile = req.files.sampleFile;        
+        var fileextn = sampleFile.name.substring(sampleFile.name.lastIndexOf("."));
+        var filename = uuid.v1() + fileextn;
         // Use the mv() method to place the file somewhere on your server 
-        console.log(sampleFile.name);
         
-        sampleFile.mv('/uploads/' + sampleFile.name, function(err) {
+        sampleFile.mv(appRoot + '/public/uploads/' + filename, function(err) {
             if (err)
-            return res.status(500).send(err);
-        
-            res.send('File uploaded!');
-        });
-        console.log("Api called end");
+            {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+            res.send('/uploads/' + filename);
+        });        
 });
 module.exports = router;
