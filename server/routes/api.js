@@ -534,6 +534,10 @@ router.route('/activity/:adminid')
         activity.profileimage = req.body.profileimage;  // set the bears name (comes from the request)
         activity.url = req.body.url;  // set the bears name (comes from the request)
         activity.points = req.body.points;  // set the bears name (comes from the request)
+        activity.province = req.body.province;  // set the bears name (comes from the request)
+        activity.district = req.body.district;  // set the bears name (comes from the request)
+        activity.area = req.body.area;  // set the bears name (comes from the request)
+
         // save the person and check for errors
         activity.save(function(err, data) {
             if (err)
@@ -544,6 +548,35 @@ router.route('/activity/:adminid')
             res.json(data);
         });
 
+    });
+
+router.route('/activity/:id')
+    .put(function(req, res) {
+        // use our bear model to find the bear we want
+        console.log(req.params.id);
+        Activity.findById(req.params.id, function(err, activity) {
+            if (err)
+                res.send(err);
+
+            activity.name = req.body.name;  // set the bears name (comes from the request)
+            activity.description = req.body.description;  // set the bears name (comes from the request)
+            activity.type = req.body.type;  // set the bears name (comes from the request)
+            activity.persons = req.body.persons;  // set the bears name (comes from the request)
+            activity.profileimage = req.body.profileimage;  // set the bears name (comes from the request)
+            activity.url = req.body.url;  // set the bears name (comes from the request)
+            activity.points = req.body.points;  // set the bears name (comes from the request)
+            activity.province = req.body.province;  // set the bears name (comes from the request)
+            activity.district = req.body.district;  // set the bears name (comes from the request)
+            activity.area = req.body.area;  // set the bears name (comes from the request)
+
+            // save the bear
+            activity.save(function(err, data) {
+                if (err)
+                    res.send(err);
+                res.json(data);
+            });
+
+        });
     });
 
 router.route('/activity')
@@ -564,6 +597,33 @@ router.route('/activity/:person')
                 res.json(docs);
             });
        }
+    });
+
+router.route('/activityById/:id')
+   // create a bear (accessed at POST http://localhost:8080/api/bears)
+    .get(function(req, res) {
+
+       if (req.params.id) {
+            Activity.findById(req.params.id, function (err, docs) {
+                res.json(docs);
+            });
+       }
+    });
+
+
+
+router.route('/activity/:id')
+    .delete(function(req, res) {
+
+        Activity.remove({
+            _id: req.params.id
+        }, function(err, point) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+
     });
 
 app.use(fileUpload());

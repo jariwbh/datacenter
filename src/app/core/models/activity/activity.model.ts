@@ -7,4 +7,7 @@ export class ActivityModel {
     profileimage: string;
     url: string;
     points: number;
+    province: string;
+    district: string;
+    area: string;
 }

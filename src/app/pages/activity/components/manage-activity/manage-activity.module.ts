@@ -10,6 +10,9 @@ import { AppTranslationModule } from '../../../../app.translation.module';
 
 import { ActivityService } from '../../../../core/services/activity/activity.service';
 
+import { ConfirmDialogModule, ConfirmationService, GrowlModule } from 'primeng/primeng';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -17,12 +20,15 @@ import { ActivityService } from '../../../../core/services/activity/activity.ser
     FormsModule,
     NgaModule,
     routing,
+    ConfirmDialogModule,
+    GrowlModule,
   ],
   declarations: [
     ManageActivityComponent,
   ],
   providers: [
     ActivityService,
-  ]
+    ConfirmationService,
+  ],
 })
 export class ManageActivityModule {}

@@ -1,14 +1,18 @@
 <section class="manageactivity">
+    <p-growl [value]="msgs"></p-growl>
+    <p-confirmDialog></p-confirmDialog>
     <div class="row">
         <div class="col-md-12">
             <ba-card title="Activity Timeline" baCardClass="with-scroll">
                 <ul class="timeline">
-                    <li><div class="tldate">Apr 2014</div></li>
+                    <!--<li><div class="tldate">Apr 2014</div></li>-->
                     <li *ngFor="let act of _allActivites" [class]="act.customClass">
                         <div class="tl-circ"></div>
                         <div class="timeline-panel">
                             <div class="tl-heading">
                             <h4>{{act.name}}</h4>
+                            <a class="pull-right ng2-smart-action ng2-smart-action-delete-delete" style="cursor: pointer; margin-left: 10px;color: #285eb8;text-decoration: none !important;transition: color 0.2s ease;" (click)="delete(act._id)"><i class="ion-trash-a"></i></a>
+                            <a class="pull-right ng2-smart-action ng2-smart-action-edit-edit" (click)="edit(act._id)" style="cursor: pointer; color: #285eb8;text-decoration: none !important;transition: color 0.2s ease;"><i class="ion-edit"></i></a>
                             <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 3 hours ago</small></p>
                             </div>
                             <div class="tl-body">

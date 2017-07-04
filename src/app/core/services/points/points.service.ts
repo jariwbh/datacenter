@@ -34,9 +34,9 @@ export class PointsService {
            .map(res => <any>res.json());
     }
 
-    public Add = (data: any): Observable<any> => {
+    public Add = (loginId: any, data: any): Observable<any> => {
        const toAdd = JSON.stringify(data);
-       return this.http.post(this.actionUrl + 'point', toAdd, { headers: this.headers })
+       return this.http.post(this.actionUrl + 'point/' + loginId, toAdd, { headers: this.headers })
            .map(res => <any>res.json());
     }
 

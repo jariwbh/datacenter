@@ -11,6 +11,9 @@ var ActivitySchema   = new Schema({
     profileimage:String,
     url:String,
     points:Number,
+    province: String,
+    district: String,
+    area: String,
     createdAt: { type: Date, default: Date.now }
 });
 

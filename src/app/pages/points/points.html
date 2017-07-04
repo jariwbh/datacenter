@@ -1,10 +1,12 @@
 
 
 <div class="widgets">
+    
 
+    <p-growl [value]="errorMsgs"></p-growl>
     <p-growl [value]="msgs"></p-growl>
-    <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-    <p-messages [(value)]="msgs"></p-messages>
+    <!--<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+    <p-messages [(value)]="msgs"></p-messages>-->
 
     <div class="row">
         <div class="col-md-8">
@@ -17,11 +19,18 @@
                     
                     
                     <div class="form-group">
+                        <button
+                            (click)="selectAll()"
+                            type="button" 
+                            class="btn btn-info btn-raised pull-right">
+                            Select All
+                        </button>
                         <label for="input01">List of User</label>
                         <div class="horizontal-scroll" style="margin-top: 20px;">
                             <div *ngIf="_loadData" class="center"> 
                                 <img src="assets/img/loader1.gif">
                             </div>
+                            
                             <table class="table table-bordered" [ngClass]="_tableVisibility ? 'show' : 'hide'">
                                 <thead>
                                     <tr>
@@ -37,13 +46,12 @@
                                     <tr>
                                         <td class="align-right"></td>
                                         <td class="align-right"></td>
-                                        <td class="align-right"></td>
                                         <td class="align-right">
                                             <select
                                                 id="provice"
                                                 (change)="onChangeProvince($event.target.value)"
                                                 class="form-control">
-                                                <option>----</option>
+                                                <option value="">----</option>
                                                 <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
                                             </select>
                                         </td>
@@ -52,7 +60,7 @@
                                                 id="district"
                                                 (change)="onChangeDistrict($event.target.value)"
                                                 class="form-control">
-                                                <option>----</option>
+                                                <option value="">----</option>
                                                 <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
                                             </select>
                                         </td>
@@ -61,7 +69,7 @@
                                                 id="area"
                                                 (change)="onChangeArea($event.target.value)"
                                                 class="form-control">
-                                                <option>----</option>
+                                                <option value="">----</option>
                                                 <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
                                             </select>
                                         </td>
@@ -74,7 +82,7 @@
                                         <td class="align-right">{{ user.district }}</td>
                                         <td class="align-right">{{ user.area }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-warning">Add</button>
+                                            <button  [disabled]="user.disabled" id="addbtn_{{user.id}}" type="button" class="btn btn-warning" (click)="addUser(user)">Add</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -116,6 +124,15 @@
                         </div>
                     </div>
                     
+                    <div class="form-group" *ngIf="_selectedUsersLists">
+                        <label for="input01">Selected Users</label>
+                        <div>
+                            <ul>
+                                <li *ngFor="let user of _selectedUsersLists">{{ user.email }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="input01">Points</label>
                         <input type="text" class="form-control" formControlName="points" [(ngModel)]="_pointsModel.points">
