@@ -104,6 +104,11 @@ export class ManagePeopleComponent {
                   this._peoplelist.push(element.person);
                 }
               });
+               if (this._peoplelist.length > 0) {
+                this.showPeopleList = false;
+              } else {
+                this.showPeopleList = true;
+              }
             }
         });
   }
