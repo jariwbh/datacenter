@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { CommonDataService } from './../../../core/services/common/common-data.service';
 import { Component } from '@angular/core';
 
 import { TrafficChartService } from './trafficChart.service';
@@ -16,12 +18,20 @@ export class TrafficChart {
   mapData:Object;
 
   constructor(
-    private trafficChartService: TrafficChartService) {
+    private trafficChartService: TrafficChartService, private _CommonDataService: CommonDataService, 
+   private _router: Router) {
     this.doughnutData = trafficChartService.getData();
   }
 
   ngAfterViewInit() {
     //this._loadDoughnutCharts();
+  }
+
+   goToPeopleListView (provinceData: any ) {
+     //console.log(provinceData);
+          this._CommonDataService.filterDataBy = 'province';
+          this._CommonDataService.filterData = provinceData;
+          this._router.navigate(['/pages/peoples/manage-people']);
   }
 
   private _loadDoughnutCharts() {

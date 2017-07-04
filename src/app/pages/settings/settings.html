@@ -32,13 +32,12 @@
           <div class="col-sm-2">
             <!--<input type="number" min="0" [disabled]="!_DistrictCountModel.area" formControlName="count" id="count" [value]="" class="form-control"
               placeholder="Count" [(ngModel)]="_AreaCountModel.count">-->
-              <input type="number" min="0" formControlName="count" id="count" [value]="" class="form-control"
-              placeholder="Count" [(ngModel)]="_ProvinceCountModel.count">
+            <input type="number" min="0" formControlName="count" id="count" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_ProvinceCountModel.count">
           </div>
           <div class="col-sm-1">
-            <button [disabled]="!_ProvinceCountModel.count ||!_ProvinceCountModel.province "
-              (click)="addProvinceCountSettings()" type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>
-<!--<button (click)="addAreaCountSettings()" type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>-->
+            <button [disabled]="!_ProvinceCountModel.count ||!_ProvinceCountModel.province " (click)="addProvinceCountSettings()" type="button"
+              class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>
+            <!--<button (click)="addAreaCountSettings()" type="button" class="btn btn-danger btn-icon"><i class="ion-plus"></i></button>-->
           </div>
         </form>
         <!--</div>-->
@@ -101,8 +100,7 @@
           <div class="col-sm-2">
             <!--<input type="number" min="0" [disabled]="!_DistrictCountModel.district" formControlName="count" id="count" [value]="" class="form-control"
               placeholder="Count" [(ngModel)]="_DistrictCountModel.count">-->
-              <input type="number" min="0" formControlName="count" id="count" [value]="" class="form-control"
-              placeholder="Count" [(ngModel)]="_DistrictCountModel.count">
+            <input type="number" min="0" formControlName="count" id="count" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_DistrictCountModel.count">
           </div>
           <div class="col-sm-1">
             <button [disabled]="!_DistrictCountModel.count || !_DistrictCountModel.district || !_DistrictCountModel.province" (click)="addDistrictCountSettings()"
@@ -171,8 +169,7 @@
           <div class="col-sm-2">
             <!--<input type="number" min="0" [disabled]="!_DistrictCountModel.district" formControlName="count" id="count" [value]="" class="form-control"
               placeholder="Count" [(ngModel)]="_DistrictCountModel.count">-->
-              <input type="number" min="0" formControlName="count" id="count" [value]="" class="form-control"
-              placeholder="Count" [(ngModel)]="_AreaCountModel.count">
+            <input type="number" min="0" formControlName="count" id="count" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_AreaCountModel.count">
           </div>
           <div class="col-sm-1">
             <button [disabled]="!_AreaCountModel.count || !_AreaCountModel.area || !_AreaCountModel.province" (click)="addAreaCountSettings()"
@@ -202,7 +199,7 @@
                       <td>{{ item.area }}</td>
                       <td>{{ item.count }}</td>
                       <td><button (click)="removeAreaCountSettings(item)" type="button" class="btn btn-danger btn-icon"><i class="ion-minus"></i></button></td>
-                     
+
                     </tr>
                   </tbody>
                 </table>
@@ -220,13 +217,15 @@
               <div class="form-group row">
                 <label for="facebook" class="col-sm-4 control-label">Facebook User Count</label>
                 <div class="col-sm-6">
-                  <input type="number" min="0" formControlName="facebookUserCount" id="facebook" name="facebook" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.facebookUserCount">
+                  <input type="number" min="0" formControlName="facebookUserCount" id="facebook" name="facebook" [value]="" class="form-control"
+                    placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.facebookUserCount">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="whatsApp" class="col-sm-4 control-label">WhatsApp User Count</label>
                 <div class="col-sm-6">
-                  <input type="number" min="0" formControlName="whatsAppUserCount" id="whatsApp" name="whatsApp" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.whatsAppUserCount">
+                  <input type="number" min="0" formControlName="whatsAppUserCount" id="whatsApp" name="whatsApp" [value]="" class="form-control"
+                    placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.whatsAppUserCount">
                 </div>
               </div>
             </div>
@@ -234,13 +233,15 @@
               <div class="form-group row">
                 <label for="twitter" class="col-sm-4 control-label">Twitter User Count</label>
                 <div class="col-sm-6">
-                  <input type="number" min="0" formControlName="twitterUserCount" id="twitter" name="twitter" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.twitterUserCount">
+                  <input type="number" min="0" formControlName="twitterUserCount" id="twitter" name="twitter" [value]="" class="form-control"
+                    placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.twitterUserCount">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="telegram" class="col-sm-4 control-label">Telegram User Count</label>
                 <div class="col-sm-6">
-                  <input type="number" min="0" formControlName="telegramUserCount" id="telegram" name="telegram" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.telegramUserCount">
+                  <input type="number" min="0" formControlName="telegramUserCount" id="telegram" name="telegram" [value]="" class="form-control"
+                    placeholder="Count" [(ngModel)]="_SettingModel.userCountofSocial.telegramUserCount">
                 </div>
               </div>
             </div>
@@ -254,18 +255,92 @@
       <div class="col-md-10">
         <div class="row">
           <div class="col-md-12">
+            <ba-card title="Points Reward For Admin" baCardClass="with-scroll">
+
+              <div class="horizontal-scroll">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group row">
+                      <label for="addPersonPointsAdmin" class="col-sm-3 control-label">For Add Person</label>
+                      <div class="col-sm-6">
+                        <input type="number" min="0" formControlName="addPersonPointsAdmin" id="addPersonPointsAdmin" name="addPersonPointsAdmin" [value]="" class="form-control" placeholder="Count"
+                          [(ngModel)]="_SettingModel.addPersonPointsAdmin">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="addPointPointsAdmin" class="col-sm-3 control-label">For Add Points</label>
+                      <div class="col-sm-6">
+                        <input type="number" min="0" formControlName="addPointPointsAdmin" id="addPointPointsAdmin" name="addPointPointsAdmin" [value]="" class="form-control" placeholder="Count"
+                          [(ngModel)]="_SettingModel.addPointPointsAdmin">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group row">
+                      <label for="addActivityPointsAdmin" class="col-sm-3 control-label">For Add Activity</label>
+                      <div class="col-sm-6">
+                        <input type="number" min="0" formControlName="addActivityPointsAdmin" id="addActivityPointsAdmin" name="addActivityPointsAdmin" [value]="" class="form-control" placeholder="Count"
+                          [(ngModel)]="_SettingModel.addActivityPointsAdmin">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="addhashtagPoints" class="col-sm-3 control-label">Hashtag Points</label>
+                      <div class="col-sm-6">
+                        <input type="number" min="0" formControlName="addhashtagPoints" id="addhashtagPoints" name="addhashtagPoints" [value]="" class="form-control" placeholder="Count"
+                          [(ngModel)]="_SettingModel.addhashtagPoints">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group row">
+                      <label for="addfacebookPoints" class="col-sm-3 control-label">Facebook Points</label>
+                      <div class="col-sm-6">
+                        <input type="number" min="0" formControlName="addfacebookPoints" id="addfacebookPoints" name="addfacebookPoints" [value]="" class="form-control" placeholder="Count"
+                          [(ngModel)]="_SettingModel.addfacebookPoints">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="addOtherPoints" class="col-sm-3 control-label">Other Points</label>
+                      <div class="col-sm-6">
+                        <input type="number" min="0" formControlName="addOtherPoints" id="addOtherPoints" name="addOtherPoints" [value]="" class="form-control" placeholder="Count"
+                          [(ngModel)]="_SettingModel.addOtherPoints">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+
+                    <div class="form-group row">
+                      <label for="addtelegramPoints" class="col-sm-3 control-label">Telegram Points</label>
+                      <div class="col-sm-6">
+                        <input type="number" min="0" formControlName="addtelegramPoints" id="addtelegramPoints" name="addtelegramPoints" [value]="" class="form-control" placeholder="Count"
+                          [(ngModel)]="_SettingModel.addtelegramPoints">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ba-card>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-10">
+        <div class="row">
+          <div class="col-md-12">
             <ba-card class="pie-chart-item-container col-md-12">
               <div class="horizontal-scroll">
                 <div class="form-group row">
                   <label for="total" class="col-sm-2 control-label">Total User Count</label>
                   <div class="col-sm-6">
-                    <input type="number" min="0" formControlName="noOfUsers" id="total" name="total" [value]="" class="form-control" placeholder="Count" [(ngModel)]="_SettingModel.noOfUsers">
+                    <input type="number" min="0" formControlName="noOfUsers" id="total" name="total" [value]="" class="form-control" placeholder="Count"
+                      [(ngModel)]="_SettingModel.noOfUsers">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="webSite" class="col-sm-2 control-label">Name of WebSite</label>
                   <div class="col-sm-6">
-                    <input type="text" formControlName="websiteTitle" id="webSite" name="webSite" [value]="" class="form-control" placeholder="WebSite Name" [(ngModel)]="_SettingModel.websiteTitle">
+                    <input type="text" formControlName="websiteTitle" id="webSite" name="webSite" [value]="" class="form-control" placeholder="WebSite Name"
+                      [(ngModel)]="_SettingModel.websiteTitle">
                   </div>
                 </div>
               </div>

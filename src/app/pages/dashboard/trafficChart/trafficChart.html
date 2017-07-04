@@ -19,10 +19,10 @@
   <div class="channels-info">
 
     <div class="row">
-      <div class="channels-info-item" *ngFor="let item of doughnutData" class="col-6">
+      <div class="channels-info-item" *ngFor="let item of doughnutData" class="col-6" (click)="goToPeopleListView(item.label)" style="cursor:pointer">
         
         <div class="legend-color" [ngStyle]="{'background-color': item.color }"></div>
-        <p>{{ item.label }}<span class="channel-number">+{{ item.percentage }}%</span></p>
+        <p >{{ item.label }}<span class="channel-number">+{{ item.percentage }}%</span></p>
         <div class="progress progress-sm channel-progress">
           <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="item.percentage" aria-valuemin="0" aria-valuemax="100"
             [ngStyle]="{width: item.percentage + '%' }">

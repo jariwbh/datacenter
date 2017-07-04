@@ -207,6 +207,7 @@ router.route('/setting')
 
     });
 
+
 router.route('/person/:adminid')
     // create a person 
     .post(function(req, res) {
@@ -239,29 +240,36 @@ router.route('/person')
 router.route('/person/province/:province')
     .get(function(req, res) {
 
-        Person.find({ province: req.params.province }, function (err, docs) {
+        Person.find({ "person.province": req.params.province }, function (err, docs) {
             res.json(docs);
         });
 
     });
 
 
-router.route('/person/search')
-    .post(function(req, res) {
+router.route('/person/social/:search')
+    .get(function(req, res) {
 
-        var search = req.body.search;
+        var search = req.params.search;
+        console.log(search);
         if (search=="facebook"){
-            Person.find({ facebookurl: { $ne: null } }, function (err, docs) {
+            
+            Person.find({ $and: [{"person.facebook_url": { $ne: '' } }, {"person.facebook_url": { $ne: null } }] } , function (err, docs) {
                 res.json(docs);
             });
         }
         else if (search=="twitter"){
-            Person.find({ twitterurl: { $ne: null } }, function (err, docs) {
+            Person.find({ $and: [{"person.twitter_url": { $ne: '' } }, {"person.twitter_url": { $ne: null } }] } , function (err, docs) {
                 res.json(docs);
             });
         }
-        else if (search=="whatsup"){
-            Person.find({ whatsup: { $ne: null } }, function (err, docs) {
+        else if (search=="telegram"){
+            Person.find({ $and: [{"person.telegram_url": { $ne: '' } }, {"person.telegram_url": { $ne: null } }] } , function (err, docs) {
+                res.json(docs);
+            });
+        }
+        else if (search=="others"){
+            Person.find({ $and: [{"person.whatsApp_url": { $ne: '' } }, {"person.whatsApp_url": { $ne: null } }] } , function (err, docs) {
                 res.json(docs);
             });
         }

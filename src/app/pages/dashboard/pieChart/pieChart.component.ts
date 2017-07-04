@@ -1,6 +1,9 @@
+import { Router } from '@angular/router';
+
 import {Component} from '@angular/core';
 
 import {PieChartService} from './pieChart.service';
+import { CommonDataService } from './../../../core/services/common/common-data.service';
 
 import 'easy-pie-chart/dist/jquery.easypiechart.js';
 
@@ -15,7 +18,8 @@ export class PieChart {
   public charts: Array<Object>;
   private _init = false;
 
-  constructor(private _pieChartService: PieChartService) {
+  constructor(private _pieChartService: PieChartService, private _CommonDataService: CommonDataService, 
+   private _router: Router) {
     this.charts = this._pieChartService.getData();
   }
 
@@ -25,6 +29,12 @@ export class PieChart {
       this._updatePieCharts();
       this._init = true;
     }
+  }
+
+  goToPeopleListView (socialData: any ) {
+          this._CommonDataService.filterDataBy = 'social';
+          this._CommonDataService.filterData = socialData;
+          this._router.navigate(['/pages/peoples/manage-people']);
   }
 
   private _loadPieCharts() {

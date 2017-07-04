@@ -10,6 +10,8 @@ import {
   AreaCountModel, DistrictCountModel,
   SettingModel, SocialCountModel, ProvinceCountModel,
 } from './../../core/models/settings/settings.model';
+
+import { AuthService } from './../../core/services/common/auth.service';
 import { Message } from 'primeng/primeng';
 
 @Component({
@@ -43,7 +45,8 @@ export class Settings {
 
   constructor(fb: FormBuilder,
     private _router: Router,
-    private _Settings: SettingsService) {
+    private _Settings: SettingsService,
+    private _AuthService: AuthService) {
     this._SettingModel.userCountofSocial = new SocialCountModel();
     this._SettingModel.noOfUserInSocial = [];
     this.getAllProvince();
@@ -69,6 +72,13 @@ export class Settings {
       'whatsAppUserCount': [this._SettingModel.userCountofSocial.whatsAppUserCount, [Validators.required]],
       'telegramUserCount': [this._SettingModel.userCountofSocial.telegramUserCount, [Validators.required]],
       'noOfUsers': [this._SettingModel.noOfUsers, [Validators.required]],
+      'addPersonPointsAdmin': [this._SettingModel.addPersonPointsAdmin, [Validators.required]],
+      'addPointPointsAdmin': [this._SettingModel.addPointPointsAdmin, [Validators.required]],
+      'addActivityPointsAdmin': [this._SettingModel.addActivityPointsAdmin, [Validators.required]],
+      'addhashtagPoints': [this._SettingModel.addhashtagPoints, [Validators.required]],
+      'addfacebookPoints': [this._SettingModel.addfacebookPoints, [Validators.required]],
+      'addtelegramPoints': [this._SettingModel.addtelegramPoints, [Validators.required]],
+      'addOtherPoints': [this._SettingModel.addOtherPoints, [Validators.required]],
       'websiteTitle': [this._SettingModel.websiteTitle, [Validators.required]],
     });
     this.resetModel();
@@ -86,6 +96,27 @@ export class Settings {
         }
         if (data.noOfUserInArea !== null) {
           this.areaCountSettingsList = data.noOfUserInArea;
+        }
+        if (data.addPersonPointsAdmin !== null) {
+          this._SettingModel.addPersonPointsAdmin = data.addPersonPointsAdmin;
+        }
+        if (data.addPointPointsAdmin !== null) {
+          this._SettingModel.addPointPointsAdmin = data.addPointPointsAdmin;
+        }
+        if (data.addActivityPointsAdmin !== null) {
+          this._SettingModel.addActivityPointsAdmin = data.addActivityPointsAdmin;
+        }
+        if (data.addhashtagPoints !== null) {
+          this._SettingModel.addhashtagPoints = data.addhashtagPoints;
+        }
+        if (data.addfacebookPoints !== null) {
+          this._SettingModel.addfacebookPoints = data.addfacebookPoints;
+        }
+        if (data.addtelegramPoints !== null) {
+          this._SettingModel.addtelegramPoints = data.addtelegramPoints;
+        }
+        if (data.addOtherPoints !== null) {
+          this._SettingModel.addOtherPoints = data.addOtherPoints;
         }
         if (data.noOfUsers !== null) {
           this._SettingModel.noOfUsers = data.noOfUsers;
