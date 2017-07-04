@@ -66,6 +66,7 @@ export class FormComponent {
 
   isidexist: boolean;
   authRole: string;
+  authId: string;
 
   constructor(
     private fb: FormBuilder,
@@ -76,6 +77,12 @@ export class FormComponent {
     private confirmationService: ConfirmationService,
     private _authService: AuthService,
   ) {
+
+    if (this._authService.auth_id === '') {
+      this.authId = null;
+    } else {
+      this.authId = this._authService.auth_id;
+    }
 
     if (this._authService.auth_user.role === '') {
         this.authRole = null;
@@ -291,18 +298,20 @@ export class FormComponent {
             }
           }
         });
-        if (cnt == 0) {
-          this._managepeopleService
-            .Add(value)
-            .subscribe(
-            data => {
-              this.msgs = [];
-              this.msgs.push ({ 
-                severity: 'info', summary: 'Insert Message', detail: 'People has been added Successfully!!!' });
-              this._router.navigate(['/pages/peoples/manage-people']);
-          });
-        }
         
+        if (cnt == 0) {
+          if (this.authId) {
+            this._managepeopleService
+              .Add(this.authId, value)
+              .subscribe(
+              data => {
+                this.msgs = [];
+                this.msgs.push ({ 
+                  severity: 'info', summary: 'Insert Message', detail: 'People has been added Successfully!!!' });
+                this._router.navigate(['/pages/peoples/manage-people']);
+            });
+          }
+        }
       }
   }
 
@@ -388,21 +397,21 @@ export class FormComponent {
             }
           });
           if (cnt === 0) {
-            this._fieldsService
-              .Add(this._fieldsModel)
-              .subscribe(
-              data => {
-                const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
-                if (isClosed) {
-                  isClosed.click();
-                  this.getAllFields();
-                  this.form.reset();
-                          this.msgs = [];
-                          this.msgs.push ({ 
-                  severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
-                  
-                }
-            });
+              this._fieldsService
+                .Add(this._fieldsModel)
+                .subscribe(
+                data => {
+                  const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+                  if (isClosed) {
+                    isClosed.click();
+                    this.getAllFields();
+                    this.form.reset();
+                            this.msgs = [];
+                            this.msgs.push ({ 
+                    severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
+                    
+                  }
+              });
           } else {
             this.msgs = [];
             this.msgs.push ({ 

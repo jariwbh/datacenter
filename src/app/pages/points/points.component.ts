@@ -186,7 +186,7 @@ constructor(
                 });
                 this._pointsModel.points = value.points;
                 this._pointsModel.users = this._selectedUsers;
-                if (this.authId){
+                if (this.authId) {
                     this._pointsService
                         .Add(this.authId, this._pointsModel)
                         .subscribe(data => {
