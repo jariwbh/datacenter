@@ -4,6 +4,13 @@ export class SettingModel {
   noOfUserInDistrict: DistrictCountModel[];
   noOfUserInArea: AreaCountModel[];
   noOfUserInSocial: any[];
+  addPersonPointsAdmin: number;
+  addPointPointsAdmin: number;
+  addActivityPointsAdmin: number;
+  addhashtagPoints: number;
+  addfacebookPoints: number;
+  addtelegramPoints: number;
+  addOtherPoints: number;
   noOfUsers: number;
   websiteTitle: string;
   userCountofSocial: SocialCountModel;

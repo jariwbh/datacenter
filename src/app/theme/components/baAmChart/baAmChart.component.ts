@@ -27,6 +27,7 @@ export class BaAmChart {
 
   @ViewChild('baAmChart') public _selector:ElementRef;
 
+   chart: any;
   constructor (private _baAmChartThemeService:BaAmChartThemeService) {
     this._loadChartsLib();
   }
@@ -36,8 +37,10 @@ export class BaAmChart {
   }
 
   ngAfterViewInit() {
-    let chart = AmCharts.makeChart(this._selector.nativeElement, this.baAmChartConfiguration);
+     let chart = AmCharts.makeChart(this._selector.nativeElement, this.baAmChartConfiguration);
+    // this.chart = AmCharts.makeChart(this._selector.nativeElement, this.baAmChartConfiguration);
     this.onChartReady.emit(chart);
+    
   }
 
   private _loadChartsLib():void {

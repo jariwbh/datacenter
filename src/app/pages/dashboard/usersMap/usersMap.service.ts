@@ -81,6 +81,7 @@ export class UsersMapService {
       },
 
       areasSettings: {
+        autoZoom: false,
         rollOverOutlineColor: layoutColors.border,
         // rollOverColor: layoutColors.primaryDark,
         rollOverColor: '#ff4441',
@@ -90,7 +91,7 @@ export class UsersMapService {
         unlistedAreasColor: layoutColors.defaultText,
         balloonText: '[[title]]: [[customData]] users',
       },
-
+   
 
       legend: {
         width: '100%',

@@ -1,3 +1,4 @@
+import { CommonDataService } from './../../../../core/services/common/common-data.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -15,6 +16,7 @@ import { Message } from 'primeng/primeng';
 
 export class ManagePeopleComponent {
   cardViewVisibilty = true;
+  showPeopleList = true;
   _peoplelist: any[] = [];
   fieldLists: any = {};
   _fieldLists: any[] = [];
@@ -23,12 +25,28 @@ export class ManagePeopleComponent {
     private _route: ActivatedRoute,
     private _managepeopleService: ManagepeopleService,
     private _fieldsService: FieldsService,
+    private _CommonDataService: CommonDataService,
   ) {
     
+    if (_CommonDataService.filterDataBy) {
+      // debugger;
+      if ( _CommonDataService.filterDataBy === 'province') {
+       // debugger;
+        this.getAllPeopleWithFilter('province', _CommonDataService.filterData );
+      } else if ( _CommonDataService.filterDataBy === 'social' ) {
+       // debugger;
+        this.getAllPeopleWithFilter('social', _CommonDataService.filterData );
+      }
+          
+    } else {
+     // debugger;
+        this.getAllPeople();
+        // this.cardViewVisibilty = true;
+    }
   }
 
   ngOnInit() {
-    this.getAllPeople();
+    //this.getAllPeople();
     this.getAllFields('people');
   }
 
@@ -46,6 +64,35 @@ export class ManagePeopleComponent {
         });
   }
 
+  getAllPeopleWithFilter( filterBy: string, filterData: string) {
+      this._managepeopleService
+          .GetAllWithFilter(filterBy, filterData)
+          .subscribe(
+          data => {
+            if (data) {
+              data.forEach(element => {
+                if (element.person) {
+                  this._peoplelist.push(element.person);
+                }
+              });
+              if (this._peoplelist.length > 0) {
+                this.showPeopleList = false;
+              } else {
+                this.showPeopleList = true;
+              }
+              //this.cardViewVisibilty = false;
+              if(this._CommonDataService.filterDataBy === 'province' || this._CommonDataService.filterDataBy === 'social') {
+                this.cardViewVisibilty = false;
+              } else {
+                this.cardViewVisibilty = true;
+              }
+              //this._peoplelist = this._peoplelist;
+              this._CommonDataService.filterDataBy = '';
+              this._CommonDataService.filterData = '';
+            }
+        });
+  }
+
   getAllPeople() {
     this._managepeopleService
           .GetAll()
@@ -57,6 +104,11 @@ export class ManagePeopleComponent {
                   this._peoplelist.push(element.person);
                 }
               });
+               if (this._peoplelist.length > 0) {
+                this.showPeopleList = false;
+              } else {
+                this.showPeopleList = true;
+              }
             }
         });
   }

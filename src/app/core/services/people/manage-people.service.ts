@@ -26,31 +26,50 @@ export class ManagepeopleService {
             .get(this.actionUrl + 'person')
             .map(res => <any>res.json());
     }
+    public GetAllWithFilter = (filterBy: any, filterData: any = ''): Observable<any> => {
+        if (filterBy) {
+            if (filterBy === 'all') {
+                return this.http
+                    .get(this.actionUrl + 'person')
+                    .map(res => <any>res.json());
+            } else if ( filterBy === 'province' ) {
+                 return this.http
+                    .get(this.actionUrl + 'person/province/' + filterData)
+                    .map(res => <any>res.json());
+            } else if ( filterBy === 'social' ) {
+                 return this.http
+                    .get(this.actionUrl + '/person/social/' + filterData)
+                    .map(res => <any>res.json());
+            }
+
+        }
+
+    }
     public GetById = (id: number): Observable<any> => {
-       return this.http
-           .get(this.actionUrl + 'ManagePeople/GetPeopleById/' + id)
-           .map(res => <any>res.json());
+        return this.http
+            .get(this.actionUrl + 'ManagePeople/GetPeopleById/' + id)
+            .map(res => <any>res.json());
     }
 
     public Add = (data: any): Observable<any> => {
-       const toAdd = JSON.stringify(data);
-       //console.log(toAdd);
-       return this.http.post(this.actionUrl + 'person', toAdd, { headers: this.headers })
-           .map(res => <any>res.json());
+        const toAdd = JSON.stringify(data);
+        //console.log(toAdd);
+        return this.http.post(this.actionUrl + 'person', toAdd, { headers: this.headers })
+            .map(res => <any>res.json());
     }
 
     public Update = (id: number, data: any): Observable<any> => {
-       const toAdd = JSON.stringify(data);
-       //console.log(toAdd);
-       return this.http.post(this.actionUrl + 'ManagePeople/UpdatePeople/' + id, toAdd, { headers: this.headers })
-           .map(res => <any>res.json());
+        const toAdd = JSON.stringify(data);
+        //console.log(toAdd);
+        return this.http.post(this.actionUrl + 'ManagePeople/UpdatePeople/' + id, toAdd, { headers: this.headers })
+            .map(res => <any>res.json());
     }
 
     public Delete = (id: number): Observable<any> => {
-       //console.log(id);
-       return this.http
-           .get(this.actionUrl + 'ManagePeople/DeletePeopleById/' + id)
-           .map(res => <any>res.json());
+        //console.log(id);
+        return this.http
+            .get(this.actionUrl + 'ManagePeople/DeletePeopleById/' + id)
+            .map(res => <any>res.json());
     }
 
 }

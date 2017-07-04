@@ -1,3 +1,4 @@
+
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +24,7 @@ import { Configuration } from './app.constants';
 import { AuthService } from './core/services/common/auth.service';
 import { AuthGuard } from './core/services/common/auth-guard.service';
 import { UserloginService } from './core/services/userlogin/userlogin.service';
+import { CommonDataService } from './core/services/common/common-data.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -63,8 +65,9 @@ export type StoreType = {
     APP_PROVIDERS,
     AuthService,
     AuthGuard,
-    UserloginService
-  ]
+    UserloginService,
+    CommonDataService,
+  ],
 })
 
 export class AppModule {
