@@ -57,9 +57,9 @@
                     <!--<option value="Baghdad">Baghdad</option>-->
                   </select>
                     </div>
-                    <!--<div class="col-sm-1">
-                      <button class="btn btn-block btn-success btn-rounded"><span>G</span></button>
-                    </div>-->
+                    <div class="col-sm-1">
+                      <button class="btn btn-block btn-primary btn-rounded"><span>B</span></button>
+                    </div>
                   </div>
                   <div class="form-group row col-sm-5">
                     <label for="secondprovince" class="col-sm-4 control-label">Second Province</label>
@@ -70,9 +70,10 @@
                     <!--<option value="Baghdad">Baghdad</option>-->
                   </select>
                     </div>
-                    <!--<div class="col-sm-1">
-                      <button class="btn btn-block btn-danger btn-rounded"><span>R</span></button>
-                    </div>-->
+                    <div class="col-sm-1">
+                      <!--<button class="btn btn-block btn-danger btn-rounded"><span>R</span></button>-->
+                      <button class="btn btn-block btn-success btn-rounded"><span>G</span></button>
+                    </div>
                   </div>
                   <div class="form-group row col-sm-2">
                     <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForCompare()">Generate Report</button>
@@ -93,6 +94,9 @@
                     <option value="Sadr">Sadr</option>-->
                   </select>
                     </div>
+                     <div class="col-sm-1">
+                      <button class="btn btn-block btn-primary btn-rounded"><span>B</span></button>
+                    </div>
                   </div>
                   <div class="form-group row col-sm-5">
                     <label for="seconddistrict" class="col-sm-4 control-label">Second District</label>
@@ -103,6 +107,10 @@
                     <!--<option value="Baghdad">Baghdad</option>
                     <option value="Sadr">Sadr</option>-->
                   </select>
+                    </div>
+                    <div class="col-sm-1">
+                      <!--<button class="btn btn-block btn-danger btn-rounded"><span>R</span></button>-->
+                      <button class="btn btn-block btn-success btn-rounded"><span>G</span></button>
                     </div>
                   </div>
                   <div class="form-group row col-sm-2">
@@ -122,23 +130,32 @@
         </ba-card>
       </div>
       <!--</div>-->
-      <div class="col-md-12">
+      <div class="col-md-12" *ngIf="showGenCompareReport">
         <div class="row">
           <div class="col-md-6 ">
             <!--<ba-card title="chart.lines" baCardClass="with-scroll">-->
-              <ba-card title="Point History" baCardClass="with-scroll">
+              <!--<ba-card title="Point History" baCardClass="with-scroll">
               <h5 translate>{{'chart.simple_line_chart'}}</h5>
               <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
                 [baChartistChartOptions]="data['simpleLineOptions']">
+              </ba-chartist-chart>
+            </ba-card>-->
+             <ba-card title="Point History" baCardClass="with-scroll">
+              <h5 translate>Point History Chart</h5>
+              <!--<ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="data['simpleBarData']"
+                [baChartistChartOptions]="data['simpleBarOptions']">
+              </ba-chartist-chart>-->
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="dataComparePointHistory"
+                [baChartistChartOptions]="data['simpleBarOptions']">
               </ba-chartist-chart>
             </ba-card>
           </div>
 
           <div class="col-md-6 ">
             <!--<ba-card title="chart.bars" baCardClass="with-scroll">-->
-              <ba-card title="User History" baCardClass="with-scroll">
-              <h5 translate>{{'chart.simple_bar_chart'}}</h5>
-              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="data['simpleBarData']"
+              <ba-card title="Person History" baCardClass="with-scroll">
+              <h5 translate>Person History Chart</h5>
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="dataCompareUserHistory"
                 [baChartistChartOptions]="data['simpleBarOptions']">
               </ba-chartist-chart>
             </ba-card>
@@ -147,13 +164,13 @@
         <div class="row">
           <div class="col-md-6">
             <!--<ba-card title="chart.simple_pie" baCardClass="with-scroll">-->
-              <ba-card title="chart.simple_pie" baCardClass="with-scroll">
+              <!--<ba-card title="chart.simple_pie" baCardClass="with-scroll">-->
               <!--<div class="row">-->
               <!--<div class="col-md-12 col-lg-4">-->
-              <h5 translate>{{'chart.simple_pie'}}</h5>
+              <!--<h5 translate>{{'chart.simple_pie'}}</h5>
               <ba-chartist-chart baChartistChartClass="ct-chart stacked-bar" baChartistChartType="Pie" [baChartistChartData]="data['simplePieData']"
                 [baChartistChartOptions]="data['simplePieOptions']" [baChartistChartResponsive]="getResponsive(20, 80)">
-              </ba-chartist-chart>
+              </ba-chartist-chart>-->
               <!--</div>-->
               <!--<div class="col-md-12 col-lg-4">-->
               <!--<h5 translate>{{'chart.pie_with_labels'}}</h5>
@@ -172,15 +189,25 @@
             </ba-chartist-chart>
           </div>-->
               <!--</div>-->
+            <!--</ba-card>-->
+
+            <ba-card title="Person Completion History" baCardClass="with-scroll">
+              <h5 translate>Person Completion History Chart</h5>
+              <!--<ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
+                [baChartistChartOptions]="data['simpleLineOptions']">
+              </ba-chartist-chart>-->
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="dataCompareResultHistory"
+                [baChartistChartOptions]="data['simpleLineOptions']">
+              </ba-chartist-chart>
             </ba-card>
           </div>
           <div class="col-md-6 ">
-            <ba-card title="chart.donut" baCardClass="with-scroll">
+            <!--<ba-card title="chart.donut" baCardClass="with-scroll">
               <h5 translate>{{'chart.donut'}}</h5>
               <ba-chartist-chart baChartistChartClass="ct-chart stacked-bar" baChartistChartType="Pie" [baChartistChartData]="data['simpleDonutData']"
                 [baChartistChartOptions]="data['simpleDonutOptions']" [baChartistChartResponsive]="getResponsive(5, 40)">
               </ba-chartist-chart>
-            </ba-card>
+            </ba-card>-->
           </div>
         </div>
       </div>
@@ -220,6 +247,9 @@
                     <!--<option value="Baghdad">Baghdad</option>-->
                   </select>
                     </div>
+                    <div class="col-sm-1">
+                      <button class="btn btn-block btn-primary btn-rounded"><span>B</span></button>
+                    </div>
                   </div>
                   <div class="form-group row col-sm-2">
                     <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForSelect()">Generate Report</button>
@@ -241,6 +271,9 @@
                     <option value="Sadr">Sadr</option>-->
                   </select>
                     </div>
+                    <div class="col-sm-1">
+                      <button class="btn btn-block btn-primary btn-rounded"><span>B</span></button>
+                    </div>
                   </div>
                   <div class="form-group row col-sm-2">
                     <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForSelect()">Generate Report</button>
@@ -259,36 +292,53 @@
         </ba-card>
       </div>
       <!--</div>-->
-      <div class="col-md-12">
+      <div class="col-md-12" *ngIf="showGenSelectReport">
         <div class="row">
           <div class="col-md-6 ">
-            <ba-card title="Line Charts" baCardClass="with-scroll">
+            
               <!--  <h5 translate>CityWise Filter Charts</h5>
               <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
                 [baChartistChartOptions]="data['simpleLineOptions']">
               </ba-chartist-chart>-->
 
-              <h5 translate>{{'chart.line_chart'}}</h5>
+              <!--<ba-card title="Line Charts" baCardClass="with-scroll">
+                <h5 translate>{{'chart.line_chart'}}</h5>
               <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['areaLineData']"
                 [baChartistChartOptions]="data['areaLineOptions']">
               </ba-chartist-chart>
+              </ba-card>-->
 
+               <ba-card title="Point History" baCardClass="with-scroll">
+              <h5 translate>Point History Chart</h5>
+              <!--<ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="data['simpleBarData']"
+                [baChartistChartOptions]="data['simpleBarOptions']">
+              </ba-chartist-chart>-->
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="dataSelectPointHistory"
+                [baChartistChartOptions]="data['simpleBarOptions']">
+              </ba-chartist-chart>
+               </ba-card>
               <!--<h5 translate>{{'chart.bi_polar_line_chart'}}</h5>
                 <ba-chartist-chart baChartistChartClass="ct-chart"
                            baChartistChartType="Line"
                            [baChartistChartData]="data['biLineData']"
                            [baChartistChartOptions]="data['biLineOptions']">
                 </ba-chartist-chart>-->
-            </ba-card>
+            
           </div>
 
           <div class="col-md-6 ">
-            <ba-card title="chart.bars" baCardClass="with-scroll">
+             <ba-card title="Person History" baCardClass="with-scroll">
+              <h5 translate>Person History Chart</h5>
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="dataSelectUserHistory"
+                [baChartistChartOptions]="data['simpleBarOptions']">
+              </ba-chartist-chart>
+            </ba-card>
+            <!--<ba-card title="chart.bars" baCardClass="with-scroll">
               <h5 translate>{{'chart.simple_bar_chart'}}</h5>
               <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="data['simpleBarData']"
                 [baChartistChartOptions]="data['simpleBarOptions']">
               </ba-chartist-chart>
-
+              </ba-card>-->
               <!--<h5 translate>{{'chart.multi_line_labels_bar_chart'}}</h5>
         <ba-chartist-chart baChartistChartClass="ct-chart"
                            baChartistChartType="Bar"
@@ -303,7 +353,28 @@
                            [baChartistChartData]="data['stackedBarData']"
                            [baChartistChartOptions]="data['stackedBarOptions']">
         </ba-chartist-chart>-->
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <ba-card title="Person Completion History" baCardClass="with-scroll">
+              <h5 translate>Person Completion History Chart</h5>
+              <!--<ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
+                [baChartistChartOptions]="data['simpleLineOptions']">
+              </ba-chartist-chart>-->
+              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="dataSelectResultHistory"
+                [baChartistChartOptions]="data['simpleLineOptions']">
+              </ba-chartist-chart>
             </ba-card>
+          </div>
+          <div class="col-md-6 ">
+            <!--<ba-card title="chart.donut" baCardClass="with-scroll">
+              <h5 translate>{{'chart.donut'}}</h5>
+              <ba-chartist-chart baChartistChartClass="ct-chart stacked-bar" baChartistChartType="Pie" [baChartistChartData]="data['simpleDonutData']"
+                [baChartistChartOptions]="data['simpleDonutOptions']" [baChartistChartResponsive]="getResponsive(5, 40)">
+              </ba-chartist-chart>
+            </ba-card>-->
           </div>
         </div>
       </div>
@@ -311,3 +382,4 @@
   </div>
 
 </section>
+<p-growl [value]="msgs"></p-growl>
