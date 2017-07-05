@@ -8,6 +8,8 @@ import { UserHistoryComponent } from './user-history.component';
 
 import { AppTranslationModule } from '../../../../app.translation.module';
 
+import { AuditService } from '../../../../core/services/audit/audit.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +20,9 @@ import { AppTranslationModule } from '../../../../app.translation.module';
   ],
   declarations: [
     UserHistoryComponent,
+  ],
+  providers: [
+    AuditService,
   ],
 })
 export class UserHistoryModule {}

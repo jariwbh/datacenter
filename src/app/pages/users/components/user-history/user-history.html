@@ -5,10 +5,7 @@
           <h3 class="box-title">Last User Activity</h3>
           <div class="row show-grid">
             <div class="col-12 ">
-              <div> <i class="fa fa-user-circle-o"></i> you add a new person <span class="text-muted">Just Now</span></div> <br>
-              <div> <i class="fa fa-user-circle-o"></i> you add a new person <span class="text-muted">1 Hours</span></div> <br>
-              <div> <i class="fa fa-user-circle-o"></i> you add a new person <span class="text-muted">2 Hours</span></div> <br>
-              <div> <i class="fa fa-cogs"></i> You change profile info <span class="text-muted">27 May</span></div>
+              <div *ngFor="let audit of _auditModel"> <i class="fa fa-user-circle-o"></i> {{audit.activity}} <span class="text-muted">Just Now</span></div> <br>
             </div>
           </div>
       </ba-card>

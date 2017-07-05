@@ -60,7 +60,28 @@
                     </textarea>
                   </div>
                   <div *ngSwitchCase="'image'">
-                    <input type="file" class="form-control" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                    <p-fileUpload 
+                      name="sampleFile" 
+                      url="/api/upload/" 
+                      accept="image/*"
+                      multiple="multiple"
+                      (onUpload)="onUploadPhoto($event, fields.labelname)" 
+                      auto="true" 
+                      showButtons="false">
+                    </p-fileUpload>
+                    <input 
+                        class="form-control" 
+                        type="hidden" 
+                        id="image_{{fields.labelname}}"
+                        [formControlName]="fields.labelname">
+
+                    <img id="imagePath_{{fields.labelname}}" class="img-responsive" style="height: 150px; width: 150px">
+                    <div
+                      *ngIf="errorImage[fields.labelname]"
+                      class="alert alert-danger">
+                      {{fields.displayname}} is required
+                    </div>
+
                   </div>
                   <div *ngSwitchCase="'list'">
                       <div *ngIf="fields.labelname == 'province'">
@@ -149,7 +170,7 @@
                       <div
                         *ngIf="errorMap[fields.labelname]"
                         class="alert alert-danger">
-                        Map is required
+                        {{fields.displayname}} is required
                       </div>
                       <p-dialog showEffect="fade" [(visible)]="dialogVisible[fields.labelname]" header="Location">
                           <div class="ui-g ui-fluid" *ngIf="selectedPosition">

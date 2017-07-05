@@ -64,6 +64,8 @@ export class FormComponent {
       draggable: boolean;
   // Google Map End
 
+  errorImage: any = {};
+
   isidexist: boolean;
   authRole: string;
   authId: string;
@@ -195,9 +197,12 @@ export class FormComponent {
                  this.dialogVisible[element.labelname] = false;
                  this.errorMap[element.labelname] = false;
               }
+              if (element.fieldtype == 'image') {
+                this.errorImage[element.labelname] = false;
+              }
 
               if (element.isMandatory) {
-                if (element.fieldtype == 'map') {
+                if (element.fieldtype == 'map' || element.fieldtype == 'image') {
                   group[element.labelname] = new FormControl('');
                 } else {
                   group[element.labelname] = new FormControl('', Validators.required);
@@ -275,24 +280,35 @@ export class FormComponent {
             value[element.labelname] = [];
             let cnt = 0;
             element.lookupdata.forEach(ele => {
-              let isChecked = <HTMLInputElement> document.getElementById('check_' + element.labelname + '_' + cnt);
-              let grp = {
+              const isChecked = <HTMLInputElement>document.getElementById('check_' + element.labelname + '_' + cnt);
+              const grp = {
                 value: ele.value,
                 key: ele.key,
-                check: isChecked.checked
-              }
+                check: isChecked.checked,
+              };
               value[element.labelname].push(grp);
               
               cnt++;
             });
           }
           if (element.fieldtype == 'map') {
-            let isMap = <HTMLInputElement> document.getElementById('map_' + element.labelname);
+            const isMap = <HTMLInputElement> document.getElementById('map_' + element.labelname);
             value[element.labelname] = isMap.value;
             
             if (element.isMandatory) {
               if (value[element.labelname] == '') {
                 this.errorMap[element.labelname] = true;
+                cnt++;
+              }
+            }
+          }
+          if (element.fieldtype == 'image') {
+            const isImage = <HTMLInputElement> document.getElementById('image_' + element.labelname);
+            value[element.labelname] = isImage.value;
+            
+            if (element.isMandatory) {
+              if (value[element.labelname] == '') {
+                this.errorImage[element.labelname] = true;
                 cnt++;
               }
             }
@@ -420,10 +436,13 @@ export class FormComponent {
           }
         });
   }
-  onUploadPhoto(event) {
-      console.log('here');
+  onUploadPhoto(event, val) {
+      this.errorImage[val] = false;
       const url = event.xhr.response;
-      console.log(url);
+      const isImageValue = <HTMLInputElement> document.getElementById('image_' + val);
+      isImageValue.value = url;
+      const ispath = <HTMLInputElement> document.getElementById('imagePath_' + val);
+      ispath.src = 'http://localhost:4200/assets' + url;
   }
   
   onChange(newValue: any) {
@@ -437,7 +456,7 @@ export class FormComponent {
   // Google Map Start
     handleMapClick(event, val) {
       this.errorMap[val] = false;
-      if(this.overlays[val].length == 0) {
+      if (this.overlays[val].length == 0) {
         this.dialogVisible[val] = true;
         this.selectedPosition = event.latLng;
       }
@@ -463,7 +482,7 @@ export class FormComponent {
               title: this.markerTitle, draggable: this.draggable }));
           this.markerTitle = null;
           this.dialogVisible[id] = false;
-          let mapValue = this.selectedPosition.lat() + '####' + this.selectedPosition.lng();
+          const mapValue = this.selectedPosition.lat() + '####' + this.selectedPosition.lng();
           const isClosed = <HTMLInputElement> document.getElementById('map_' + id);
           isClosed.value = mapValue;
 

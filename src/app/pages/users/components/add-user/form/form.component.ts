@@ -82,6 +82,8 @@ export class FormComponent {
       draggable: boolean;
   // Google Map End
 
+  errorImage: any = {};
+
    isidexist: boolean;
    authRole: string;
    authId: string;
@@ -298,8 +300,11 @@ export class FormComponent {
                  this.dialogVisible[element.labelname] = false;
                  this.errorMap[element.labelname] = false;
               }
+              if (element.fieldtype == 'image') {
+                this.errorImage[element.labelname] = false;
+              }
               if (element.isMandatory) {
-                if (element.fieldtype == 'map') {
+                if (element.fieldtype == 'map' || element.fieldtype == 'image') {
                   group[element.labelname] = new FormControl('');
                 } else {
                   group[element.labelname] = new FormControl('', Validators.required);
@@ -342,6 +347,17 @@ export class FormComponent {
             if (element.isMandatory) {
               if (value[element.labelname] == '') {
                 this.errorMap[element.labelname] = true;
+                cnt++;
+              }
+            }
+          }
+          if (element.fieldtype == 'image') {
+            const isImage = <HTMLInputElement> document.getElementById('image_' + element.labelname);
+            value[element.labelname] = isImage.value;
+            
+            if (element.isMandatory) {
+              if (value[element.labelname] == '') {
+                this.errorImage[element.labelname] = true;
                 cnt++;
               }
             }
@@ -547,6 +563,16 @@ export class FormComponent {
           }
         });
   }
+
+  onUploadPhoto(event, val) {
+      this.errorImage[val] = false;
+      const url = event.xhr.response;
+      const isImageValue = <HTMLInputElement> document.getElementById('image_' + val);
+      isImageValue.value = url;
+      const ispath = <HTMLInputElement> document.getElementById('imagePath_' + val);
+      ispath.src = 'http://localhost:4200/assets' + url;
+  }
+  
   onChange(newValue: any) {
     if ((newValue === 'list') || (newValue === 'multi_selected_list') || (newValue === 'checkbox')) {
       this._lookupVisibiity = true;
