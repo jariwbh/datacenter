@@ -653,7 +653,7 @@ router.route('/upload')
         var filename = uuid.v1() + fileextn;
         // Use the mv() method to place the file somewhere on your server 
         
-        sampleFile.mv(appRoot + '/public/uploads/' + filename, function(err) {
+        sampleFile.mv(appRoot + '/src/assets/uploads/' + filename, function(err) {
             if (err)
             {
                 console.log(err);

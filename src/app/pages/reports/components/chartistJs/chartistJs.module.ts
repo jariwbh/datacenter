@@ -10,6 +10,7 @@ import { ChartistJsService } from './chartistJs.service';
 import { ReportService } from './../../../../core/services/report/report.service';
 
 import { AppTranslationModule } from '../../../../app.translation.module';
+import { GrowlModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { AppTranslationModule } from '../../../../app.translation.module';
     FormsModule,
     NgaModule,
     routing,
+    GrowlModule,
   ],
   declarations: [
     ChartistJsComponent,
