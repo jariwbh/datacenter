@@ -15,6 +15,7 @@ export class UserHistoryComponent {
   
   authId: string;
   _auditModel = new AuditModel();
+  _auditLists: any [] = [];
 
   constructor(
     private _router: Router,
@@ -38,7 +39,8 @@ export class UserHistoryComponent {
           .GetAll(id)
           .subscribe(
           data => {
-            this._auditModel  = data;
+            this._auditLists  = data;
+            console.log(this._auditLists);
         });
   }
 }

@@ -571,6 +571,7 @@ export class FormComponent {
       isImageValue.value = url;
       const ispath = <HTMLInputElement> document.getElementById('imagePath_' + val);
       ispath.src = 'http://localhost:4200/assets' + url;
+      //ispath.src = 'http://52.163.113.185:3000/assets' + url;
   }
   
   onChange(newValue: any) {
