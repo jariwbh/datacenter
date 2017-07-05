@@ -156,8 +156,10 @@ export class ChartistJsComponent {
         this.dataCompareUserHistory = {
           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
           series: [
-            [20, 30, 60, 40, 5, 75, 20, 55, 60, 100, 26, 8],
-            [13, 45, 20, 50, 4, 40, 80, 20, 45, 148, 90, 4],
+            // [20, 30, 60, 70, 80, 90, 100, 120, 125, 130, 133, 140],
+            // [13, 25, 30, 50, 64, 70, 80, 90, 95, 105, 120, 135],
+            [5, 20, 30, 40, 60, 75, 85, 95, 98, 100, 115, 125],
+            [4, 25, 35, 45, 55, 88, 105, 120, 130, 135, 140, 155],
           ],
         };
         this.dataCompareResultHistory = {
@@ -190,8 +192,10 @@ export class ChartistJsComponent {
         this.dataCompareUserHistory = {
           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
           series: [
-            [20, 30, 60, 40, 5, 75, 20, 55, 60, 100, 26, 8],
-            [13, 45, 20, 50, 4, 40, 80, 20, 45, 148, 90, 4],
+            //  [20, 30, 60, 70, 80, 90, 100, 120, 125, 130, 133, 140],
+            //  [13, 25, 30, 50, 64, 70, 80, 90, 95, 105, 120, 135],
+            [5, 20, 30, 40, 60, 75, 85, 95, 98, 100, 115, 125],
+            [4, 25, 35, 45, 55, 88, 105, 120, 130, 135, 140, 155],
           ],
         };
          this.dataCompareResultHistory = {
@@ -227,7 +231,8 @@ export class ChartistJsComponent {
         this.dataSelectUserHistory = {
           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
           series: [
-            [20, 30, 60, 40, 5, 75, 20, 55, 60, 100, 26, 8],
+            // [20, 30, 60, 70, 80, 90, 100, 120, 125, 130, 133, 140],
+            [5, 20, 30, 40, 60, 75, 85, 95, 98, 100, 115, 125],
           ],
         };
         this.dataSelectResultHistory = {
@@ -257,7 +262,8 @@ export class ChartistJsComponent {
         this.dataSelectUserHistory = {
           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
           series: [
-            [20, 30, 60, 40, 5, 75, 20, 55, 60, 100, 26, 8],
+            // [20, 30, 60, 70, 80, 90, 100, 120, 125, 130, 133, 140],
+            [5, 20, 30, 40, 60, 75, 85, 95, 98, 100, 115, 125],
           ],
         };
          this.dataSelectResultHistory = {
