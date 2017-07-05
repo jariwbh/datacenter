@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 import { ChartistJsService } from './chartistJs.service';
@@ -13,7 +13,8 @@ import { Message } from 'primeng/primeng';
 })
 
 export class ChartistJsComponent {
-  selectType: string;
+  selectType: string = '';
+  compareTwo: string = '';
   firstProvince: string = '';
   secondProvince: string = '';
   firstDistrict: string = '';
@@ -37,7 +38,7 @@ export class ChartistJsComponent {
   // allView: boolean = true;
   compareView: boolean = true;
   selectedView: boolean = false;
-  compareTwo: string;
+  
   provinceList: any[] = [];
   districtList: any[] = [];
   constructor(private _chartistJsService: ChartistJsService, private _ReportService: ReportService) {
@@ -69,6 +70,17 @@ export class ChartistJsComponent {
     //   this.compareView = true;
     //   this.fieldBasedView = true;
     // } else 
+   this.selectType = '';
+   this.compareTwo = '';
+   this.firstProvince = '';
+   this.secondProvince = '';
+   this.firstDistrict = '';
+   this.secondDistrict = '';
+   this.selectProvince = '';
+   this.selectDistrict = '';
+
+   this.showGenCompareReport = false;
+   this.showGenSelectReport = false;
     if (view === 'CompareView') {
       //this.allView = false;
       this.compareView = true;
@@ -161,7 +173,8 @@ export class ChartistJsComponent {
       } else {
         this.showGenCompareReport = false;
         //alert('please select Province to Compare');
-        this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'please select Province to Compare' });
+        this.msgs = [];
+        this.msgs.push({ severity: 'warn', summary: 'Warn Message', detail: 'please select Province to Compare' });
       }
 
     } else if (this.compareTwo === 'District') {
@@ -194,7 +207,8 @@ export class ChartistJsComponent {
       } else {
         this.showGenCompareReport = false;
         //alert('please select District to Compare');
-        this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'please select District to Compare' });
+        this.msgs = [];
+        this.msgs.push({ severity: 'warn', summary: 'Warn Message', detail: 'please select District to Compare' });
       }
     }
 
@@ -227,7 +241,8 @@ export class ChartistJsComponent {
       } else {
         this.showGenSelectReport = false;
         //alert('please select Province to Compare');
-        this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'please select Province' });
+        this.msgs = [];
+        this.msgs.push({ severity: 'warn', summary: 'Warn Message', detail: 'please select Province' });
       }
 
     } else if (this.selectType === 'District') {
@@ -256,7 +271,8 @@ export class ChartistJsComponent {
       } else {
         this.showGenSelectReport = false;
         //alert('please select District to Compare');
-        this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'please select District' });
+        this.msgs = [];
+        this.msgs.push({ severity: 'warn', summary: 'Warn Message', detail: 'please select District' });
       }
     }
 
