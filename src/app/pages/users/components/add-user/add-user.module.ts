@@ -16,6 +16,8 @@ import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/
 
 import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
 
+import { FileUploadModule } from 'primeng/primeng';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
     SharedModule,
     DialogModule,
     ConfirmDialogModule,
+    FileUploadModule,
   ],
   declarations: [
     AddUserComponent,

@@ -39,17 +39,31 @@
                     <textarea class="form-control" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
                     </textarea>
                   </div>
-                  <div *ngSwitchCase="'image'">
 
+                  <div *ngSwitchCase="'image'">
                     <p-fileUpload 
                       name="sampleFile" 
                       url="/api/upload/" 
                       accept="image/*"
-                      (onUpload)="onUploadPhoto($event)" 
+                      multiple="multiple"
+                      (onUpload)="onUploadPhoto($event, fields.labelname)" 
                       auto="true" 
                       showButtons="false">
-                  </p-fileUpload>
+                    </p-fileUpload>
+                    <input 
+                        class="form-control" 
+                        type="hidden" 
+                        id="image_{{fields.labelname}}"
+                        [formControlName]="fields.labelname">
+                    <img id="imagePath_{{fields.labelname}}" class="img-responsive" style="height: 150px; width: 150px">
+                    <div
+                      *ngIf="errorImage[fields.labelname]"
+                      class="alert alert-danger">
+                      Image is required
+                    </div>
                   </div>
+                  
+
                   <div *ngSwitchCase="'list'">
                       <div *ngIf="fields.labelname == 'province'">
                         <select

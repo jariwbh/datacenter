@@ -84,6 +84,7 @@ constructor(
         'province': [this._activityModel.province, Validators.required],
         'district': [this._activityModel.district, Validators.required],
         'area': [this._activityModel.area, Validators.required],
+        'profileimage': [this._activityModel.profileimage, Validators.required],
         'description': [this._activityModel.description, Validators.required],
         'url': [this._activityModel.url, Validators.required],
         'name': [this._activityModel.name],
@@ -144,7 +145,7 @@ constructor(
             });
         });
   }
-
+  
   onChangeProvince(value: any) {
       this._districtOptionLists = [];
       this._areaOptionLists = [];
@@ -167,10 +168,10 @@ constructor(
         }
       });
   }
+
   onUploadPhoto(event) {
-      console.log('here');
       const url = event.xhr.response;
-      console.log(url);
+      this._activityModel.profileimage = url;
   }
 
   onTypeSubmit(value: any, isValid: boolean) {
