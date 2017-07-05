@@ -161,15 +161,15 @@
                   formControlName="profileimage"
                   [(ngModel)]="_activityModel.profileimage">
 
-              <img 
-                  class="img-responsive" 
-                  src="http://localhost:4200/assets/{{_activityModel.profileimage}}" 
-                  style="height: 150px; width: 150px">
-
               <!--<img 
                   class="img-responsive" 
-                  src="http://52.163.113.185:3000/assets/{{_activityModel.profileimage}}" 
+                  src="http://localhost:4200/assets/{{_activityModel.profileimage}}" 
                   style="height: 150px; width: 150px">-->
+
+              <img 
+                  class="img-responsive" 
+                  src="http://52.163.113.185:3000/assets/{{_activityModel.profileimage}}" 
+                  style="height: 150px; width: 150px">
 
               <div [hidden]="aboutForm.get('profileimage').valid || (aboutForm.get('profileimage').pristine && !aboutSubmitted)" class="alert alert-danger clear-fix">
                     profileimage is required.
