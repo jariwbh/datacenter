@@ -57,9 +57,9 @@
                     <!--<option value="Baghdad">Baghdad</option>-->
                   </select>
                     </div>
-                    <div class="col-sm-1">
+                    <!--<div class="col-sm-1">
                       <button class="btn btn-block btn-primary btn-rounded"><span>B</span></button>
-                    </div>
+                    </div>-->
                   </div>
                   <div class="form-group row col-sm-5">
                     <label for="secondprovince" class="col-sm-4 control-label">Second Province</label>
@@ -70,10 +70,9 @@
                     <!--<option value="Baghdad">Baghdad</option>-->
                   </select>
                     </div>
-                    <div class="col-sm-1">
-                      <!--<button class="btn btn-block btn-danger btn-rounded"><span>R</span></button>-->
+                    <!--<div class="col-sm-1">
                       <button class="btn btn-block btn-success btn-rounded"><span>G</span></button>
-                    </div>
+                    </div>-->
                   </div>
                   <div class="form-group row col-sm-2">
                     <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForCompare()">Generate Report</button>
@@ -94,9 +93,9 @@
                     <option value="Sadr">Sadr</option>-->
                   </select>
                     </div>
-                     <div class="col-sm-1">
+                     <!--<div class="col-sm-1">
                       <button class="btn btn-block btn-primary btn-rounded"><span>B</span></button>
-                    </div>
+                    </div>-->
                   </div>
                   <div class="form-group row col-sm-5">
                     <label for="seconddistrict" class="col-sm-4 control-label">Second District</label>
@@ -108,10 +107,9 @@
                     <option value="Sadr">Sadr</option>-->
                   </select>
                     </div>
-                    <div class="col-sm-1">
-                      <!--<button class="btn btn-block btn-danger btn-rounded"><span>R</span></button>-->
+                    <!--<div class="col-sm-1">
                       <button class="btn btn-block btn-success btn-rounded"><span>G</span></button>
-                    </div>
+                    </div>-->
                   </div>
                   <div class="form-group row col-sm-2">
                     <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForCompare()">Generate Report</button>
@@ -247,9 +245,9 @@
                     <!--<option value="Baghdad">Baghdad</option>-->
                   </select>
                     </div>
-                    <div class="col-sm-1">
+                    <!--<div class="col-sm-1">
                       <button class="btn btn-block btn-primary btn-rounded"><span>B</span></button>
-                    </div>
+                    </div>-->
                   </div>
                   <div class="form-group row col-sm-2">
                     <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForSelect()">Generate Report</button>
@@ -271,9 +269,9 @@
                     <option value="Sadr">Sadr</option>-->
                   </select>
                     </div>
-                    <div class="col-sm-1">
+                    <!--<div class="col-sm-1">
                       <button class="btn btn-block btn-primary btn-rounded"><span>B</span></button>
-                    </div>
+                    </div>-->
                   </div>
                   <div class="form-group row col-sm-2">
                     <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForSelect()">Generate Report</button>
@@ -358,7 +356,7 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-            <ba-card title="Person Completion History" baCardClass="with-scroll">
+            <ba-card title="Person Completion History" baCardClass="with-scroll" class="selectChart">
               <h5 translate>Person Completion History Chart</h5>
               <!--<ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
                 [baChartistChartOptions]="data['simpleLineOptions']">
@@ -383,3 +381,31 @@
 
 </section>
 <p-growl [value]="msgs"></p-growl>
+
+
+
+<!--<style>
+.ct-series-a .ct-line,
+.ct-series-a .ct-point {
+  /*stroke: blue;*/
+  stroke: red;
+}
+
+.ct-series-b .ct-line,
+.ct-series-b .ct-point {
+  /*stroke: green;*/
+   stroke: green;
+}
+
+.ct-series-c .ct-line,
+.ct-series-c .ct-point {
+  /*stroke: green;*/
+  stroke: red;
+}
+
+.ct-series-d .ct-line,
+.ct-series-d .ct-point {
+  /*stroke: green;*/
+   stroke: green;
+}
+</style>-->
