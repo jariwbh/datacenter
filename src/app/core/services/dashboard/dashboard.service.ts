@@ -42,7 +42,11 @@ export class DashboardService {
             .get(this.actionUrl + 'dashboard/province')
             .map(res => <any>res.json());
     }
-
+      public GetCountForSocial = (search: any): Observable<any> => {
+        return this.http
+            .get(this.actionUrl + 'person/socialcount/'+ search)
+            .map(res => <any>res.json());
+    }
     //  public GetAllProvince = (): Observable<any> => {
     //     return this.http
     //         .get(this.actionUrl + 'lookup/province')

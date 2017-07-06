@@ -304,7 +304,7 @@ router.route('/person/socialcount/:social')
         }
         else if (social=="others")
         {
-            Person.find({ $and: [{"person.others_url": { $ne: '' } }, {"person.others_url": { $ne: null } }] } , function (err, docs) {                                   
+            Person.find({ $and: [{"person.whatsApp_url": { $ne: '' } }, {"person.whatsApp_url": { $ne: null } }] } , function (err, docs) {                                   
                 res.json(docs.length);        
             });            
         }
