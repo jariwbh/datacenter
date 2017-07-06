@@ -12,6 +12,7 @@ import { FieldsModel } from '../../../../../core/models/dynamic-fields/fields.mo
 
 import { Message } from 'primeng/primeng';
 import { AuthService } from '../../../../../core/services/common/auth.service';
+import { Configuration } from '../../../../../app.constants';
 
 @Component({
   selector: 'nga-form-activity',
@@ -55,6 +56,7 @@ _districtOptionLists: any[] = [];
 _areaOptionLists: any[] = [];
 
 authId: string;
+serverPath: string;
 
 constructor(
     private fb: FormBuilder,
@@ -64,7 +66,10 @@ constructor(
     private _managepeopleService: ManagepeopleService,
     private _fieldsService: FieldsService,
     private _authService: AuthService,
+    private _configuration: Configuration,
   ) { 
+    
+    this.serverPath = this._configuration.Server;
     
     if (this._authService.auth_id === '') {
       this.authId = null;

@@ -9,6 +9,8 @@ import { ManagepeopleService } from '../../../../core/services/people/manage-peo
 
 import { DataTableModule, SharedModule } from 'primeng/primeng';
 import { Message } from 'primeng/primeng';
+import { Configuration } from '../../../../app.constants';
+
 @Component({
   selector: 'nga-manage-people',
   templateUrl: './manage-people.html',
@@ -20,14 +22,19 @@ export class ManagePeopleComponent {
   _peoplelist: any[] = [];
   fieldLists: any = {};
   _fieldLists: any[] = [];
+
+  serverPath: string;
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
     private _managepeopleService: ManagepeopleService,
     private _fieldsService: FieldsService,
     private _CommonDataService: CommonDataService,
+    private _configuration: Configuration,
   ) {
     
+    this.serverPath = this._configuration.Server;
+
     if (_CommonDataService.filterDataBy) {
       // debugger;
       if ( _CommonDataService.filterDataBy === 'province') {
@@ -57,7 +64,7 @@ export class ManagePeopleComponent {
           data => {
            this.fieldLists = data;
            data.forEach(element => {
-            if (element.isDisplayOnList || element.issystemfield) {
+            if (element.isDisplayOnList) {
               this._fieldLists.push(element);
             }
            });
