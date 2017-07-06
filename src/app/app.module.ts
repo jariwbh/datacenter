@@ -1,6 +1,6 @@
 
 import { NgModule, ApplicationRef } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -27,6 +27,7 @@ import { UserloginService } from './core/services/userlogin/userlogin.service';
 import { CommonDataService } from './core/services/common/common-data.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SettingsService } from './core/services/settings/settings.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -67,6 +68,8 @@ export type StoreType = {
     AuthGuard,
     UserloginService,
     CommonDataService,
+    Title,
+    SettingsService,
   ],
 })
 

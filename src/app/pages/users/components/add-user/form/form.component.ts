@@ -10,6 +10,7 @@ import { UsersModel } from '../../../../../core/models/users/users.model';
 
 import { Message } from 'primeng/primeng';
 import { AuthService } from '../../../../../core/services/common/auth.service';
+import { Configuration } from '../../../../../app.constants';
 
 import {} from '@types/googlemaps';
 
@@ -95,7 +96,8 @@ export class FormComponent {
     private _fieldsService: FieldsService,
     private _usersService: UsersService,
     private _authService: AuthService,
-    private confirmationService: ConfirmationService) {
+    private confirmationService: ConfirmationService,
+    private _configuration: Configuration) {
 
       if (this._authService.auth_id === '') {
         this.authId = null;
@@ -570,8 +572,7 @@ export class FormComponent {
       const isImageValue = <HTMLInputElement> document.getElementById('image_' + val);
       isImageValue.value = url;
       const ispath = <HTMLInputElement> document.getElementById('imagePath_' + val);
-      ispath.src = 'http://localhost:4200/assets' + url;
-      //ispath.src = 'http://52.163.113.185:3000/assets' + url;
+      ispath.src = this._configuration.Server + url;
   }
   
   onChange(newValue: any) {
