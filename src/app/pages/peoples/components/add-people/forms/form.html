@@ -28,10 +28,11 @@
               <div *ngFor="let fields of fieldLists" class="form-group">
                 <div [ngSwitch]="fields.fieldtype">
                   <label for="exampleInputname1">{{fields.displayname}}</label>
-                  <div *ngIf="authRole == 'A'">
+                  <span *ngIf="authRole == 'A'">
+                    <a *ngIf="fields.issystemfield" style="margin-left: 20px;"> <i class="ion-locked"></i> </a>
                     <a *ngIf="!fields.issystemfield" (click)="editFields(fields._id)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
                     <a *ngIf="!fields.issystemfield" (click)="deleteFields(fields._id)" style="cursor: pointer; margin-left: 20px;"><i class="ion-trash-a"></i></a>
-                  </div>
+                  </span>
                   <div *ngSwitchCase="'text'">
                     <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
                   </div>

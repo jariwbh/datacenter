@@ -17,8 +17,8 @@
                             </div>
                             <div class="tl-body">
                                 <p [innerHTML]="act.description" style="color:cornflowerblue"></p>
-                                <!--<p><img src="assets/img/developers/img1.jpg" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>-->
-                                <p><img src="http://localhost:4200/assets/{{act.profileimage}}" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
+                                <p><img *ngIf="!act.profileimage" src="assets/img/developers/img1.jpg" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
+                                <p><img *ngIf="act.profileimage" src="{{serverPath}}/{{act.profileimage}}" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
                             </div>
                             
                         </div>

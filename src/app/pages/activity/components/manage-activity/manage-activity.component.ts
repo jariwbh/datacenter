@@ -6,6 +6,7 @@ import { ActivityModel } from '../../../../core/models/activity/activity.model';
 
 import { Message } from 'primeng/primeng';
 import { ConfirmationService } from 'primeng/primeng';
+import { Configuration } from '../../../../app.constants';
 
 @Component({
   selector: 'nga-manage-activity',
@@ -20,12 +21,16 @@ export class ManageActivityComponent {
   _dateWiseActivites = [];
   msgs: Message[] = [];
 
+  serverPath: string;
+
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
     private _activityService: ActivityService,
     private confirmationService: ConfirmationService,
+    private _configuration: Configuration,
   ) {
+    this.serverPath = this._configuration.Server;
   }
 
   ngOnInit() {
