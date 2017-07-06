@@ -23,10 +23,11 @@
 
   .ct-series-a {
     .ct-bar, .ct-line, .ct-point, .ct-slice-donut, .ct-slice-pie {
-      stroke: $primary;
+      // stroke: $primary;
+      stroke: $danger;
     }
     .ct-slice-pie, .ct-area {
-      fill: $primary;
+      fill: $danger;
     }
   }
 
@@ -41,7 +42,8 @@
 
   .ct-series-c {
     .ct-bar, .ct-line, .ct-point, .ct-slice-donut, .ct-slice-pie {
-      stroke: $danger;
+       stroke: $danger;
+      //stroke: $primary;
     }
     .ct-slice-pie, .ct-area {
       fill: $danger;
@@ -50,7 +52,8 @@
 
   .ct-series-d {
     .ct-bar, .ct-line, .ct-point, .ct-slice-donut, .ct-slice-pie {
-      stroke: $warning;
+      // stroke: $warning;
+      stroke: $success;
     }
     .ct-slice-pie, .ct-area {
       fill: $warning;
@@ -69,5 +72,16 @@
 
   .stacked-bar .ct-bar {
     stroke-width: 30px;
+  }
+
+  .selectChart {
+     .ct-series-b {
+     .ct-line, .ct-point  {
+      stroke: $danger;
+    }
+    .ct-slice-pie, .ct-area {
+      fill: $danger;
+    }
+  }
   }
 }

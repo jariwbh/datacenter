@@ -16,6 +16,7 @@ var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const app = express();
 var appRoot = require('app-root-path');
 var uuid  = require('uuid');
+var RSVP = require('rsvp');
 app.set('superSecret',"datacenter");
 
 /* GET api listing. */
@@ -255,7 +256,7 @@ router.route('/person/social/:search')
     .get(function(req, res) {
 
         var search = req.params.search;
-        console.log(search);
+        
         if (search=="facebook"){
             
             Person.find({ $and: [{"person.facebook_url": { $ne: '' } }, {"person.facebook_url": { $ne: null } }] } , function (err, docs) {
@@ -277,6 +278,37 @@ router.route('/person/social/:search')
                 res.json(docs);
             });
         }
+    });
+
+
+router.route('/person/socialcount/:social')
+    .get(function(req, res) {
+        var social = req.params.social;
+        if (social=="facebook")
+        {
+            Person.find({ $and: [{"person.facebook_url": { $ne: '' } }, {"person.facebook_url": { $ne: null } }] } , function (err, docs) {                                   
+                res.json(docs.length);        
+            });            
+        }   
+        else if (social=="twitter")
+        {
+            Person.find({ $and: [{"person.twitter_url": { $ne: '' } }, {"person.twitter_url": { $ne: null } }] } , function (err, docs) {                                   
+                res.json(docs.length);        
+            });            
+        }
+        else if (social=="telegram")
+        {
+            Person.find({ $and: [{"person.telegram_url": { $ne: '' } }, {"person.telegram_url": { $ne: null } }] } , function (err, docs) {                                   
+                res.json(docs.length);        
+            });            
+        }
+        else if (social=="others")
+        {
+            Person.find({ $and: [{"person.others_url": { $ne: '' } }, {"person.others_url": { $ne: null } }] } , function (err, docs) {                                   
+                res.json(docs.length);        
+            });            
+        }
+
     });
 
 
