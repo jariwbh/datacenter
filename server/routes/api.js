@@ -16,7 +16,7 @@ var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const app = express();
 var appRoot = require('app-root-path');
 var uuid  = require('uuid');
-var RSVP = require('rsvp');
+
 app.set('superSecret',"datacenter");
 
 /* GET api listing. */
@@ -281,36 +281,21 @@ router.route('/person/social/:search')
     });
 
 
-router.route('/person/socialcount/:social')
+router.route('/person/provincecount')
     .get(function(req, res) {
-        var social = req.params.social;
-        if (social=="facebook")
-        {
-            Person.find({ $and: [{"person.facebook_url": { $ne: '' } }, {"person.facebook_url": { $ne: null } }] } , function (err, docs) {                                   
-                res.json(docs.length);        
-            });            
-        }   
-        else if (social=="twitter")
-        {
-            Person.find({ $and: [{"person.twitter_url": { $ne: '' } }, {"person.twitter_url": { $ne: null } }] } , function (err, docs) {                                   
-                res.json(docs.length);        
-            });            
-        }
-        else if (social=="telegram")
-        {
-            Person.find({ $and: [{"person.telegram_url": { $ne: '' } }, {"person.telegram_url": { $ne: null } }] } , function (err, docs) {                                   
-                res.json(docs.length);        
-            });            
-        }
-        else if (social=="others")
-        {
-            Person.find({ $and: [{"person.others_url": { $ne: '' } }, {"person.others_url": { $ne: null } }] } , function (err, docs) {                                   
-                res.json(docs.length);        
-            });            
-        }
-
+        
+        Person.aggregate(
+                [
+                    {
+                      $group : {
+                        _id : "$person.province",
+                        count: { $sum: 1 }
+                      }
+                    }
+                ], function(err, data){
+                    res.json(data);
+                });
     });
-
 
 router.route('/person/:id')
     
