@@ -251,7 +251,6 @@ router.route('/person/province/:province')
 
     });
 
-
 router.route('/person/social/:search')
     .get(function(req, res) {
 
@@ -276,6 +275,34 @@ router.route('/person/social/:search')
         else if (search=="others"){
             Person.find({ $and: [{"person.whatsApp_url": { $ne: '' } }, {"person.whatsApp_url": { $ne: null } }] } , function (err, docs) {
                 res.json(docs);
+            });
+        }
+    });
+
+router.route('/person/socialcount/:search')
+    .get(function(req, res) {
+
+        var search = req.params.search;
+        
+        if (search=="facebook"){
+            
+            Person.find({ $and: [{"person.facebook_url": { $ne: '' } }, {"person.facebook_url": { $ne: null } }] } , function (err, docs) {
+                res.json(docs.length);
+            });
+        }
+        else if (search=="twitter"){
+            Person.find({ $and: [{"person.twitter_url": { $ne: '' } }, {"person.twitter_url": { $ne: null } }] } , function (err, docs) {
+                res.json(docs.length);
+            });
+        }
+        else if (search=="telegram"){
+            Person.find({ $and: [{"person.telegram_url": { $ne: '' } }, {"person.telegram_url": { $ne: null } }] } , function (err, docs) {
+                res.json(docs.length);
+            });
+        }
+        else if (search=="others"){
+            Person.find({ $and: [{"person.whatsApp_url": { $ne: '' } }, {"person.whatsApp_url": { $ne: null } }] } , function (err, docs) {
+                res.json(docs.length);
             });
         }
     });
