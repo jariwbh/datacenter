@@ -17,6 +17,7 @@ var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const app = express();
 var appRoot = require('app-root-path');
 var uuid  = require('uuid');
+var mong = require('mongoose');
 
 app.set('superSecret',"datacenter");
 
@@ -156,6 +157,28 @@ router.route('/dashboard/topadmin')
                 });
     
     });
+
+router.route('/dashboard/topadminchart/:adminid')
+    .get(function(req, res) {   
+
+        var id = req.params.adminid;
+        const ObjectId = mong.Types.ObjectId;
+        AdminPointHistory.aggregate(
+        [     
+            { $match : { adminid : ObjectId(id) } },                           
+            {                      
+                $group : {
+                _id : { year: { $year : "$date" }, month: { $month : "$date" }},
+                //totalPrice: { $sum: { $multiply: [ "$price", "$quantity" ] } },
+                //  averageQuantity: { $avg: "$quantity" },
+                count: { $sum: "$point" }                    
+            }},
+            { $sort : { date : -1 }}, 
+            { $limit: 6 }
+        ], function(err, data){
+            res.json(data);
+        });
+});
 
 router.route('/dashboard/province')
     
