@@ -11,11 +11,13 @@ var Activity     = require('../models/activity');
 var Admin     = require('../models/admin');
 var Point     = require('../models/point');
 var Audit     = require('../models/audit');
+var AdminPointHistory = require('../models/adminpointhistory');
 var Formfield     = require('../models/form-field');
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const app = express();
 var appRoot = require('app-root-path');
 var uuid  = require('uuid');
+var mong = require('mongoose');
 
 app.set('superSecret',"datacenter");
 
@@ -23,6 +25,42 @@ app.set('superSecret',"datacenter");
 router.get('/', (req, res) => {
   res.send('api works');
 });
+
+var addPersonPointsAdmin=0;
+var addPointPointsAdmin=0;
+var addActivityPointsAdmin=0;
+
+function loadAdminPoints()
+{
+    Setting.findOne({}).exec()
+            .then(function(result){
+                addPersonPointsAdmin = result.addPersonPointsAdmin;
+                addPointPointsAdmin = result.addPointPointsAdmin;
+                addActivityPointsAdmin = result.addActivityPointsAdmin;
+            })
+            .catch(function(err){
+                return 0;
+            });
+
+}
+
+function saveAdminPoints(adminid, activity, points)
+{
+
+    var adminpointhistory = new AdminPointHistory();      
+    adminpointhistory.adminid = adminid;  
+    adminpointhistory.point = points; 
+    adminpointhistory.activity = activity; 
+    adminpointhistory.date = Date.now(); 
+    
+    adminpointhistory.save(function(err, data) {
+        if (err)
+            res.send(err);
+
+        return "Saved";
+    });
+
+}
 
 function saveAudit(activity, date, adminid )
 {
@@ -64,10 +102,14 @@ router.route('/point/:adminid')
         point.district = req.body.district;
         point.points = req.body.points;  
 
+        loadAdminPoints();
+
         point.save(function(err, data) {
             if (err)
                 res.send(err);
             
+            saveAdminPoints(req.params.adminid, "Point added" , addPointPointsAdmin);
+
             saveAudit("Point added", Date.now(), req.params.adminid);
 
             res.json(data);
@@ -99,14 +141,44 @@ router.route('/point/:id')
     });
 
 router.route('/dashboard/topadmin')
+    .get(function(req, res) {   
+             AdminPointHistory.aggregate(
+                [                    
+                    {                      
+                      $group : {
+                        _id : "$adminid",
+                        //  totalPrice: { $sum: { $multiply: [ "$price", "$quantity" ] } },
+                        //  averageQuantity: { $avg: "$quantity" },
+                        count: { $sum: "$point" }                    
+                    }},                     
+                    { $lookup: {from: 'admins', localField: '_id', foreignField: '_id', as: 'admin'} }                                                              
+                ], function(err, data){
+                    res.json(data);
+                });
     
-    .get(function(req, res) {        
-        Admin.find({}).sort({points: -1}).limit(10)
-        .exec(function (err, docs) {            
-                res.json(docs);
-        });
-
     });
+
+router.route('/dashboard/topadminchart/:adminid')
+    .get(function(req, res) {   
+
+        var id = req.params.adminid;
+        const ObjectId = mong.Types.ObjectId;
+        AdminPointHistory.aggregate(
+        [     
+            { $match : { adminid : ObjectId(id) } },                           
+            {                      
+                $group : {
+                _id : { year: { $year : "$date" }, month: { $month : "$date" }},
+                //totalPrice: { $sum: { $multiply: [ "$price", "$quantity" ] } },
+                //  averageQuantity: { $avg: "$quantity" },
+                count: { $sum: "$point" }                    
+            }},
+            { $sort : { date : -1 }}, 
+            { $limit: 6 }
+        ], function(err, data){
+            res.json(data);
+        });
+});
 
 router.route('/dashboard/province')
     
@@ -221,10 +293,13 @@ router.route('/person/:adminid')
         person.person = req.body;  // set the bears name (comes from the request)
 
         // save the person and check for errors
+        loadAdminPoints();
         person.save(function(err, data) {
             if (err)
                 res.send(err);
             
+            saveAdminPoints(req.params.adminid, "Person added", addPersonPointsAdmin);
+
             saveAudit("Person added", Date.now(), req.params.adminid);
 
             res.json(data);
@@ -593,9 +668,13 @@ router.route('/activity/:adminid')
         activity.area = req.body.area;  // set the bears name (comes from the request)
 
         // save the person and check for errors
+        loadAdminPoints();
+
         activity.save(function(err, data) {
             if (err)
                 res.send(err);
+
+            saveAdminPoints(req.params.adminid, "Activity added", addActivityPointsAdmin);
 
             saveAudit("Activity added", Date.now(), req.params.adminid);
 
