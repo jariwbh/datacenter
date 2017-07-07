@@ -4,7 +4,8 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var PersonSchema   = new Schema({
-    person: Object    
+    person: Object,
+    createdAt: { type: Date, default: Date.now }     
 });
 
 module.exports = mongoose.model('Person', PersonSchema);
