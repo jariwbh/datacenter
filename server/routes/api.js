@@ -180,6 +180,26 @@ router.route('/dashboard/topadminchart/:adminid')
         });
 });
 
+router.route('/reportperson/:province')
+    .get(function(req, res) {   
+        var province = req.params.province;
+        Person.aggregate(
+        [     
+            { $match : { "person.province" : province } },                           
+            {                      
+                $group : {
+                _id : { year: { $year : "$createdAt" }, month: { $month : "$createdAt" }},
+                //totalPrice: { $sum: { $multiply: [ "$price", "$quantity" ] } },
+                //  averageQuantity: { $avg: "$quantity" },
+                count: { $sum: 1 }                    
+            }}
+        ], function(err, data){
+            console.log(data);
+            console.log(err);
+            res.json(data);
+        });     
+});
+
 router.route('/dashboard/province')
     
     .get(function(req, res) {        
