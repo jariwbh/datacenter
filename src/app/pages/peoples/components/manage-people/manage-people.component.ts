@@ -14,6 +14,7 @@ import { Configuration } from '../../../../app.constants';
 @Component({
   selector: 'nga-manage-people',
   templateUrl: './manage-people.html',
+  styleUrls: ['./manage-people.scss'],
 })
 
 export class ManagePeopleComponent {

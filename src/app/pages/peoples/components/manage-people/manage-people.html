@@ -58,14 +58,37 @@
 
   <div class="row" *ngIf="!cardViewVisibilty">
     <ba-card title="Users Detail" baCardClass="with-scroll">
-      <p-dataTable #dt [value]="_peoplelist" exportFilename="peopleinfo" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+      <p-dataTable 
+          #dt 
+          [value]="_peoplelist" 
+          exportFilename="peopleinfo" 
+          [rows]="10" 
+          [paginator]="true" 
+          [pageLinks]="3" 
+          [rowsPerPageOptions]="[5,10,20]">
+
         <p-header>
           <div class="ui-helper-clearfix">
-            <button class="btn btn-small btn-rounded" type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left">CSV</button>
+            <button 
+              class="btn btn-info" 
+              type="button" 
+              pButton 
+              icon="fa-file-o" 
+              iconPos="left" 
+              label="CSV" 
+              (click)="dt.exportCSV()" 
+              style="float:left">
+              CSV
+            </button>
           </div>
         </p-header>
 
-        <p-column *ngFor="let fields of _fieldLists" field="{{fields.labelname}}" header="{{fields.displayname}}" [sortable]="true"></p-column>
+        <p-column 
+            *ngFor="let fields of _fieldLists" 
+            field="{{fields.labelname}}" 
+            header="{{fields.displayname}}" 
+            [sortable]="true">
+        </p-column>
       </p-dataTable>
     </ba-card>
   </div>

@@ -75,12 +75,21 @@
   }
 
   .selectChart {
-     .ct-series-b {
-     .ct-line, .ct-point  {
-      stroke: $danger;
+    .ct-series-a {
+    .ct-bar, .ct-line, .ct-point, .ct-slice-donut, .ct-slice-pie {
+      // stroke: $primary;
+      stroke: $success;
     }
     .ct-slice-pie, .ct-area {
-      fill: $danger;
+      fill: $success;
+    }
+  }
+     .ct-series-b {
+     .ct-line, .ct-point  {
+      stroke: $success;
+    }
+    .ct-slice-pie, .ct-area {
+      fill: $success;
     }
   }
   }
