@@ -33,12 +33,18 @@ export class ReportService {
     // let theMonths = new Array('January', 'February', 'March', 'April', 'May',
     //  'June', 'July', 'August', 'September', 'October', 'November', 'December');
 
-    loadMonthArray() {
+    loadMonthArray(currentYear: number = 0, currentMonth: number = 0) {
         let theMonths = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May',
             'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
         let today = new Date();
         let aMonth = today.getMonth();
         let aYear = today.getFullYear();
+        if (currentYear !== 0) {
+            if (currentMonth !== 0) {
+                aYear = currentYear;
+                aMonth = currentMonth;
+            }
+        }
         let i;
 
         for (i = 0; i < 12; i++) {
