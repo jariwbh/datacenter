@@ -9,6 +9,7 @@ import { AppTranslationModule } from '../../app.translation.module';
 
 import { PointsService } from '../../core/services/points/points.service';
 import { UsersService } from '../../core/services/users/users.service';
+import { ManagepeopleService } from '../../core/services/people/manage-people.service';
 import { PagerService } from '../../core/services/common/pager.service';
 import { FieldsService } from '../../core/services/dynamic-fields/fields.service';
 
@@ -40,6 +41,7 @@ import { GrowlModule, MessagesModule } from 'primeng/primeng';
     PagerService,
     FieldsService,
     ConfirmationService,
+    ManagepeopleService,
   ],
 })
 export class PointsModule {}

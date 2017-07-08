@@ -32,6 +32,8 @@ import { GrowlModule } from 'primeng/primeng';
 //Custom service
 import { DashboardService } from './../../core/services/dashboard/dashboard.service';
 
+import { ReportService } from './../../core/services/report/report.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -63,6 +65,7 @@ import { DashboardService } from './../../core/services/dashboard/dashboard.serv
     FieldsService,
     UsersService,
     DashboardService,
+    ReportService,
   ],
 })
 export class DashboardModule {}

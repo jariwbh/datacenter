@@ -9,6 +9,8 @@ import { PagerService } from '../../core/services/common/pager.service';
 import { FieldsService } from '../../core/services/dynamic-fields/fields.service';
 import { UsersService } from '../../core/services/users/users.service';
 
+import { ManagepeopleService } from '../../core/services/people/manage-people.service';
+
 import { Message } from 'primeng/primeng';
 
 import { ConfirmationService } from 'primeng/primeng';
@@ -65,7 +67,9 @@ constructor(
     private pagerService: PagerService,
     private _fieldsService: FieldsService,
     private confirmationService: ConfirmationService,
-    private _authService: AuthService) {
+    private _authService: AuthService,
+    private _managepeopleService: ManagepeopleService,
+    ) {
 
     if (this._authService.auth_id === '') {
       this.authId = null;
@@ -129,12 +133,12 @@ constructor(
 
 
     getAllUsers() {
-        this._usersService
+        this._managepeopleService
             .GetAll()
             .subscribe( data => {
                 data.forEach(element => {
-                    element.admin['id'] = element._id;
-                    this._allUsers.push(element.admin);
+                    element.person['id'] = element._id;
+                    this._allUsers.push(element.person);
                 });
                 if (this._allUsers.length == 0) {
                     this._tableVisibility = false;
@@ -178,11 +182,7 @@ constructor(
                 });
             } else {
                 this._selectedUsersLists.forEach(element => {
-                    let grp = {
-                        name : element.fullname,
-                        id : element.id,
-                    };
-                    this._selectedUsers.push(grp);
+                    this._selectedUsers.push(element.id);
                 });
                 this._pointsModel.points = value.points;
                 this._pointsModel.users = this._selectedUsers;
@@ -259,26 +259,26 @@ constructor(
     FilteredUsers(type, value) {
         this._loadData = true;
         this._allUsers = [];
-    this._usersService
+    this._managepeopleService
         .GetAll()
         .subscribe( data => {
             data.forEach(element => {
                 if (type == 'province') {
-                    if (element.admin.province == value) {
-                        element.admin['id'] = element._id;
-                        this._allUsers.push(element.admin);
+                    if (element.person.province == value) {
+                        element.person['id'] = element._id;
+                        this._allUsers.push(element.person);
                     }
                 }
                 if (type == 'district') {
-                    if (element.admin.district == value) {
-                        element.admin['id'] = element._id;
-                        this._allUsers.push(element.admin);
+                    if (element.person.district == value) {
+                        element.person['id'] = element._id;
+                        this._allUsers.push(element.person);
                     }
                 }
                 if (type == 'area') {
-                    if (element.admin.area == value) {
-                        element.admin['id'] = element._id;
-                        this._allUsers.push(element.admin);
+                    if (element.person.area == value) {
+                        element.person['id'] = element._id;
+                        this._allUsers.push(element.person);
                     }
                 }
             });

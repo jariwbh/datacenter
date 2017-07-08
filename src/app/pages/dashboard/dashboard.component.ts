@@ -8,6 +8,8 @@ import { FieldsModel } from '../../core/models/dynamic-fields/fields.model';
 import { UsersService } from '../../core/services/users/users.service';
 import { DashboardService } from './../../core/services/dashboard/dashboard.service';
 
+import { ReportService } from './../../core/services/report/report.service';
+
 @Component({
   selector: 'dashboard',
   styleUrls: ['./dashboard.scss', './chartistJs.scss'],
@@ -23,33 +25,34 @@ export class Dashboard {
 
  _topAdminlist: any[] = [];
 
-  allmonthNames: any[] = [];
-  data: any;
-  userMapHistory: any = {};
-
-  _chartLabelArray: any[] = [];
-
+  _userMapHistory: any = {};
+  _selectMonthYearArray: any;
+  _selectUserHistoryData: any;
+  
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
     private _usersService: UsersService,
     private _fieldsService: FieldsService,
     private _DashboardService: DashboardService,
+    private _reportService: ReportService,
   ) {
   }
 
   ngOnInit() {
     
-    this.userMapHistory = {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          series: [
-            [15, 24, 43, 27, 5, 10, 23, 44, 68, 100, 26, 8],
-          ],
-          simpleBarOptions: {
-            fullWidth: true,
-            height: '300px',
-          },
-    };
+    this._selectMonthYearArray = this._reportService.selectMonthYearArray;
+
+    // this.userMapHistory = {
+    //       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    //       series: [
+    //         [15, 24, 43, 27, 5, 10, 23, 44, 68, 100, 26, 8],
+    //       ],
+    //       simpleBarOptions: {
+    //         fullWidth: true,
+    //         height: '300px',
+    //       },
+    // };
 
     //this.getAllAdmin();
     this.getAllFields('admin');
@@ -65,6 +68,12 @@ export class Dashboard {
             element.admin[0].admin.custom_id = element._id;
             this._topAdminlist.push(element.admin[0].admin);
           });
+          console.log(this._topAdminlist);
+          // array sorting
+          this._topAdminlist.sort(function(a, b) {
+            return parseFloat(a.customCount) - parseFloat(b.customCount);
+          }); 
+          console.log(this._topAdminlist);
      });
   }
 
@@ -83,13 +92,35 @@ export class Dashboard {
     
   }
   getMapBasedonAdmin(id: any) {
+    
+    let labelsArr: string[] = [];
+    let seriesArrA: number[] = [];
+
     this._DashboardService
       .GetAllTopAdminChart(id)
       .subscribe( data => {
-        
-
+        this._selectUserHistoryData = data;
+        this._selectMonthYearArray.forEach(element => {
+          labelsArr.push(element.month);
+          let countUser = 0;
+          this._selectUserHistoryData.forEach(ele => {
+            if (element.year === ele._id.year) {
+              if (element.monthNo === ele._id.month) {
+                countUser = ele.count;
+              }
+            }
+          });
+          seriesArrA.push(countUser);
+        });
+        this._userMapHistory.labels = labelsArr;
+        this._userMapHistory.series = [seriesArrA];
+        this._userMapHistory.simpleBarOptions = {
+          fullWidth: true,
+          height: '300px',
+        };
       });
   }
+
   getAllFields(id: any) {
     this._fieldsService
         .GetAll(id)
