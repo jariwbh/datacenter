@@ -7,7 +7,7 @@ var ActivitySchema   = new Schema({
     name:String,
     description:String,
     type:String,
-    persons:Array,
+    persons:[{type: Schema.ObjectId, ref: 'person' }],
     profileimage:String,
     url:String,
     points:Number,

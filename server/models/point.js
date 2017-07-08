@@ -4,7 +4,7 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var PointSchema   = new Schema({
-    users: Array,
+    users: [{type: Schema.ObjectId, ref: 'person' }],
     province: String,   
     area: String,   
     district: String,  

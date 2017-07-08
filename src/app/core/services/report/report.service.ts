@@ -13,6 +13,7 @@ export class ReportService {
     private actionUrl: string;
     private headers: Headers;
     selectMonthYearArray: any[] = [];
+    monthYearArrayByDate: any[] = [];
     defaultLabelArr: string[] = [];
     defaultseriesArr: number[] = [];
 
@@ -33,12 +34,18 @@ export class ReportService {
     // let theMonths = new Array('January', 'February', 'March', 'April', 'May',
     //  'June', 'July', 'August', 'September', 'October', 'November', 'December');
 
-    loadMonthArray() {
+    loadMonthArray(currentYear: number = 0, currentMonth: number = 0) {
         let theMonths = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May',
             'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
         let today = new Date();
         let aMonth = today.getMonth();
         let aYear = today.getFullYear();
+        if (currentYear !== 0) {
+            if (currentMonth !== 0) {
+                aYear = currentYear;
+                aMonth = currentMonth;
+            }
+        }
         let i;
 
         for (i = 0; i < 12; i++) {
@@ -64,6 +71,42 @@ export class ReportService {
             });
         }
 
+    }
+
+    loadLastMonthsArray(currentYear: number = 0, currentMonth: number = 0): any {
+        let theMonths = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May',
+            'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+        let today = new Date();
+        let aMonth = today.getMonth();
+        let aYear = today.getFullYear();
+        if (currentYear !== 0) {
+            if (currentMonth !== 0) {
+                aYear = currentYear;
+                aMonth = currentMonth;
+            }
+        }
+        let i;
+
+        for (i = 0; i < 12; i++) {
+            // document.writeln(theMonths[aMonth] + '<br>');
+            
+            this.monthYearArrayByDate.push({ year: aYear, month: theMonths[aMonth - 1], monthNo: aMonth });
+            
+            // aMonth++;
+            aMonth--;
+            if (aMonth === 0) {
+                aMonth = 12;
+                aYear = aYear - 1;
+            }
+            // console.log(theMonths[aMonth] );
+            // if (aMonth > 11) {
+            //   aMonth = 0;
+            //   aYear = aYear - 1;
+            // }
+        }
+
+        return this.monthYearArrayByDate.reverse();
+        
     }
 
 
