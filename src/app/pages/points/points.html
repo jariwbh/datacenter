@@ -106,14 +106,14 @@
                                         </td>
                                         <td class="align-right"></td>
                                     </tr>
-                                    <tr *ngFor="let user of pagedItems">
-                                        <td class="align-right">{{ user.fullname }}</td>
-                                        <td class="align-right"><a class="email-link" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
-                                        <td class="align-right">{{ user.province }}</td>
-                                        <td class="align-right">{{ user.district }}</td>
-                                        <td class="align-right">{{ user.area }}</td>
+                                    <tr *ngFor="let person of pagedItems">
+                                        <td class="align-right">{{ person.fullname }}</td>
+                                        <td class="align-right"><a class="email-link" href="mailto:{{ person.email }}">{{ person.email }}</a></td>
+                                        <td class="align-right">{{ person.province }}</td>
+                                        <td class="align-right">{{ person.district }}</td>
+                                        <td class="align-right">{{ person.area }}</td>
                                         <td>
-                                            <button  [disabled]="user.disabled" id="addbtn_{{user.id}}" type="button" class="btn btn-warning" (click)="addUser(user)">Add</button>
+                                            <button  [disabled]="person.disabled" id="addbtn_{{person.id}}" type="button" class="btn btn-warning" (click)="addUser(person)">Add</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -159,7 +159,7 @@
                         <label for="input01">Selected Users</label>
                         <div>
                             <ul>
-                                <li *ngFor="let user of _selectedUsersLists">{{ user.email }}</li>
+                                <li *ngFor="let person of _selectedUsersLists">{{ person.email }}</li>
                             </ul>
                         </div>
                     </div>

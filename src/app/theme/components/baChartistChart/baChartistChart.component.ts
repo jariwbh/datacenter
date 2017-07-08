@@ -38,6 +38,12 @@ export class BaChartistChart {
     }
   }
 
+   updateChanges() {
+    if (this.chart) {
+      (<any>this.chart).update(this.baChartistChartData, this.baChartistChartOptions);
+    }
+  }
+
   ngOnDestroy():void {
     if (this.chart) {
       this.chart.detach();

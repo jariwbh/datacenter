@@ -82,7 +82,8 @@ constructor(
     });
 
     this.userSearchForm = fb.group({
-        'persons': [this._activityModel.persons, Validators.required],
+        'persons': [this._activityModel.persons],
+        'personsLists': [this._activityModel.personsLists, Validators.required],
     });
 
     this.aboutForm = fb.group({
@@ -234,14 +235,21 @@ constructor(
           this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
           return false;
       } else {
-        this._activityModel.persons = value.persons;
-        this.msgs = [];
-        this.msgs.push ({ 
-          severity: 'info', summary: 'Insert Message', detail: 'Activity has been added Successfully!!!' });
-        this._completedStep = 3;
-        this.activityTypeVisibilty = false;
-        this.howActivityVisibilty = false;
-        this.aboutVisibilty = true;
+        if (value.personsLists.length !== 0) {
+          this._activityModel.persons = [];
+          value.personsLists.forEach(element => {
+            this._activityModel.persons.push(element.code);
+          });
+          //this._activityModel.persons = value.persons;
+          this.msgs = [];
+          this.msgs.push ({ 
+            severity: 'info', summary: 'Insert Message', detail: 'Activity has been added Successfully!!!' });
+          this._completedStep = 3;
+          this.activityTypeVisibilty = false;
+          this.howActivityVisibilty = false;
+          this.aboutVisibilty = true;
+        }
+        
       }
   }
 
@@ -271,9 +279,11 @@ constructor(
                 this._router.navigate(['/pages/activities/manage-activity']);
             });
           } else {
+            console.log(this._activityModel);
             this._activityService
               .Add(this.authId, this._activityModel)
               .subscribe(data => {
+                console.log(data);
                 this.msgs = [];
                 this.msgs.push ({ 
                   severity: 'info', summary: 'Insert Message', detail: 'Activity has been added Successfully!!!' });

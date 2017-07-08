@@ -128,7 +128,7 @@ router.route('/point/:adminid')
     .post(function(req, res) {
 
         var point = new Point();      
-        point.users = req.body.users; 
+        point.users = req.body.users;
         point.province = req.body.province; 
         point.area = req.body.area;  
         point.district = req.body.district;
@@ -773,6 +773,7 @@ router.route('/activity/:adminid')
         activity.description = req.body.description;  // set the bears name (comes from the request)
         activity.type = req.body.type;  // set the bears name (comes from the request)
         activity.persons = req.body.persons;  // set the bears name (comes from the request)
+        activity.personsLists = req.body.personsLists;  // set the bears name (comes from the request)
         activity.profileimage = req.body.profileimage;  // set the bears name (comes from the request)
         activity.url = req.body.url;  // set the bears name (comes from the request)
         activity.points = req.body.points;  // set the bears name (comes from the request)
@@ -812,6 +813,7 @@ router.route('/activity/:id')
             activity.description = req.body.description;  // set the bears name (comes from the request)
             activity.type = req.body.type;  // set the bears name (comes from the request)
             activity.persons = req.body.persons;  // set the bears name (comes from the request)
+            activity.personsLists = req.body.personsLists;  // set the bears name (comes from the request)
             activity.profileimage = req.body.profileimage;  // set the bears name (comes from the request)
             activity.url = req.body.url;  // set the bears name (comes from the request)
             activity.points = req.body.points;  // set the bears name (comes from the request)
