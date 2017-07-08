@@ -19,16 +19,47 @@
                     
                     
                     <div class="form-group">
-                        <button
-                            (click)="selectAll()"
-                            type="button" 
-                            class="btn btn-info btn-raised pull-right">
-                            Select All
-                        </button>
+                        <div class="row"> 
+                            <div class="col-sm-4">
+                                <select
+                                    id="provice"
+                                    (change)="onChangeProvince($event.target.value)"
+                                    class="form-control">
+                                    <option value="">----</option>
+                                    <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <select 
+                                    id="district"
+                                    (change)="onChangeDistrict($event.target.value)"
+                                    class="form-control">
+                                    <option value="">----</option>
+                                    <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <select 
+                                    id="area"
+                                    (change)="onChangeArea($event.target.value)"
+                                    class="form-control">
+                                    <option value="">----</option>
+                                    <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row pull-right" style="margin-top: 20px;margin-right: 10px;">
+                            <button
+                                (click)="selectAll()"
+                                type="button" 
+                                class="btn btn-info btn-raised pull-right">
+                                Select All
+                            </button>
+                        </div>
                         <label for="input01">List of User</label>
                         <div class="horizontal-scroll" style="margin-top: 20px;">
                             <div *ngIf="_loadData" class="center"> 
-                                <img src="assets/img/loader1.gif">
+                                <img src="assets/img/loader1.gif" style="height: 100px; width: 100px;">
                             </div>
                             
                             <table class="table table-bordered" [ngClass]="_tableVisibility ? 'show' : 'hide'">
@@ -47,31 +78,31 @@
                                         <td class="align-right"></td>
                                         <td class="align-right"></td>
                                         <td class="align-right">
-                                            <select
+                                            <!--<select
                                                 id="provice"
                                                 (change)="onChangeProvince($event.target.value)"
                                                 class="form-control">
                                                 <option value="">----</option>
                                                 <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
-                                            </select>
+                                            </select>-->
                                         </td>
                                         <td class="align-right">
-                                            <select 
+                                            <!--<select 
                                                 id="district"
                                                 (change)="onChangeDistrict($event.target.value)"
                                                 class="form-control">
                                                 <option value="">----</option>
                                                 <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
-                                            </select>
+                                            </select>-->
                                         </td>
                                         <td class="align-right">
-                                            <select 
+                                            <!--<select 
                                                 id="area"
                                                 (change)="onChangeArea($event.target.value)"
                                                 class="form-control">
                                                 <option value="">----</option>
                                                 <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
-                                            </select>
+                                            </select>-->
                                         </td>
                                         <td class="align-right"></td>
                                     </tr>

@@ -32,6 +32,11 @@ export class DashboardService {
     //         .map(res => <any>res.json());
     // }
 
+     public GetAllTopAdminChart = (id: number): Observable<any> => {
+           return this.http
+           .get(this.actionUrl + 'dashboard/topadminchart/' + id)
+           .map(res => <any>res.json());
+    }
      public GetAllTopAdmin = (): Observable<any> => {
         return this.http
             .get(this.actionUrl + 'dashboard/topadmin')

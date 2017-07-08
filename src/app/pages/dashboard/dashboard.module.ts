@@ -27,6 +27,8 @@ import { UsersMapService } from './usersMap/usersMap.service';
 import { FieldsService } from '../../core/services/dynamic-fields/fields.service';
 import { UsersService } from '../../core/services/users/users.service';
 
+import { GrowlModule } from 'primeng/primeng';
+
 //Custom service
 import { DashboardService } from './../../core/services/dashboard/dashboard.service';
 
@@ -37,6 +39,7 @@ import { DashboardService } from './../../core/services/dashboard/dashboard.serv
     AppTranslationModule,
     NgaModule,
     routing,
+    GrowlModule,
   ],
   declarations: [
     PopularApp,

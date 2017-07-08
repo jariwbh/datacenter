@@ -34,66 +34,28 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of _topAdminlist">
-            <!--<td>1</td>-->
-            <td>{{item.admin.fullname}}</td>
-            <td>{{item.admin.province}}</td>
-            <td>{{item.admin.district}}</td>
-            <td>{{item.admin.points}}</td>
+          <tr *ngFor="let item of _topAdminlist" id="row_{{item.custom_id}}" (click)="rowClick(item.custom_id)">
+            <td>{{item.fullname}}</td>
+            <td>{{item.province}}</td>
+            <td>{{item.district}}</td>
+            <td>{{item.customCount}}</td>
           </tr>
-         
         </tbody>
-        <!--<tbody>
-          <tr>
-            <td>1</td>
-            <td>Milk Powder</td>
-            <td>Baghdad</td>
-            <td>Sader</td>
-            <td>1,500</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Milk Powder</td>
-            <td>Baghdad</td>
-            <td>Sader</td>
-            <td>1,500</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Milk Powder</td>
-            <td>Baghdad</td>
-            <td>Sader</td>
-            <td>1,500</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Milk Powder</td>
-            <td>Baghdad</td>
-            <td>Sader</td>
-            <td>1,500</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Milk Powder</td>
-            <td>Baghdad</td>
-            <td>Sader</td>
-            <td>1,500</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Milk Powder</td>
-            <td>Baghdad</td>
-            <td>Sader</td>
-            <td>1,500</td>
-          </tr>
-        </tbody>-->
       </table>
     </div>
   </ba-card>
   <!--<ba-card class="col-xlg-6 col-lg-6 col-md-12 col-sm-12 col-12" title="SITE VISIT CHART" baCardClass="xmedium-card feed-comply-panel with-scroll calendar-panel">
   </ba-card>-->
-  <ba-card class="col-xlg-6 col-lg-6 col-md-12 col-sm-12 col-12" title="ADMIN POINTS HISTORY" baCardClass="xmedium-card feed-comply-panel with-scroll calendar-panel">
-    
+  <ba-card 
+      class="col-xlg-6 col-lg-6 col-md-12 col-sm-12 col-12" 
+      title="ADMIN POINTS HISTORY" 
+      baCardClass="xmedium-card feed-comply-panel with-scroll calendar-panel">
+      <ba-chartist-chart
+          baChartistChartClass="ct-chart" 
+          baChartistChartType="Bar" 
+          [baChartistChartData]="userMapHistory"
+          [baChartistChartOptions]="userMapHistory['simpleBarOptions']">
+      </ba-chartist-chart>
   </ba-card>
 </div>
 

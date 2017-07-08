@@ -20,7 +20,14 @@
   }
 }
 
-
+tbody {
+  background: none !important;
+}
 .ui-widget-content {
-      background: none !important ;
-    }
+ background: none !important;
+ color: #fff !important;
+}
+
+.table > thead > tr > th:first-child {
+  padding: 10px;
+}
