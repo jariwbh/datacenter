@@ -40,12 +40,16 @@ export class Dashboard {
 
   ngOnInit() {
     
-    this.allmonthNames = [
-        'January', 'February', 'March', 'April', 'May', 'June', 'July',
-        'August', 'September', 'October', 'November', 'December',
-        'January', 'February', 'March', 'April', 'May', 'June', 'July', 
-        'August', 'September', 'October', 'November', 'December',
-        ];
+    this.userMapHistory = {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          series: [
+            [15, 24, 43, 27, 5, 10, 23, 44, 68, 100, 26, 8],
+          ],
+          simpleBarOptions: {
+            fullWidth: true,
+            height: '300px',
+          },
+    };
 
     //this.getAllAdmin();
     this.getAllFields('admin');
@@ -83,50 +87,6 @@ export class Dashboard {
       .GetAllTopAdminChart(id)
       .subscribe( data => {
         
-        // find Maximum Year
-        let maxYear = 0;
-        let maxMonth = 0;
-
-        data.forEach(element => {
-          if (element._id.year > maxYear ) {
-            maxYear = element._id.year;
-          }
-        });
-
-        if ( maxYear !== 0) {
-          data.forEach(element => {
-            if (element._id.year == maxYear ) {
-              if (element._id.month > maxMonth ) {
-                maxMonth = element._id.month;
-              }
-            }
-          });
-        }
-        let cnt = 1;
-        let anotherCounter = 1;
-        this.allmonthNames.forEach(element => {
-          if (cnt >= maxMonth ) {
-            if (anotherCounter <= 12) {
-              //console.log(cnt);
-              this._chartLabelArray.push(element);
-              anotherCounter++;
-            }
-          }
-          cnt++;
-        });
-        // console.log(this._chartLabelArray);
-        // console.log( maxYear + ' --> '  + maxMonth );
-        // console.log(this.allmonthNames[parseInt(maxMonth) + 1]);
-        this.userMapHistory = {
-              labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-              series: [
-                [15, 24, 43, 27, 5, 10, 23, 44, 68, 100, 26, 8],
-              ],
-              simpleBarOptions: {
-                fullWidth: true,
-                height: '300px',
-              },
-        };
 
       });
   }
