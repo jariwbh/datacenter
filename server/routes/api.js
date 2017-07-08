@@ -12,6 +12,7 @@ var Admin     = require('../models/admin');
 var Point     = require('../models/point');
 var Audit     = require('../models/audit');
 var AdminPointHistory = require('../models/adminpointhistory');
+var UserPointHistory = require('../models/userpointhistory');
 var Formfield     = require('../models/form-field');
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const app = express();
@@ -41,6 +42,24 @@ function loadAdminPoints()
             .catch(function(err){
                 return 0;
             });
+
+}
+
+function saveUserPoints(personid, activity, points)
+{
+
+    var userpointhistory = new UserPointHistory();      
+    userpointhistory.personid = personid;  
+    userpointhistory.point = points; 
+    userpointhistory.activity = activity; 
+    userpointhistory.date = Date.now(); 
+    
+    userpointhistory.save(function(err, data) {
+        if (err)
+            res.send(err);
+
+        return "Saved";
+    });
 
 }
 
@@ -111,6 +130,10 @@ router.route('/point/:adminid')
             saveAdminPoints(req.params.adminid, "Point added" , addPointPointsAdmin);
 
             saveAudit("Point added", Date.now(), req.params.adminid);
+
+            for (var i = 0, len = point.users.length; i < len; i++) {
+                saveUserPoints(point.users[i], "Point added" , data.points);
+            }
 
             res.json(data);
         });
@@ -321,6 +344,10 @@ router.route('/person/:adminid')
             saveAdminPoints(req.params.adminid, "Person added", addPersonPointsAdmin);
 
             saveAudit("Person added", Date.now(), req.params.adminid);
+
+            if (req.body.points>0){
+                saveUserPoints(data._id, "Person added", req.body.points);
+            }
 
             res.json(data);
         });
@@ -697,6 +724,10 @@ router.route('/activity/:adminid')
             saveAdminPoints(req.params.adminid, "Activity added", addActivityPointsAdmin);
 
             saveAudit("Activity added", Date.now(), req.params.adminid);
+
+            for (var i = 0, len = activity.persons.length; i < len; i++) {
+                saveUserPoints(activity.persons[i], "Activity added" , data.points);
+            }
 
             res.json(data);
         });
