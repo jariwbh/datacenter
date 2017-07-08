@@ -58,16 +58,17 @@
               <label for="exampleInputname1">user search</label>
               <div class="form-control" >
                 <p-autoComplete 
-                  formControlName="persons"
-                  [(ngModel)]="_activityModel.persons" 
+                  formControlName="personsLists"
+                  [(ngModel)]="_activityModel.personsLists" 
                   [suggestions]="filteredEmailsMultiple" 
                   (completeMethod)="filterEmailMultiple($event)" 
                   placeholder="Users" 
                   field="name"
                   [multiple]="true">
                 </p-autoComplete>
+                <input type="hidden" [(ngModel)]="_activityModel.persons" formControlName="persons">
                 <ul>
-                    <li *ngFor="let e of _activityModel.persons">{{e.name}}</li>
+                    <li *ngFor="let e of _activityModel.personsLists">{{e.name}}</li>
                 </ul>
                 <div [hidden]="userSearchForm.get('persons').valid || (userSearchForm.get('persons').pristine && !userSearchSubmitted)" class="alert alert-danger">
                       Persons is required.

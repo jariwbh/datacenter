@@ -4,6 +4,7 @@ export class ActivityModel {
     description: string;
     type: string;
     persons: string[];
+    personsLists: string[];
     profileimage: string;
     url: string;
     points: number;
