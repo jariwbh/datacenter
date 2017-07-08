@@ -246,9 +246,9 @@ export class ChartistJsComponent {
               seriesArrA.push(countUser);
               seriesArrC.push(settingCountA);
             });
-            console.log(labelsArr);
-            console.log(seriesArrA);
-            console.log(seriesArrC);
+           // console.log(labelsArr);
+           // console.log(seriesArrA);
+           // console.log(seriesArrC);
           }
 
         });
@@ -271,9 +271,9 @@ export class ChartistJsComponent {
               seriesArrB.push(countUser);
               seriesArrD.push(settingCountB);
             });
-            console.log(labelsArr);
-            console.log(seriesArrB);
-            console.log(seriesArrD);
+           // console.log(labelsArr);
+           // console.log(seriesArrB);
+           // console.log(seriesArrD);
           }
 
         });
@@ -295,8 +295,8 @@ export class ChartistJsComponent {
               });
               seriesArrAP.push(countPoint);
             });
-            console.log(labelsArr);
-            console.log(seriesArrAP);
+           // console.log(labelsArr);
+           // console.log(seriesArrAP);
           }
 
         });
@@ -318,8 +318,8 @@ export class ChartistJsComponent {
               seriesArrBP.push(countPoint);
              
             });
-            console.log(labelsArr);
-            console.log(seriesArrBP);
+           // console.log(labelsArr);
+           // console.log(seriesArrBP);
           }
 
         });
@@ -429,8 +429,8 @@ export class ChartistJsComponent {
               seriesArrA.push(countUser);
               seriesArrC.push(settingCountA);
             });
-            console.log(labelsArr);
-            console.log(seriesArrA);
+           // console.log(labelsArr);
+           // console.log(seriesArrA);
           }
 
         });
@@ -453,8 +453,8 @@ export class ChartistJsComponent {
               seriesArrB.push(countUser);
               seriesArrD.push(settingCountB);
             });
-            console.log(labelsArr);
-            console.log(seriesArrB);
+           // console.log(labelsArr);
+           // console.log(seriesArrB);
           }
 
         });
@@ -476,8 +476,8 @@ export class ChartistJsComponent {
               });
               seriesArrAP.push(countPoint);
             });
-            console.log(labelsArr);
-            console.log(seriesArrAP);
+           // console.log(labelsArr);
+           // console.log(seriesArrAP);
           }
 
         });
@@ -499,8 +499,8 @@ export class ChartistJsComponent {
               seriesArrBP.push(countPoint);
              
             });
-            console.log(labelsArr);
-            console.log(seriesArrBP);
+           // console.log(labelsArr);
+           // console.log(seriesArrBP);
           }
 
         });
@@ -609,8 +609,8 @@ export class ChartistJsComponent {
               seriesArrB.push(settingCount);
             });
             
-            console.log(labelsArr);
-            console.log(seriesArrA);
+           // console.log(labelsArr);
+           // console.log(seriesArrA);
 
           }
 
@@ -633,8 +633,8 @@ export class ChartistJsComponent {
               });
               seriesArrAP.push(countPoint);
             });
-            console.log(labelsArr);
-            console.log(seriesArrAP);
+           // console.log(labelsArr);
+           // console.log(seriesArrAP);
           }
 
         });
@@ -731,8 +731,8 @@ export class ChartistJsComponent {
               seriesArrB.push(settingCount);
             });
             
-            console.log(labelsArr);
-            console.log(seriesArrA);
+           // console.log(labelsArr);
+           // console.log(seriesArrA);
 
           }
 
@@ -755,8 +755,8 @@ export class ChartistJsComponent {
               });
               seriesArrAP.push(countPoint);
             });
-            console.log(labelsArr);
-            console.log(seriesArrAP);
+           // console.log(labelsArr);
+           // console.log(seriesArrAP);
           }
 
         });
