@@ -73,7 +73,9 @@ export class Dashboard {
             this._topAdminlist.sort(function(a, b) {
               return parseFloat(b.customCount) - parseFloat(a.customCount);
             });
-            this.getMapBasedonAdmin(this._topAdminlist[0]['custom_id']);
+            setTimeout(() => {    
+              document.getElementById('row_' + this._topAdminlist[0]['custom_id']).click();  
+            }, 2000);
           }
           
      });
