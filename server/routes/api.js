@@ -54,12 +54,17 @@ function saveUserPoints(personid, activity, points)
     userpointhistory.activity = activity; 
     userpointhistory.date = Date.now(); 
     
-    userpointhistory.save(function(err, data) {
-        if (err)
-            res.send(err);
+    Person.findById(personid).exec()
+          .then(function(data){                
+                userpointhistory.province=data.person.province;
+                userpointhistory.district=data.person.district;
+                userpointhistory.save(function(err, data) {
+                    if (err)
+                        res.send(err);
 
-        return "Saved";
-    });
+                    return "Saved";
+                });
+          });
 
 }
 
@@ -203,7 +208,7 @@ router.route('/dashboard/topadminchart/:adminid')
         });
 });
 
-router.route('/reportperson/:province')
+router.route('/reportperson/province/:province')
     .get(function(req, res) {   
         var province = req.params.province;
         Person.aggregate(
@@ -216,11 +221,64 @@ router.route('/reportperson/:province')
                 //  averageQuantity: { $avg: "$quantity" },
                 count: { $sum: 1 }                    
             }}
-        ], function(err, data){
-            console.log(data);
-            console.log(err);
+        ], function(err, data){            
             res.json(data);
         });     
+});
+
+router.route('/reportperson/district/:district')
+    .get(function(req, res) {   
+        var district = req.params.district;
+        Person.aggregate(
+        [     
+            { $match : { "person.district" : district } },                           
+            {                      
+                $group : {
+                _id : { year: { $year : "$createdAt" }, month: { $month : "$createdAt" }},
+                count: { $sum: 1 }                    
+            }}
+        ], function(err, data){            
+            res.json(data);
+        });     
+});
+
+
+router.route('/reportpoint/province/:province')
+    .get(function(req, res) {   
+        var province = req.params.province;    
+        
+        UserPointHistory.aggregate(
+        [     
+            { $match : { "province" : province } },                           
+            {                      
+                $group : {
+                _id : { year: { $year : "$date" }, month: { $month : "$date" }},
+                count: { $sum: "$point" }                    
+            }},
+            { $sort : { date : -1 }}, 
+            { $limit: 12 }
+        ], function(err, data){
+            res.json(data);
+        });    
+});
+
+router.route('/reportpoint/district/:district')
+    .get(function(req, res) {   
+        var district = req.params.district;    
+        
+        UserPointHistory.aggregate(
+        [     
+            { $match : { "district" : district } },                           
+            {                      
+                $group : {
+                _id : { year: { $year : "$date" }, month: { $month : "$date" }},
+                count: { $sum: "$point" }                    
+            }},
+            { $sort : { date : -1 }}, 
+            { $limit: 12 }
+        ], function(err, data){
+            res.json(data);
+        });    
 });
 
 router.route('/dashboard/province')
