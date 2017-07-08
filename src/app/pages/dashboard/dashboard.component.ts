@@ -68,12 +68,14 @@ export class Dashboard {
             element.admin[0].admin.custom_id = element._id;
             this._topAdminlist.push(element.admin[0].admin);
           });
-          console.log(this._topAdminlist);
-          // array sorting
-          this._topAdminlist.sort(function(a, b) {
-            return parseFloat(a.customCount) - parseFloat(b.customCount);
-          }); 
-          console.log(this._topAdminlist);
+          if (this._topAdminlist) {
+            // array sorting
+            this._topAdminlist.sort(function(a, b) {
+              return parseFloat(b.customCount) - parseFloat(a.customCount);
+            });
+            this.getMapBasedonAdmin(this._topAdminlist[0]['custom_id']);
+          }
+          
      });
   }
 
@@ -82,7 +84,6 @@ export class Dashboard {
     isUser = <HTMLInputElement> document.getElementById('row_' + id);
     isUser.style.backgroundColor = 'rebeccapurple';
     this.getMapBasedonAdmin(id);
-
     this._topAdminlist.forEach(element => {
       if (id !== element.custom_id) {
          isUser = <HTMLInputElement> document.getElementById('row_' + element.custom_id);
