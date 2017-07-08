@@ -55,16 +55,24 @@ function saveUserPoints(personid, activity, points)
     userpointhistory.date = Date.now(); 
     
     Person.findById(personid).exec()
-          .then(function(data){                
+          .then(function(data){
+                
                 userpointhistory.province=data.person.province;
                 userpointhistory.district=data.person.district;
-                userpointhistory.save(function(err, data) {
-                    if (err)
-                        res.send(err);
-
-                    return "Saved";
+                userpointhistory.save(function(err, result){
+                    if (err)                            
+                        return err;
                 });
-          });
+
+                var updatepoints = data.person.points + points;                                    
+                Person.findOneAndUpdate({ _id: personid }, {
+                    $set: {
+                        "person.points": updatepoints
+                    }
+                }, { new: true }, function(err, a) {
+                    console.log(a);            
+                }); 
+            });
 
 }
 
