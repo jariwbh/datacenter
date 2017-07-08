@@ -43,7 +43,7 @@ export class CustomSidebarComponent {
                     this.createNewAdmin = true;
                 }
                 if (element == 'View User History') {
-                    this.viewUserHistory = true;
+                    this.viewUserHistory = true; 
                 }
                 if (element == 'Create a new person') {
                     this.createNewPerson = true;
