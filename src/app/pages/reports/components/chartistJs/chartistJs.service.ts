@@ -67,7 +67,14 @@ export class ChartistJsService {
     },
     simpleBarOptions: {
       fullWidth: true,
-      height: '300px'
+      height: '300px',
+      axisY: {
+        // offset: 20
+        // labelInterpolationFnc: function (value) {
+        //     // do whatever math operation you want here
+        //     return Math.floor(value);
+        //  }
+      },
     },
     multiBarData: {
       labels: ['Quarter 1', 'Quarter 2', 'Quarter 3', 'Quarter 4'],

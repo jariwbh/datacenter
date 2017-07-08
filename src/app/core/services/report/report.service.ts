@@ -129,7 +129,23 @@ export class ReportService {
     }
     public GetUserCountsHistoryProvince = (province: string): Observable<any> => {
         return this.http
-            .get(this.actionUrl + 'reportperson/' + province)
+            .get(this.actionUrl + 'reportperson/province/' + province)
+            .map(res => <any>res.json());
+    }
+     public GetUserCountsHistoryDistrict = (district: string): Observable<any> => {
+        return this.http
+            .get(this.actionUrl + 'reportperson/district/' + district)
+            .map(res => <any>res.json());
+    }
+
+     public GetUserPointsHistoryProvince = (province: string): Observable<any> => {
+        return this.http
+            .get(this.actionUrl + 'reportpoint/province/' + province)
+            .map(res => <any>res.json());
+    }
+     public GetUserPointsHistoryDistrict = (district: string): Observable<any> => {
+        return this.http
+            .get(this.actionUrl + 'reportpoint/district/' + district)
             .map(res => <any>res.json());
     }
     // public GetById = (id: number): Observable<any> => {
