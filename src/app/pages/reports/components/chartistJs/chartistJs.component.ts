@@ -1,6 +1,6 @@
 
 import { forEach } from '@angular/router/src/utils/collection';
-
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
@@ -8,6 +8,7 @@ import { ChartistJsService } from './chartistJs.service';
 import { ReportService } from './../../../../core/services/report/report.service';
 import { Message } from 'primeng/primeng';
 import { SettingsService } from './../../../../core/services/settings/settings.service';
+
 
 @Component({
   selector: 'nga-chartist-js',
@@ -68,6 +69,7 @@ export class ChartistJsComponent {
   constructor(private _chartistJsService: ChartistJsService,
     private _ReportService: ReportService,
     private _Settings: SettingsService,
+    private _router: Router,
   ) {
     this.defaultLabelArr = _ReportService.defaultLabelArr;
     this.defaultseriesArr = _ReportService.defaultseriesArr;
@@ -120,11 +122,7 @@ export class ChartistJsComponent {
     });
   }
   switchView(view: string) {
-    // if (view === 'All') {
-    //   //this.allView = true;
-    //   this.compareView = true;
-    //   this.fieldBasedView = true;
-    // } else 
+   
     this.selectType = '';
     this.compareTwo = '';
     this.firstProvince = '';
@@ -174,27 +172,36 @@ export class ChartistJsComponent {
   onChangeFirstProvince(firstProvince) {
     this.showGenCompareReport = false;
     this.firstProvince = firstProvince;
+    //this.dataCompareResultHistory.series = [];
+    //this.resetAllCharts();
+    this._router.navigate(['/pages/reports/chartist-js']);
   }
   onChangeSecondProvince(secondProvince) {
     this.showGenCompareReport = false;
     this.secondProvince = secondProvince;
+   // this.resetAllCharts();
+   this._router.navigate(['/pages/reports/chartist-js']);
   }
   onChangeFirstDistrict(firstDistrict) {
     this.showGenCompareReport = false;
     this.firstDistrict = firstDistrict;
+    this._router.navigate(['/pages/reports/chartist-js']);
   }
   onChangeSecondDistrict(secondDistrict) {
     this.showGenCompareReport = false;
     this.secondDistrict = secondDistrict;
+    this._router.navigate(['/pages/reports/chartist-js']);
   }
 
   onChangeSelectProvince(selectProvince) {
     this.showGenSelectReport = false;
     this.selectProvince = selectProvince;
+    this._router.navigate(['/pages/reports/chartist-js']);
   }
   onChangeSelectDistrict(selectDistrict) {
     this.showGenSelectReport = false;
     this.selectDistrict = selectDistrict;
+    this._router.navigate(['/pages/reports/chartist-js']);
   }
 
   genrateReportForCompare() {
@@ -333,11 +340,13 @@ export class ChartistJsComponent {
         // };
 
         // this.dataComparePointHistory.labels = [];
-        this.dataComparePointHistory.series = [];
+        //this.dataComparePointHistory.series = [];
         // this.dataComparePointHistory.labels = labelsArr;
          this.dataComparePointHistory.series = [seriesArrAP];
         // this.dataComparePointHistory.series[0] = seriesArrA;
         this.dataComparePointHistory.series.push(seriesArrBP);
+
+        
 
         // this.dataCompareUserHistory = {
         //   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -348,12 +357,14 @@ export class ChartistJsComponent {
         //     [4, 25, 35, 45, 55, 88, 105, 120, 130, 135, 140, 155],
         //   ],
         // };
-        // this.dataCompareUserHistory.labels = [];
-        this.dataCompareUserHistory.series = [];
-        // this.dataCompareUserHistory.labels = labelsArr;
+
+        //  this.dataCompareUserHistory.labels = [];
+        // this.dataCompareUserHistory.series = [];
+        //  this.dataCompareUserHistory.labels = labelsArr;
          this.dataCompareUserHistory.series = [seriesArrA];
         // this.dataCompareUserHistory.series[0] = seriesArrA;
         this.dataCompareUserHistory.series.push(seriesArrB);
+
         // this.dataCompareResultHistory = {
         //   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         //   series: [
@@ -363,24 +374,36 @@ export class ChartistJsComponent {
         //     [200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200],
         //   ],
         // };
+
         // this.dataCompareResultHistory.labels = [];
-        this.dataCompareResultHistory.series = [];
+        //this.dataCompareResultHistory.series = [];
         // this.dataCompareResultHistory.labels = labelsArr;
          this.dataCompareResultHistory.series = [seriesArrA];
         // this.dataCompareResultHistory.series[0] = seriesArrA;
         this.dataCompareResultHistory.series.push(seriesArrB);
         this.dataCompareResultHistory.series.push(seriesArrC);
         this.dataCompareResultHistory.series.push(seriesArrD);
+
+        // setTimeout(() => {
+        //     // if (document.getElementById('row_' + this._topAdminlist[0]['custom_id'])) {
+        //     //   document.getElementById('row_' + this._topAdminlist[0]['custom_id']).click();
+        //     // }
+        //      let mychart = $('#LineChart .ct-chart');
+        //      mychart.update(); 
+        //      //mychart.get(0).__chartist__.update(this.dataCompareResultHistory);  
+        //   }, 2000);
         
-        this.showGenCompareReport = true;
+        setTimeout(() => {
+          this.showGenCompareReport = true;
+          }, 500);
         
-      } else {
+      } else { 
         this.showGenCompareReport = false;
         //alert('please select Province to Compare');
         this.msgs = [];
         this.msgs.push({ severity: 'warn', summary: 'Warn Message', detail: 'please select Province to Compare' });
       }
-
+       
     } else if (this.compareTwo === 'District') {
       if (this.firstDistrict !== '' && this.secondDistrict !== '') {
 
@@ -554,7 +577,10 @@ export class ChartistJsComponent {
         this.dataCompareResultHistory.series.push(seriesArrC);
         this.dataCompareResultHistory.series.push(seriesArrD);
 
-         this.showGenCompareReport = true;
+        
+          setTimeout(() => {
+           this.showGenCompareReport = true;
+          }, 500);
       } else {
         this.showGenCompareReport = false;
         //alert('please select District to Compare');
@@ -680,7 +706,10 @@ export class ChartistJsComponent {
         this.dataSelectResultHistory.series = [seriesArrA];
         this.dataSelectResultHistory.series.push(seriesArrB);
 
-        this.showGenSelectReport = true;
+        
+        setTimeout(() => {
+           this.showGenSelectReport = true;
+          }, 500);
 
       } else {
         this.showGenSelectReport = false;
@@ -801,7 +830,10 @@ export class ChartistJsComponent {
         this.dataSelectResultHistory.series = [seriesArrA];
         this.dataSelectResultHistory.series.push(seriesArrB);
 
-         this.showGenSelectReport = true;
+        
+         setTimeout(() => {
+            this.showGenSelectReport = true;
+          }, 500);
       } else {
         this.showGenSelectReport = false;
         //alert('please select District to Compare');
@@ -810,6 +842,33 @@ export class ChartistJsComponent {
       }
     }
 
+  }
+
+  resetAllCharts() {
+     this.dataComparePointHistory = {
+       labels: this.defaultLabelArr,
+      series: [this.defaultseriesArr],
+    };
+     this.dataCompareUserHistory = {
+      labels: this.defaultLabelArr,
+      series: [this.defaultseriesArr],
+    };
+     this.dataCompareResultHistory = {
+      labels: this.defaultLabelArr,
+      series: [this.defaultseriesArr],
+    };
+    this.dataSelectPointHistory = {
+       labels: this.defaultLabelArr,
+      series: [this.defaultseriesArr],
+    };
+    this.dataSelectUserHistory = {
+      labels: this.defaultLabelArr,
+      series: [this.defaultseriesArr],
+    };
+    this.dataSelectResultHistory = {
+      labels: this.defaultLabelArr,
+      series: [this.defaultseriesArr],
+    };
   }
 
   getResponsive(padding, offset) {
