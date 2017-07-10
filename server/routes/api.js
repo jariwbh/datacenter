@@ -64,7 +64,8 @@ function saveUserPoints(personid, activity, points)
                         return err;
                 });
 
-                var updatepoints = data.person.points + points;                                    
+                var updatepoints = parseInt(data.person.points) + parseInt(points);                                    
+                console.log(updatepoints);
                 Person.findOneAndUpdate({ _id: personid }, {
                     $set: {
                         "person.points": updatepoints
