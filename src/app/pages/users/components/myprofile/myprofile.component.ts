@@ -1,3 +1,4 @@
+import { Configuration } from './../../../../app.constants';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -42,7 +43,8 @@ export class MyprofileComponent {
     private _route: ActivatedRoute,
     private _fieldsService: FieldsService,
     private _usersService: UsersService,
-    private _authService: AuthService) {
+    private _authService: AuthService,
+    private _configuration: Configuration) {
 
       if (this._authService.auth_id === '') {
         this.authId = null;
@@ -124,6 +126,16 @@ export class MyprofileComponent {
           data => {
             this.fieldLists = data;
         });
+  }
+
+  onUploadPhoto(event, val) {
+      //this.errorImage[val] = false;
+      const url = event.xhr.response;
+      const isImageValue = <HTMLInputElement> document.getElementById('imagePath_' + val);
+      isImageValue.value = url;
+      const ispath = <HTMLInputElement> document.getElementById(val);
+      ispath.src = this._configuration.Server + url;
+      this.editSave(val);
   }
 
   edit(fieldname: any) {
