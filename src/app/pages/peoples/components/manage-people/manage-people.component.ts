@@ -23,6 +23,8 @@ export class ManagePeopleComponent {
   _peoplelist: any[] = [];
   fieldLists: any = {};
   _fieldLists: any[] = [];
+  filterDataBy: string;
+  socialFilterData: string;
 
   serverPath: string;
   constructor(
@@ -33,23 +35,25 @@ export class ManagePeopleComponent {
     private _CommonDataService: CommonDataService,
     private _configuration: Configuration,
   ) {
-    
+
     this.serverPath = this._configuration.Server;
 
     if (_CommonDataService.filterDataBy) {
+      this.filterDataBy = _CommonDataService.filterDataBy;
       // debugger;
-      if ( _CommonDataService.filterDataBy === 'province') {
-       // debugger;
-        this.getAllPeopleWithFilter('province', _CommonDataService.filterData );
-      } else if ( _CommonDataService.filterDataBy === 'social' ) {
-       // debugger;
-        this.getAllPeopleWithFilter('social', _CommonDataService.filterData );
+      if (_CommonDataService.filterDataBy === 'province') {
+        // debugger;
+        this.getAllPeopleWithFilter('province', _CommonDataService.filterData);
+      } else if (_CommonDataService.filterDataBy === 'social') {
+        // debugger;
+        this.socialFilterData = _CommonDataService.filterData;
+        this.getAllPeopleWithFilter('social', _CommonDataService.filterData);
       }
-          
+
     } else {
-     // debugger;
-        this.getAllPeople();
-        // this.cardViewVisibilty = true;
+      // debugger;
+      this.getAllPeople();
+      // this.cardViewVisibilty = true;
     }
   }
 
@@ -60,68 +64,83 @@ export class ManagePeopleComponent {
 
   getAllFields(id: any) {
     this._fieldsService
-          .GetAll(id)
-          .subscribe(
-          data => {
-           this.fieldLists = data;
-           data.forEach(element => {
-            if (element.isDisplayOnList) {
-              this._fieldLists.push(element);
-            }
-           });
+      .GetAll(id)
+      .subscribe(
+      data => {
+        this.fieldLists = data;
+        data.forEach(element => {
+          if (element.isDisplayOnList) {
+            this._fieldLists.push(element);
+          }
         });
+        if (this.filterDataBy === 'social') {
+          if (this.socialFilterData === 'facebook') {
+            this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'twitter_url'
+              && ele.labelname !== 'telegram_url' && ele.labelname !== 'whatsApp_url');
+          } else if (this.socialFilterData === 'twitter') {
+            this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'facebook_url'
+              && ele.labelname !== 'telegram_url' && ele.labelname !== 'whatsApp_url');
+          } else if (this.socialFilterData === 'telegram') {
+            this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'twitter_url'
+              && ele.labelname !== 'facebook_url' && ele.labelname !== 'whatsApp_url');
+          } else if (this.socialFilterData === 'others') {
+            this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'twitter_url'
+              && ele.labelname !== 'telegram_url' && ele.labelname !== 'facebook_url');
+          }
+        }
+      });
   }
 
-  getAllPeopleWithFilter( filterBy: string, filterData: string) {
-      this._managepeopleService
-          .GetAllWithFilter(filterBy, filterData)
-          .subscribe(
-          data => {
-            if (data) {
-              data.forEach(element => {
-                if (element.person) {
-                  this._peoplelist.push(element.person);
-                }
-              });
-              if (this._peoplelist.length > 0) {
-                this.showPeopleList = false;
-              } else {
-                this.showPeopleList = true;
-              }
-              //this.cardViewVisibilty = false;
-              if(this._CommonDataService.filterDataBy === 'province' || this._CommonDataService.filterDataBy === 'social') {
-                this.cardViewVisibilty = false;
-              } else {
-                this.cardViewVisibilty = true;
-              }
-              //this._peoplelist = this._peoplelist;
-              this._CommonDataService.filterDataBy = '';
-              this._CommonDataService.filterData = '';
+  getAllPeopleWithFilter(filterBy: string, filterData: string) {
+    this._managepeopleService
+      .GetAllWithFilter(filterBy, filterData)
+      .subscribe(
+      data => {
+        if (data) {
+          data.forEach(element => {
+            if (element.person) {
+              this._peoplelist.push(element.person);
             }
-        });
+          });
+          if (this._peoplelist.length > 0) {
+            this.showPeopleList = false;
+          } else {
+            this.showPeopleList = true;
+          }
+          //this.cardViewVisibilty = false;
+          if (this._CommonDataService.filterDataBy === 'province' || this._CommonDataService.filterDataBy === 'social') {
+            this.cardViewVisibilty = false;
+          } else {
+            this.cardViewVisibilty = true;
+          }
+          //this._peoplelist = this._peoplelist;
+          this._CommonDataService.filterDataBy = '';
+          this._CommonDataService.filterData = '';
+        }
+      });
   }
 
   getAllPeople() {
     this._managepeopleService
-          .GetAll()
-          .subscribe(
-          data => {
-            if (data) {
-              data.forEach(element => {
-                if (element.person) {
-                  this._peoplelist.push(element.person);
-                }
-              });
-               if (this._peoplelist.length > 0) {
-                this.showPeopleList = false;
-              } else {
-                this.showPeopleList = true;
-              }
+      .GetAll()
+      .subscribe(
+      data => {
+        if (data) {
+          data.forEach(element => {
+            if (element.person) {
+              this._peoplelist.push(element.person);
             }
-        });
+          });
+          if (this._peoplelist.length > 0) {
+            this.showPeopleList = false;
+          } else {
+            this.showPeopleList = true;
+          }
+        }
+      });
   }
   switchView() {
-    if ( this.cardViewVisibilty ) {
+    if (this.cardViewVisibilty) {
       this.cardViewVisibilty = false;
     } else {
       this.cardViewVisibilty = true;

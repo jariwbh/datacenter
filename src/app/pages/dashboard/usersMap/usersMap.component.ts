@@ -49,6 +49,10 @@ export class UsersMap {
           { title: 'Maysan', id: 'IQ-MA', color: '#997463', customData: '0', groupId: '12', custtitle: 'Maysan' },
           { title: 'Ninawa', id: 'IQ-NI', color: '#55cc20', customData: '0', groupId: '13', custtitle: 'Ninewa (Mosul)' },
           { title: 'Wasit', id: 'IQ-WA', color: '#cc5520', customData: '0', groupId: '14', custtitle: 'Wasit' },
+          { title: 'Al-Anbar', id: 'IQ-AN', color: '#ccffcc', customData: '0', groupId: '15', custtitle: 'Anbar' },
+          { title: 'Arbil', id: 'IQ-AR', color: '#ff9900', customData: '0', groupId: '16', custtitle: 'Arbil' },
+          { title: 'Dohuk', id: 'IQ-DA', color: '#ffcc00', customData: '0', groupId: '17', custtitle: 'Dohuk' },
+          { title: 'Al-Sulaymaniyah', id: 'IQ-SU', color: '#cccc00', customData: '0', groupId: '18', custtitle: 'Sulaymaniyah' },
         ],
       },
       areasSettings: {

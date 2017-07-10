@@ -18,17 +18,17 @@ import { ReportService } from './../../core/services/report/report.service';
 export class Dashboard {
 
   _adminlist: any[] = [];
-  
+
   _selectedfields: any[] = [];
   _selectedfieldsHeading: any[] = [];
   _data: any[] = [];
 
- _topAdminlist: any[] = [];
+  _topAdminlist: any[] = [];
 
   _userMapHistory: any = {};
   _selectMonthYearArray: any;
   _selectUserHistoryData: any;
-  
+
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
@@ -40,7 +40,7 @@ export class Dashboard {
   }
 
   ngOnInit() {
-    
+
     this._selectMonthYearArray = this._reportService.selectMonthYearArray;
 
     // this.userMapHistory = {
@@ -60,48 +60,50 @@ export class Dashboard {
   }
 
   getTopAdminData() {
-     this._DashboardService
+    this._DashboardService
       .GetAllTopAdmin()
-      .subscribe( data => {
-          data.forEach(element => {
-            element.admin[0].admin.customCount = element.count;
-            element.admin[0].admin.custom_id = element._id;
-            this._topAdminlist.push(element.admin[0].admin);
+      .subscribe(data => {
+        data.forEach(element => {
+          element.admin[0].admin.customCount = element.count;
+          element.admin[0].admin.custom_id = element._id;
+          this._topAdminlist.push(element.admin[0].admin);
+        });
+        if (this._topAdminlist) {
+          // array sorting
+          this._topAdminlist.sort(function (a, b) {
+            return parseFloat(b.customCount) - parseFloat(a.customCount);
           });
-          if (this._topAdminlist) {
-            // array sorting
-            this._topAdminlist.sort(function(a, b) {
-              return parseFloat(b.customCount) - parseFloat(a.customCount);
-            });
-            setTimeout(() => {    
-              document.getElementById('row_' + this._topAdminlist[0]['custom_id']).click();  
-            }, 2000);
-          }
-          
-     });
+          setTimeout(() => {
+            if (document.getElementById('row_' + this._topAdminlist[0]['custom_id'])) {
+              document.getElementById('row_' + this._topAdminlist[0]['custom_id']).click();
+            }
+          }, 2000);
+        }
+
+      });
   }
 
   rowClick(id: any) {
     let isUser;
-    isUser = <HTMLInputElement> document.getElementById('row_' + id);
+    isUser = <HTMLInputElement>document.getElementById('row_' + id);
     isUser.style.backgroundColor = 'rebeccapurple';
     this.getMapBasedonAdmin(id);
     this._topAdminlist.forEach(element => {
       if (id !== element.custom_id) {
-         isUser = <HTMLInputElement> document.getElementById('row_' + element.custom_id);
-         isUser.style.backgroundColor = 'transparent';
+        isUser = <HTMLInputElement>document.getElementById('row_' + element.custom_id);
+        isUser.style.backgroundColor = 'transparent';
       }
     });
-    
+
   }
   getMapBasedonAdmin(id: any) {
-    
+
     let labelsArr: string[] = [];
     let seriesArrA: number[] = [];
 
     this._DashboardService
       .GetAllTopAdminChart(id)
-      .subscribe( data => {
+      .subscribe(data => {
         this._selectUserHistoryData = data;
         this._selectMonthYearArray.forEach(element => {
           labelsArr.push(element.month);
@@ -126,51 +128,51 @@ export class Dashboard {
 
   getAllFields(id: any) {
     this._fieldsService
-        .GetAll(id)
-        .subscribe(
-        data => {
-          data.forEach(element => {
-            if (element.isDisplayOnList) {
-              const index = element.labelname;
-              if ( !this._selectedfields[index] ) {
-                this._selectedfields[index] = [];
-              }
-              this._selectedfieldsHeading.push(element);
-              this._selectedfields[index] = index;
+      .GetAll(id)
+      .subscribe(
+      data => {
+        data.forEach(element => {
+          if (element.isDisplayOnList) {
+            const index = element.labelname;
+            if (!this._selectedfields[index]) {
+              this._selectedfields[index] = [];
             }
-          });
-          this.getAllAdmin();
+            this._selectedfieldsHeading.push(element);
+            this._selectedfields[index] = index;
+          }
+        });
+        this.getAllAdmin();
       });
   }
 
   getAllAdmin() {
     this._usersService
-          .GetAll()
-          .subscribe(
-          data => {
-            if (data) {
-              data.forEach(element => {
-                if (element.admin) {
-                  this._adminlist.push(element.admin);
-                }
-              });
-              for ( let i = 0; i < this._adminlist.length; i++ ) {
-                if ( !this._data[i] ) {
-                    this._data[i] = [];
-                }
-                for ( let j = 0 ; j < this._selectedfields.length; j++ ) {
-                  console.log(this._selectedfields[j]);
-                  const fieldName = this._selectedfields[j].toLowerCase();
-                  const fieldValue = this._adminlist[i][fieldName];
-                  const group = {
-                    val: fieldValue,
-                  };
-                  this._data[i].push(group);
-                }
-              }
-             // console.log(this._data);
+      .GetAll()
+      .subscribe(
+      data => {
+        if (data) {
+          data.forEach(element => {
+            if (element.admin) {
+              this._adminlist.push(element.admin);
             }
-        });
+          });
+          for (let i = 0; i < this._adminlist.length; i++) {
+            if (!this._data[i]) {
+              this._data[i] = [];
+            }
+            for (let j = 0; j < this._selectedfields.length; j++) {
+              console.log(this._selectedfields[j]);
+              const fieldName = this._selectedfields[j].toLowerCase();
+              const fieldValue = this._adminlist[i][fieldName];
+              const group = {
+                val: fieldValue,
+              };
+              this._data[i].push(group);
+            }
+          }
+          // console.log(this._data);
+        }
+      });
   }
 
 }
