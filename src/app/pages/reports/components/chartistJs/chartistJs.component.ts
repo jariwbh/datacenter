@@ -1,6 +1,5 @@
 
 import { forEach } from '@angular/router/src/utils/collection';
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
@@ -69,7 +68,6 @@ export class ChartistJsComponent {
   constructor(private _chartistJsService: ChartistJsService,
     private _ReportService: ReportService,
     private _Settings: SettingsService,
-    private _router: Router,
   ) {
     this.defaultLabelArr = _ReportService.defaultLabelArr;
     this.defaultseriesArr = _ReportService.defaultseriesArr;
@@ -172,36 +170,29 @@ export class ChartistJsComponent {
   onChangeFirstProvince(firstProvince) {
     this.showGenCompareReport = false;
     this.firstProvince = firstProvince;
-    //this.dataCompareResultHistory.series = [];
-    //this.resetAllCharts();
-    this._router.navigate(['/pages/reports/chartist-js']);
+    // this.resetAllCharts();
   }
   onChangeSecondProvince(secondProvince) {
     this.showGenCompareReport = false;
     this.secondProvince = secondProvince;
    // this.resetAllCharts();
-   this._router.navigate(['/pages/reports/chartist-js']);
   }
   onChangeFirstDistrict(firstDistrict) {
     this.showGenCompareReport = false;
     this.firstDistrict = firstDistrict;
-    this._router.navigate(['/pages/reports/chartist-js']);
   }
   onChangeSecondDistrict(secondDistrict) {
     this.showGenCompareReport = false;
     this.secondDistrict = secondDistrict;
-    this._router.navigate(['/pages/reports/chartist-js']);
   }
 
   onChangeSelectProvince(selectProvince) {
     this.showGenSelectReport = false;
     this.selectProvince = selectProvince;
-    this._router.navigate(['/pages/reports/chartist-js']);
   }
   onChangeSelectDistrict(selectDistrict) {
     this.showGenSelectReport = false;
     this.selectDistrict = selectDistrict;
-    this._router.navigate(['/pages/reports/chartist-js']);
   }
 
   genrateReportForCompare() {
