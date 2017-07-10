@@ -82,6 +82,9 @@ export class TrafficChartService {
                             dBy = 1;
                           }
                           ele1.percentage = Math.floor(ele.count * 100 / dBy);
+                          // if (ele1.percentage > 100) {
+                          //   ele1.percentage = 100;
+                          // }
 
                           this.provinceCountSettingsList.forEach(ele3 => {
                             if (ele3.province === ele._id) {
@@ -95,6 +98,9 @@ export class TrafficChartService {
                               // ele1.percentage = Math.floor(ele1.personCount * 100 / dBy);
                               ele1.percentage = Math.floor(ele.count * 100 / dBy);
                               //console.log(ele1.percentage);
+                              // if (ele1.percentage > 100) {
+                              //   ele1.percentage = 100;
+                              // }
                             }
                           });
 

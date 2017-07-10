@@ -13,7 +13,7 @@
               <div class="progress">
                   <div role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width.%': socialCount.facebookCountPer}" class="progress-bar progress-bar-basic"><span class="sr-only">{{socialCount.facebookCountPer | number : '1.2-2'}}% Complete (success)</span></div>
               </div>
-              <h6 class="text-muted vb" style="font-size:12px; margin-top:8px;"><span class="pull-right">{{socialCount.facebookCountPer}}%</span></h6>
+              <h6 class="text-muted vb" style="font-size:12px; margin-top:8px;"><span class="pull-right">{{socialCount.facebookCountPer > 100 ? 100 : socialCount.facebookCountPer}}%{{socialCount.facebookCountPer > 100 ? '+' : ''}}</span></h6>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
               <div class="progress">
                   <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width.%': socialCount.twitterCountPer}" class="progress-bar progress-bar-megna"><span class="sr-only">{{socialCount.twitterCountPer | number : '1.2-2'}}% Complete (success)</span></div>
               </div>
-              <h6 class="text-muted vb" style="font-size:12px; margin-top:8px;"><span class="pull-right">{{socialCount.twitterCountPer}}%</span></h6>
+              <h6 class="text-muted vb" style="font-size:12px; margin-top:8px;"><span class="pull-right">{{socialCount.twitterCountPer > 100 ? 100 : socialCount.twitterCountPer}}%{{socialCount.twitterCountPer > 100 ? '+' : ''}}</span></h6>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
               <div class="progress">
                   <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width.%': socialCount.telegramCountPer}" class="progress-bar progress-bar-primary"><span class="sr-only">{{socialCount.telegramCountPer | number : '1.2-2'}}% Complete (success)</span></div>
               </div>
-              <h6 class="text-muted vb" style="font-size:12px; margin-top:8px;"><span class="pull-right">{{socialCount.telegramCountPer}}%</span></h6>
+              <h6 class="text-muted vb" style="font-size:12px; margin-top:8px;"><span class="pull-right">{{socialCount.telegramCountPer > 100 ? 100 : socialCount.telegramCountPer}}%{{socialCount.telegramCountPer > 100 ? '+' : ''}}</span></h6>
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
             <div class="progress">
                 <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width.%': socialCount.whatsAppCountPer}" class="progress-bar progress-bar-success"><span class="sr-only">{{socialCount.whatsAppCountPer | number : '1.2-2'}}% Complete (success)</span></div>
             </div>
-            <h6 class="text-muted vb" style="font-size:12px; margin-top:8px;"><span class="pull-right">{{socialCount.whatsAppCountPer}}%</span></h6>
+            <h6 class="text-muted vb" style="font-size:12px; margin-top:8px;"><span class="pull-right">{{socialCount.whatsAppCountPer > 100 ? 100 : socialCount.whatsAppCountPer}}%{{socialCount.whatsAppCountPer > 100 ? '+' : ''}}</span></h6>
           </div>
       </div>
     </div>
