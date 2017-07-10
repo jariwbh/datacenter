@@ -8,6 +8,7 @@ export const routes: Routes = [
     children: [
       { path: 'myprofile', loadChildren: './components/myprofile/myprofile.module#MyprofileModule' },
       { path: 'add-user', loadChildren: './components/add-user/add-user.module#AddUserModule' },
+      { path: 'manage-user', loadChildren: './components/manage-user/manage-user.module#ManageUserModule' },
       { path: 'user-history', loadChildren: './components/user-history/user-history.module#UserHistoryModule' },
     ],
   },

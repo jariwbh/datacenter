@@ -20,6 +20,9 @@
                         <li class="ba-sidebar-sublist-item" *ngIf="createNewAdmin">
                             <a [routerLink]="['/pages/users/add-user/form']" class="al-sidebar-list-link"><span>New Admin</span></a>
                         </li>
+                        <li class="ba-sidebar-sublist-item">
+                            <a [routerLink]="['/pages/users/manage-user']" class="al-sidebar-list-link"><span>Manage Admin</span></a>
+                        </li>
                         <li class="ba-sidebar-sublist-item" *ngIf="viewUserHistory">
                             <a [routerLink]="['/pages/users/user-history']" class="al-sidebar-list-link"><span>User History</span></a>
                         </li>

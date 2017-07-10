@@ -3,7 +3,7 @@ export class UsersModel {
     email: string;
     username: string;
     password: string;
-    acl: boolean;
+    acl: string[];
     cityRights: string[];
-    role: string;
+    role: boolean;
 }
