@@ -64,7 +64,8 @@ function saveUserPoints(personid, activity, points)
                         return err;
                 });
 
-                var updatepoints = data.person.points + points;                                    
+                var updatepoints = parseInt(data.person.points) + parseInt(points);                                    
+                console.log(updatepoints);
                 Person.findOneAndUpdate({ _id: personid }, {
                     $set: {
                         "person.points": updatepoints
@@ -110,6 +111,19 @@ function saveAudit(activity, date, adminid )
     });
 
 }
+
+router.route('/search/activity')    
+    .post(function(req, res) {
+
+       var type = req.body.activitytype;
+
+       if (req.params.id) {
+            Activity.find({ activitytype: type }, function (err, docs) {
+                res.json(docs);
+            });
+       }
+    });
+
 
 router.route('/audit/:adminid')
     .get(function(req, res) {
@@ -782,16 +796,13 @@ router.route('/activity/:adminid')
         var activity = new Activity();      // create a new instance of the Bear model
         activity.name = req.body.name;  // set the bears name (comes from the request)
         activity.description = req.body.description;  // set the bears name (comes from the request)
-        activity.type = req.body.type;  // set the bears name (comes from the request)
+        activity.activitytype = req.body.activitytype;  // set the bears name (comes from the request)
         activity.persons = req.body.persons;  // set the bears name (comes from the request)
         activity.personsLists = req.body.personsLists;  // set the bears name (comes from the request)
-        activity.profileimage = req.body.profileimage;  // set the bears name (comes from the request)
+        activity.images = req.body.images;  // set the bears name (comes from the request)
         activity.url = req.body.url;  // set the bears name (comes from the request)
         activity.points = req.body.points;  // set the bears name (comes from the request)
-        activity.province = req.body.province;  // set the bears name (comes from the request)
-        activity.district = req.body.district;  // set the bears name (comes from the request)
-        activity.area = req.body.area;  // set the bears name (comes from the request)
-
+        
         // save the person and check for errors
         loadAdminPoints();
 
@@ -822,16 +833,13 @@ router.route('/activity/:id')
 
             activity.name = req.body.name;  // set the bears name (comes from the request)
             activity.description = req.body.description;  // set the bears name (comes from the request)
-            activity.type = req.body.type;  // set the bears name (comes from the request)
+            activity.activitytype = req.body.activitytype;  // set the bears name (comes from the request)
             activity.persons = req.body.persons;  // set the bears name (comes from the request)
             activity.personsLists = req.body.personsLists;  // set the bears name (comes from the request)
-            activity.profileimage = req.body.profileimage;  // set the bears name (comes from the request)
+            activity.images = req.body.images;  // set the bears name (comes from the request)
             activity.url = req.body.url;  // set the bears name (comes from the request)
             activity.points = req.body.points;  // set the bears name (comes from the request)
-            activity.province = req.body.province;  // set the bears name (comes from the request)
-            activity.district = req.body.district;  // set the bears name (comes from the request)
-            activity.area = req.body.area;  // set the bears name (comes from the request)
-
+            
             // save the bear
             activity.save(function(err, data) {
                 if (err)
@@ -850,6 +858,7 @@ router.route('/activity')
         });
 
     });
+
 
 router.route('/activity/:person')
     // create a bear (accessed at POST http://localhost:8080/api/bears)

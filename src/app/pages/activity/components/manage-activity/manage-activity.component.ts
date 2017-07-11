@@ -37,6 +37,38 @@ export class ManageActivityComponent {
     this.getAllActivities();
   }
 
+  onChangeType(value: any) {
+    if (value == '') {
+      this.getAllActivities();
+    } else {
+      this.getAllActivitiesByFiltter('type', value);
+    }
+  }
+
+  getAllActivitiesByFiltter(field, value) {
+    this._activityService
+      .GetAll()
+      .subscribe( data => {
+        this._allActivites = [];
+        let cnt = 0;
+        data.forEach(element => {
+          if (element[field] == value) {
+            this._allActivites.push(element);
+          }
+        });
+        this._allActivites.forEach(element => {
+            if ( cnt % 2 === 0) {
+              element.customClass = '';
+            } else {
+              element.customClass = 'timeline-inverted';
+            }
+            let startDateTime = new Date(element['createdAt']); 
+            let startStamp = startDateTime.getTime();
+            element.customSinceTime = this.updateClock(startStamp);
+          cnt++;
+        });
+      });
+  }
   getAllActivities() {
     this._activityService
       .GetAll()
@@ -49,12 +81,9 @@ export class ManageActivityComponent {
           } else {
             element.customClass = 'timeline-inverted';
           }
-          
-
           let startDateTime = new Date(element['createdAt']); 
           let startStamp = startDateTime.getTime();
           element.customSinceTime = this.updateClock(startStamp);
-          
         cnt++;
       });
       //console.log(this._allActivites);

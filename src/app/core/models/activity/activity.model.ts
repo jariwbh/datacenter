@@ -2,13 +2,10 @@ export class ActivityModel {
     id: number;
     name: string;
     description: string;
-    type: string;
+    activitytype: string;
     persons: string[];
     personsLists: string[];
-    profileimage: string;
+    images: string;
     url: string;
     points: number;
-    province: string;
-    district: string;
-    area: string;
 }

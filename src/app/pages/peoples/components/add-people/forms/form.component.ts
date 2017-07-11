@@ -71,6 +71,9 @@ export class FormComponent {
   authRole: string;
   authId: string;
 
+  bindId: number;
+  _needToSaveData: any[] = [];
+
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -141,6 +144,12 @@ export class FormComponent {
 
   }
   ngOnInit() {
+    //get URLid
+    this._route.params.subscribe(
+        (param: any) => {
+            this.bindId = param['id'];
+    });
+
     this.getAllFields();
     this.getAllProvince();
     this.getAllDistrict();
@@ -214,9 +223,37 @@ export class FormComponent {
               }
             });
             this.dynamicForm = this.fb.group(group);
+
+            if (this.bindId) {
+              this.getPersonDetailBasedonID(this.bindId);
+            }
         });
   }
 
+  getPersonDetailBasedonID(id: any) {
+    this._managepeopleService
+      .GetById(id)
+      .subscribe( data => {
+        this.fieldLists.forEach(element => {
+          //console.log(element);
+          element.value = data.person[element.labelname];
+          this._needToSaveData[element.labelname] = data.person[element.labelname];
+          if (element.labelname == 'province') {
+            this.onChangeProvince(data.person[element.labelname]);
+          } else if (element.fieldtype == 'map') {
+            if (data.person[element.labelname]) {
+              if (data.person[element.labelname] !== null) {
+                let res = data.person[element.labelname].split('####');
+                this.overlays[element.labelname].push(new google.maps.Marker({ 
+                  position: { lat: parseFloat(res[0]), 
+                    lng: parseFloat(res[1]) }, 
+                    title: this.markerTitle, draggable: this.draggable }));
+              }
+            }
+          }
+        });
+      });
+  }
   editFields(id: any) {
     this._fieldsService
           .GetById(id)
@@ -276,6 +313,7 @@ export class FormComponent {
           this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
           return false;
       } else {
+        
         let cnt = 0;
         this.fieldLists.forEach(element => {
           if (element.fieldtype == 'checkbox') {
@@ -316,18 +354,30 @@ export class FormComponent {
             }
           }
         });
-        
         if (cnt == 0) {
-          if (this.authId) {
+          if (this.bindId) {
             this._managepeopleService
-              .Add(this.authId, value)
+              .Update(this.bindId, value)
               .subscribe(
               data => {
                 this.msgs = [];
                 this.msgs.push ({ 
-                  severity: 'info', summary: 'Insert Message', detail: 'People has been added Successfully!!!' });
+                  severity: 'info', summary: 'Update Message', detail: 'People has been Updated Successfully!!!' });
                 this._router.navigate(['/pages/peoples/manage-people']);
             });
+          } else {
+            if (this.authId) {
+              this._managepeopleService
+                .Add(this.authId, value)
+                .subscribe(
+                data => {
+                  this.msgs = [];
+                  this.msgs.push ({ 
+                    severity: 'info', summary: 'Insert Message', detail: 'People has been added Successfully!!!' });
+                  this._router.navigate(['/pages/peoples/manage-people']);
+              });
+            }
+            
           }
         }
       }

@@ -62,6 +62,7 @@ export class FormComponent {
 
   _sampleJson: string;
 
+  _provinceListsForCity: any[] = [];
   _provinceLists: any[] = [];
   _districtLists: any[] = [];
   _areaLists: any[] = [];
@@ -182,18 +183,50 @@ export class FormComponent {
     });
 
     this.getAllFields();
+    if (this.authRole == 'S') {
+      this.getAllProvinceForCityBasedonAdmin();
+    } else {
+      this.getAllProvinceForCity();
+
+    }
     this.getAllProvince();
     this.getAllDistrict();
     this.getAllArea();
   }
 
+  getAllProvinceForCityBasedonAdmin() {
+    this._fieldsService
+      .GetAllProvince()
+      .subscribe(
+      data => {
+        if (this._authService.auth_user.cityRights !== 0) {
+          data.forEach(element => {
+            this._authService.auth_user.cityRights.forEach(ele => {
+              if (element.name == ele) {
+                this._provinceListsForCity.push(element);
+              }
+            });
+          });
+        } else {
+          this._provinceListsForCity  = data;
+        }
+    });
+  }
+  getAllProvinceForCity() {
+    this._fieldsService
+      .GetAllProvince()
+      .subscribe(
+      data => {
+        this._provinceListsForCity  = data;
+    });
+  }
   getAllProvince() {
     this._fieldsService
-          .GetAllProvince()
-          .subscribe(
-          data => {
-            this._provinceLists  = data;
-        });
+      .GetAllProvince()
+      .subscribe(
+      data => {
+        this._provinceLists  = data;
+    });
   }
   getAllDistrict() {
     this._fieldsService

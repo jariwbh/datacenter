@@ -1,4 +1,4 @@
-@import '../../../../../theme/sass/conf/conf';
+@import '/../../../../theme/sass/conf/conf';
 
 :host /deep/.show-grid div[class^=col-]{
   padding: 10px;
@@ -18,8 +18,14 @@
   &:first-child{
     margin-top: 0;
   }
+
 }
-.ui-autocomplete-multiple-container.ui-widget.ui-inputtext.ui-state-default.ui-corner-all {
-  width: 800px;
-  height: 50px;
+
+.hide { display: none }
+.show { display: inline-table }
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
 }
