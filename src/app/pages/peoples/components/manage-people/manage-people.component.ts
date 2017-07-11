@@ -207,19 +207,32 @@ export class ManagePeopleComponent {
           }
         });
         if (this.filterDataBy === 'social') {
-          if (this.socialFilterData === 'facebook') {
-            this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'twitter_url'
-              && ele.labelname !== 'telegram_url' && ele.labelname !== 'whatsApp_url');
+           if (this.socialFilterData === 'facebook') {
+            this._fieldLists = this._fieldLists.filter(ele => ele.labelname === 'facebook_url'
+              || ele.labelname === 'fullname');
           } else if (this.socialFilterData === 'twitter') {
-            this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'facebook_url'
-              && ele.labelname !== 'telegram_url' && ele.labelname !== 'whatsApp_url');
+            this._fieldLists = this._fieldLists.filter(ele => ele.labelname === 'twitter_url'
+              || ele.labelname === 'fullname');
           } else if (this.socialFilterData === 'telegram') {
-            this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'twitter_url'
-              && ele.labelname !== 'facebook_url' && ele.labelname !== 'whatsApp_url');
+            this._fieldLists = this._fieldLists.filter(ele => ele.labelname === 'telegram_url'
+              || ele.labelname === 'fullname');
           } else if (this.socialFilterData === 'others') {
-            this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'twitter_url'
-              && ele.labelname !== 'telegram_url' && ele.labelname !== 'facebook_url');
+            this._fieldLists = this._fieldLists.filter(ele => ele.labelname === 'whatsApp_url'
+              || ele.labelname === 'fullname');
           }
+          // if (this.socialFilterData === 'facebook') {
+          //   this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'twitter_url'
+          //     && ele.labelname !== 'telegram_url' && ele.labelname !== 'whatsApp_url');
+          // } else if (this.socialFilterData === 'twitter') {
+          //   this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'facebook_url'
+          //     && ele.labelname !== 'telegram_url' && ele.labelname !== 'whatsApp_url');
+          // } else if (this.socialFilterData === 'telegram') {
+          //   this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'twitter_url'
+          //     && ele.labelname !== 'facebook_url' && ele.labelname !== 'whatsApp_url');
+          // } else if (this.socialFilterData === 'others') {
+          //   this._fieldLists = this._fieldLists.filter(ele => ele.labelname !== 'twitter_url'
+          //     && ele.labelname !== 'telegram_url' && ele.labelname !== 'facebook_url');
+          // }
         }
       });
   }
