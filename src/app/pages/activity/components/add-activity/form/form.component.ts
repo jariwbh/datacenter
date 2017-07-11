@@ -165,6 +165,7 @@ constructor(
       .subscribe(data => {
         if (data) {
           this._activityModel = data;
+          this._imageLists = this._activityModel.images;
           this._completedStep = 3;
           this.activityTypeVisibilty = false;
           this.howActivityVisibilty = false;
