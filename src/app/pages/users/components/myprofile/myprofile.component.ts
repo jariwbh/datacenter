@@ -129,9 +129,8 @@ export class MyprofileComponent {
   }
 
   onUploadPhoto(event, val) {
-      //this.errorImage[val] = false;
       const url = event.xhr.response;
-      const isImageValue = <HTMLInputElement> document.getElementById('imagePath_' + val);
+      const isImageValue = <HTMLInputElement> document.getElementById('image_' + val);
       isImageValue.value = url;
       const ispath = <HTMLInputElement> document.getElementById(val);
       ispath.src = this._configuration.Server + url;

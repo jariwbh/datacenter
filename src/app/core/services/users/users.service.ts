@@ -49,7 +49,7 @@ export class UsersService {
     public Delete = (id: number): Observable<any> => {
        //console.log(id);
        return this.http
-           .delete(this.actionUrl + 'ManagePeople/DeletePeopleById/' + id)
+           .delete(this.actionUrl + 'admin/' + id)
            .map(res => <any>res.json());
     }
 

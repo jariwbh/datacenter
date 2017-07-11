@@ -266,18 +266,19 @@
                   ACL is required.
               </div>
             </div>
-            <div class="form-group">
+            
+            <div [ngClass]="authRole == 'A' ? 'form-group show-cls' : 'form-group hide-cls'">
               <label for="input01">Is Super Admin</label>
               <div class="input-demo radio-demo row">
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input checked formControlName="role" [(ngModel)]="_usersModel.role" type="radio" value="0">
+                  <input  formControlName="role" [value]="0" [checked]="_usersModel.role == 0" type="radio">
                   <span translate="">Yes</span>
                 </label>
               </div>
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input id="inlineRadio2" formControlName="role" [(ngModel)]="_usersModel.role" type="radio" value="1">
+                  <input id="inlineRadio2" checked  [value]="1" formControlName="role" [checked]="_usersModel.role == 1" type="radio">
                   <span>No</span>
                 </label>
               </div>

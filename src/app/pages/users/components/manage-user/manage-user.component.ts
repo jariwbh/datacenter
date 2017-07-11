@@ -8,6 +8,7 @@ import { UsersService } from '../../../../core/services/users/users.service';
 import { Configuration } from '../../../../app.constants';
 
 import { ConfirmationService } from 'primeng/primeng';
+import { Message } from 'primeng/primeng';
 
 @Component({
   selector: 'nga-manage-user',
@@ -19,6 +20,7 @@ export class ManageUserComponent {
     adminlist: any[] = [];
     fieldLists: any = {};
     _fieldLists: any[] = [];
+    msgs: Message[] = [];
 
    constructor(
     private _router: Router,
@@ -40,6 +42,7 @@ export class ManageUserComponent {
     this._usersService
       .GetAll()
       .subscribe( data => {
+        this.adminlist = [];
         data.forEach(element => {
           element.admin.id = element._id;
           this.adminlist.push(element.admin);
@@ -61,15 +64,23 @@ export class ManageUserComponent {
         });
   }
 
-  edit(id: any) {
-    console.log(id);
+  edit(user: any) {
+    this._router.navigate(['/pages/users/add-user/form/' + user.id ]);
   }
 
-  delete(id: any) {
+  delete(user: any) {
     this._confirmationService.confirm({
         message: 'Are you sure that you want to perform this action?',
         accept: () => {
-            console.log(id);
+            this._usersService
+              .Delete(user.id)
+              .subscribe( data => {
+                this.getAllAdmin();
+                this.msgs = [];
+                this.msgs.push({ severity: 'success', summary: 'Delete Message', detail: 'Admin deleted Successfully!!',
+              });
+              
+              });
         },
     });
   }

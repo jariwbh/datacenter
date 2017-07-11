@@ -323,6 +323,8 @@ export class FormComponent {
             this.dynamicForm = this.fb.group(group);
             if (this.bindId) {
               this.getAdminDetailBasedonID(this.bindId);
+            } else {
+              this._usersModel.role = true;
             }
         });
   }
@@ -337,6 +339,7 @@ export class FormComponent {
       .subscribe( data => {
         this.fieldLists.forEach(element => {
           element.value = data.admin[element.labelname];
+          this._needToSaveData[element.labelname] = data.admin[element.labelname];
           if (element.labelname == 'province') {
             this.onChangeProvince(data.admin[element.labelname]);
           } else if (element.fieldtype == 'map') {
@@ -363,6 +366,12 @@ export class FormComponent {
         this._usersModel['cityRights'] = data.admin.cityRights;
         this._usersModel['acl'] = data.admin.acl;
 
+        this._needToSaveData['email'] = data.admin.email;
+        this._needToSaveData['username'] = data.admin.username;
+        this._needToSaveData['password'] = data.admin.password;
+        this._needToSaveData['cityRights'] = data.admin.cityRights;
+        this._needToSaveData['acl'] = data.admin.acl;
+
         if (data.admin.acl) {
           if (data.admin.acl.length !== 0) {
             data.admin.acl.forEach(element => {
@@ -370,7 +379,6 @@ export class FormComponent {
             });
           }
         }
-        console.log(this.selectedcityRights);
       });
   }
   onDynamicFormSubmit(value: any, isValid: boolean) {
@@ -502,10 +510,10 @@ export class FormComponent {
           this.aclVisibility = true;
         } else {
           this.aclVisibility = false;
-          if (value.role == 0) {
-            this._needToSaveData['role'] = 'A';
-          } else {
+          if (value.role) {
             this._needToSaveData['role'] = 'S';
+          } else {
+            this._needToSaveData['role'] = 'A';
           }
           this._needToSaveData['acl'] = this.selectedcityRights;
           this._needToSaveData['cityRights'] = value.cityRights;
