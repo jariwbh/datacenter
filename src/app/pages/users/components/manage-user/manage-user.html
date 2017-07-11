@@ -4,6 +4,40 @@
 <section class="managepeople">
   <div class="row" >
     <ba-card title="Users Detail" baCardClass="with-scroll">
+      <div class="row"> 
+          <div class="col-sm-4">
+              <select
+                  id="provice"
+                  (change)="onChangeProvince($event.target.value)"
+                  class="form-control">
+                  <option value="">----</option>
+                  <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
+              </select>
+          </div>
+          <div class="col-sm-4">
+              <select 
+                  id="district"
+                  (change)="onChangeDistrict($event.target.value)"
+                  class="form-control">
+                  <option value="">----</option>
+                  <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
+              </select>
+          </div>
+          <div class="col-sm-4">
+              <select 
+                  id="area"
+                  (change)="onChangeArea($event.target.value)"
+                  class="form-control">
+                  <option value="">----</option>
+                  <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
+              </select>
+          </div>
+      </div>
+      <div>
+      
+      <div class="alert alert-danger col-md-8" *ngIf="!adminlist.length>0" style="margin: 20px; width: 1200px;">
+        <strong>Oops! </strong> No Record Found!!!
+      </div>
       <p-dataTable 
           #dt 
           tableStyleClass="table table-hover"
@@ -43,6 +77,7 @@
             </ng-template>
         </p-column>
       </p-dataTable>
+      </div>
     </ba-card>
   </div>
 </section>

@@ -13,6 +13,9 @@ import { FieldsService } from '../../../../core/services/dynamic-fields/fields.s
 import { ManagepeopleService } from '../../../../core/services/people/manage-people.service';
 import { GrowlModule } from 'primeng/primeng';
 
+import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,6 +26,7 @@ import { GrowlModule } from 'primeng/primeng';
     DataTableModule,
     SharedModule,
     GrowlModule,
+    ConfirmDialogModule,
   ],
   declarations: [
     ManagePeopleComponent,
@@ -30,6 +34,7 @@ import { GrowlModule } from 'primeng/primeng';
   providers: [
     ManagepeopleService,
     FieldsService,
+    ConfirmationService,
   ],
 })
 export class ManagePeopleModule {}

@@ -68,7 +68,7 @@ export class ManagepeopleService {
     public Delete = (id: number): Observable<any> => {
         //console.log(id);
         return this.http
-            .get(this.actionUrl + 'ManagePeople/DeletePeopleById/' + id)
+            .delete(this.actionUrl + 'person/' + id)
             .map(res => <any>res.json());
     }
 

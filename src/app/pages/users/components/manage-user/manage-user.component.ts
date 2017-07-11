@@ -22,6 +22,17 @@ export class ManageUserComponent {
     _fieldLists: any[] = [];
     msgs: Message[] = [];
 
+
+  _provinceLists: any[] = [];
+  _districtLists: any[] = [];
+  _areaLists: any[] = [];
+
+  _districtBasedOnProvince: any[] = [];
+  _areaBasedOnProvince: any[] = [];
+
+  _districtOptionLists: any[] = [];
+  _areaOptionLists: any[] = [];
+
    constructor(
     private _router: Router,
     private _route: ActivatedRoute,
@@ -36,8 +47,130 @@ export class ManageUserComponent {
   ngOnInit() {
     this.getAllFields('admin');
     this.getAllAdmin();
+
+    this.getAllProvince();
+    this.getAllDistrict();
+    this.getAllArea();
   }
   
+  getAllProvince() {
+      this._fieldsService
+          .GetAllProvince()
+          .subscribe(
+          data => {
+              this._provinceLists  = data;
+          });
+  }
+  getAllDistrict() {
+      this._fieldsService
+          .GetAllDistrict()
+          .subscribe(
+          data => {
+              this._districtLists  = data;
+              this._districtLists.forEach(element => {
+              const index = element.province;
+              if ( !this._districtBasedOnProvince[index] ) {
+                  this._districtBasedOnProvince[index] = [];
+              }
+              this._districtBasedOnProvince[index].push(element.district);
+              });
+              
+          });
+    }
+
+    getAllArea() {
+      this._fieldsService
+          .GetAllArea()
+          .subscribe(
+          data => {
+              this._areaLists  = data;
+              this._areaLists.forEach(element => {
+              const index = element.province;
+              if ( !this._areaBasedOnProvince[index] ) {
+                  this._areaBasedOnProvince[index] = [];
+              }
+              this._areaBasedOnProvince[index].push(element.area);
+              });
+              
+          });
+    }
+  
+  onChangeProvince(value: any) {
+        this.adminlist = [];
+        if (value == '') {
+            this.getAllAdmin();
+        } else {
+            this.FilteredUsers('province', value);
+        }
+        
+
+        this._districtOptionLists = [];
+        this._areaOptionLists = [];
+
+        this._districtOptionLists = this._districtBasedOnProvince[value];
+        this._areaOptionLists = this._areaBasedOnProvince[value];
+  }
+
+  onChangeDistrict(value: any) {
+        let areaValue = <HTMLInputElement> document.getElementById('area');
+        areaValue.value = '';
+        if (value == '') {
+            let proviceValue = <HTMLInputElement> document.getElementById('provice');
+            if (proviceValue) {
+                this.FilteredUsers('province', proviceValue.value);
+            } else {
+                this.getAllAdmin();
+            }
+        } else {
+            this.FilteredUsers('district', value);
+        }
+        
+    }
+    onChangeArea(value: any) {
+        let districtValue = <HTMLInputElement> document.getElementById('district');
+        districtValue.value = '';
+        if (value == '') {
+            let proviceValue = <HTMLInputElement> document.getElementById('provice');
+            if (proviceValue) {
+                this.FilteredUsers('province', proviceValue.value);
+            } else {
+                this.getAllAdmin();
+            }
+        } else {
+            this.FilteredUsers('area', value);
+        }
+        
+    }
+
+  FilteredUsers(type, value) {
+    
+    this.adminlist = [];
+    this._usersService
+        .GetAll()
+        .subscribe( data => {
+            data.forEach(element => {
+                if (type == 'province') {
+                    if (element.admin.province == value) {
+                        element.admin['id'] = element._id;
+                        this.adminlist.push(element.admin);
+                    }
+                }
+                if (type == 'district') {
+                    if (element.admin.district == value) {
+                        element.admin['id'] = element._id;
+                        this.adminlist.push(element.admin);
+                    }
+                }
+                if (type == 'area') {
+                    if (element.admin.area == value) {
+                        element.admin['id'] = element._id;
+                        this.adminlist.push(element.admin);
+                    }
+                }
+            });
+        });
+    }
+
   getAllAdmin() {
     this._usersService
       .GetAll()
