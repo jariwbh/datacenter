@@ -62,6 +62,7 @@ export class FormComponent {
 
   _sampleJson: string;
 
+  _provinceListsForCity: any[] = [];
   _provinceLists: any[] = [];
   _districtLists: any[] = [];
   _areaLists: any[] = [];
@@ -113,8 +114,6 @@ export class FormComponent {
       }
 
     // Default Sub Admin
-    this._usersModel.role = 'S';
-
       this.form = fb.group({
         'id': [this._fieldsModel._id],
         'fieldtype': [this._fieldsModel.fieldtype, Validators.required],
@@ -130,10 +129,10 @@ export class FormComponent {
         'email': [this._usersModel.email, Validators.compose([Validators.required])],
         'username': [this._usersModel.username, Validators.compose([Validators.required])],
         'password': [this._usersModel.password, Validators.compose([Validators.required])],
-        'role': [this._usersModel.role],
       });
 
       this.controlAccessForm = fb.group({
+        'role': [this._usersModel.role],
         'acl': [this._usersModel.acl],
         'cityRights': [this._usersModel.cityRights, Validators.required],
       });
@@ -176,19 +175,58 @@ export class FormComponent {
       // Google Map Start
   }
   ngOnInit() {
+
+    //get URLid
+    this._route.params.subscribe(
+        (param: any) => {
+            this.bindId = param['id'];
+    });
+
     this.getAllFields();
+    if (this.authRole == 'S') {
+      this.getAllProvinceForCityBasedonAdmin();
+    } else {
+      this.getAllProvinceForCity();
+
+    }
     this.getAllProvince();
     this.getAllDistrict();
     this.getAllArea();
   }
 
+  getAllProvinceForCityBasedonAdmin() {
+    this._fieldsService
+      .GetAllProvince()
+      .subscribe(
+      data => {
+        if (this._authService.auth_user.cityRights !== 0) {
+          data.forEach(element => {
+            this._authService.auth_user.cityRights.forEach(ele => {
+              if (element.name == ele) {
+                this._provinceListsForCity.push(element);
+              }
+            });
+          });
+        } else {
+          this._provinceListsForCity  = data;
+        }
+    });
+  }
+  getAllProvinceForCity() {
+    this._fieldsService
+      .GetAllProvince()
+      .subscribe(
+      data => {
+        this._provinceListsForCity  = data;
+    });
+  }
   getAllProvince() {
     this._fieldsService
-          .GetAllProvince()
-          .subscribe(
-          data => {
-            this._provinceLists  = data;
-        });
+      .GetAllProvince()
+      .subscribe(
+      data => {
+        this._provinceLists  = data;
+    });
   }
   getAllDistrict() {
     this._fieldsService
@@ -316,9 +354,66 @@ export class FormComponent {
               }
             });
             this.dynamicForm = this.fb.group(group);
+            if (this.bindId) {
+              this.getAdminDetailBasedonID(this.bindId);
+            } else {
+              this._usersModel.role = true;
+            }
         });
   }
+  getAdminDetailBasedonID(id: any) {
+    this._completedStep = 3;
+    this.informationVisibilty = true;
+    this.usernamepasswordVisibilty = false;
+    this.accesscontrolVisibilty = false;
 
+    this._usersService
+      .GetById(id)
+      .subscribe( data => {
+        this.fieldLists.forEach(element => {
+          element.value = data.admin[element.labelname];
+          this._needToSaveData[element.labelname] = data.admin[element.labelname];
+          if (element.labelname == 'province') {
+            this.onChangeProvince(data.admin[element.labelname]);
+          } else if (element.fieldtype == 'map') {
+            if (data.admin[element.labelname]) {
+              if (data.admin[element.labelname] !== null) {
+                let res = data.admin[element.labelname].split('####');
+                this.overlays[element.labelname].push(new google.maps.Marker({ 
+                  position: { lat: parseFloat(res[0]), 
+                    lng: parseFloat(res[1]) }, 
+                    title: this.markerTitle, draggable: this.draggable }));
+              }
+            }
+          }
+
+        });
+        if (data.admin.role == 'A') {
+          this._usersModel['role'] = true;
+        } else {
+          this._usersModel['role'] = false;
+        }
+        this._usersModel['email'] = data.admin.email;
+        this._usersModel['username'] = data.admin.username;
+        this._usersModel['password'] = data.admin.password;
+        this._usersModel['cityRights'] = data.admin.cityRights;
+        this._usersModel['acl'] = data.admin.acl;
+
+        this._needToSaveData['email'] = data.admin.email;
+        this._needToSaveData['username'] = data.admin.username;
+        this._needToSaveData['password'] = data.admin.password;
+        this._needToSaveData['cityRights'] = data.admin.cityRights;
+        this._needToSaveData['acl'] = data.admin.acl;
+
+        if (data.admin.acl) {
+          if (data.admin.acl.length !== 0) {
+            data.admin.acl.forEach(element => {
+              this.selectedcityRights.push(element);
+            });
+          }
+        }
+      });
+  }
   onDynamicFormSubmit(value: any, isValid: boolean) {
     this.dynamicSubmitted = true;
       if (!isValid) {
@@ -366,22 +461,47 @@ export class FormComponent {
           }
         });
         if (cnt == 0) {
-            this._usersService
-              .Add(value)
-              .subscribe(
-              data => {
-                if (data) {
-                  this._needToSaveData = data['admin'];
-                  this.bindId = data._id;
-                }
-                this.msgs = [];
-                this.msgs.push ({ 
-                  severity: 'info', summary: 'Insert Message', detail: 'Admin has been added Successfully!!!' });
-                this._completedStep = 2;
-                this.informationVisibilty = false;
-                this.usernamepasswordVisibilty = true;
-                this.accesscontrolVisibilty = false;
-            });  
+            if (!this.bindId) {
+              this._usersService
+                .Add(value)
+                .subscribe(
+                data => {
+                  if (data) {
+                    this._needToSaveData = data['admin'];
+                    this.bindId = data._id;
+                  }
+                  this.msgs = [];
+                  this.msgs.push ({ 
+                    severity: 'info', summary: 'Insert Message', detail: 'Admin has been added Successfully!!!' });
+                  this._completedStep = 2;
+                  this.informationVisibilty = false;
+                  this.usernamepasswordVisibilty = true;
+                  this.accesscontrolVisibilty = false;
+              });
+            } else {
+              value.email = this._usersModel['email'];
+              value.username = this._usersModel['username'];
+              value.password = this._usersModel['password'];
+              value.cityRights = this._usersModel['cityRights'];
+              value.acl = this._usersModel['acl'];
+              value.role = this._usersModel['role'];
+              this._usersService
+                .Update(this.bindId, value)
+                .subscribe(
+                data => {
+                  if (data) {
+                    this._needToSaveData = data['admin'];
+                    this.bindId = data._id;
+                  }
+                  this.msgs = [];
+                  this.msgs.push ({ 
+                    severity: 'info', summary: 'Update Message', detail: 'Admin has been Updated Successfully!!!' });
+                    this._completedStep = 3;
+                  this.informationVisibilty = false;
+                  this.usernamepasswordVisibilty = true;
+                  this.accesscontrolVisibilty = false;
+              });
+            }
         }
       }
   }
@@ -394,7 +514,7 @@ export class FormComponent {
         this._needToSaveData['email'] = value.email;
         this._needToSaveData['username'] = value.username;
         this._needToSaveData['password'] = value.password;
-        this._needToSaveData['role'] = value.role;
+        
         this._usersService
           .Update(this.bindId, this._needToSaveData)
           .subscribe(
@@ -423,6 +543,11 @@ export class FormComponent {
           this.aclVisibility = true;
         } else {
           this.aclVisibility = false;
+          if (value.role) {
+            this._needToSaveData['role'] = 'S';
+          } else {
+            this._needToSaveData['role'] = 'A';
+          }
           this._needToSaveData['acl'] = this.selectedcityRights;
           this._needToSaveData['cityRights'] = value.cityRights;
           this._usersService
@@ -458,12 +583,42 @@ export class FormComponent {
       this.usernamepasswordVisibilty = true;
       this.accesscontrolVisibilty = false;
     } else if (value === 'controlaccess') {
+      
       if (this._completedStep < 3) {
         this._completedStep = 3;
       }
       this.informationVisibilty = false;
       this.usernamepasswordVisibilty = false;
       this.accesscontrolVisibilty = true;
+      
+      setTimeout(()=> { 
+           this.selectedcityRights.forEach(element => {
+              if (element == 'Create a new admin') {
+                let isChecked = <HTMLInputElement> document.getElementById('acl_0');
+                isChecked.checked = true;
+              }
+              if (element == 'Create a new person') {
+                let isChecked = <HTMLInputElement> document.getElementById('acl_1');
+                isChecked.checked = true;
+              }
+              if (element == 'Create a new activity') {
+                let isChecked = <HTMLInputElement> document.getElementById('acl_2');
+                isChecked.checked = true;
+              }
+              if (element == 'View User History') {
+                let isChecked = <HTMLInputElement> document.getElementById('acl_3');
+                isChecked.checked = true;
+              }
+              if (element == 'View report page') {
+                let isChecked = <HTMLInputElement> document.getElementById('acl_4');
+                isChecked.checked = true;
+              }
+              if (element == 'View Manage person page') {
+                let isChecked = <HTMLInputElement> document.getElementById('acl_5');
+                isChecked.checked = true;
+              }
+            }); 
+      }, 1000);
     }
   }
 

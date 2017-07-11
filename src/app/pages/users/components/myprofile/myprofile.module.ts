@@ -10,6 +10,7 @@ import { AppTranslationModule } from '../../../../app.translation.module';
 
 import { FieldsService } from '../../../../core/services/dynamic-fields/fields.service';
 import { UsersService } from '../../../../core/services/users/users.service';
+import { FileUploadModule } from 'primeng/primeng';
 
 import { GrowlModule } from 'primeng/primeng';
 
@@ -21,6 +22,7 @@ import { GrowlModule } from 'primeng/primeng';
     NgaModule,
     routing,
     GrowlModule,
+     FileUploadModule,
   ],
   declarations: [
     MyprofileComponent,

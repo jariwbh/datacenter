@@ -54,7 +54,12 @@
                     <a *ngIf="!fields.issystemfield" (click)="deleteFields(fields._id)" style="cursor: pointer; margin-left: 20px;"><i class="ion-trash-a"></i></a>
                   </span>
                   <div *ngSwitchCase="'text'">
-                    <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                    <div *ngIf="fields.labelname == 'points'">
+                      <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value" readonly>
+                    </div>
+                    <div *ngIf="fields.labelname !== 'points'">
+                        <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                    </div>
                   </div>
                   <div *ngSwitchCase="'long_text'">
                     <textarea class="form-control" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
@@ -210,7 +215,6 @@
         <ba-card title="Username & password Form" baCardClass="with-scroll">
           <form [formGroup]="usernamepasswordForm" (ngSubmit)="onUsernamepasswordSubmit(usernamepasswordForm.value,usernamepasswordForm.valid)" novalidate class="form-horizontal">
             <div class="form-group">
-              <input type="hidden" formControlName="role" [(ngModel)]="_usersModel.role">
               <label for="exampleInputname1">Email</label>
               <input 
                   type="email" 
@@ -249,9 +253,15 @@
               <label for="exampleInputcity">ACL</label>
               <div class="input-demo checkbox-demo row">
                 <div class="input-demo radio-demo row">
-                    <div class="col-md-4" *ngFor="let cat of cityRights">
+                    <div class="col-md-4" *ngFor="let cat of cityRights; let i = index">
                       <label class="checkbox-inline custom-checkbox nowrap">
-                        <input type="checkbox" [value]="cat" formControlName="acl" (change)="categoryChange($event)">
+                        <input 
+                          type="checkbox" 
+                          id="acl_{{i}}"
+                          [value]="cat"
+                          formControlName="acl"
+                          [checked]="selectedcityRights == cat"
+                          (change)="categoryChange($event)">
                         <span>{{cat}}</span>
                       </label>
                     </div>
@@ -261,19 +271,33 @@
                   ACL is required.
               </div>
             </div>
+            
+            <div [ngClass]="authRole == 'A' ? 'form-group show-cls' : 'form-group hide-cls'">
+              <label for="input01">Is Super Admin</label>
+              <div class="input-demo radio-demo row">
+              <div class="col-md-4">
+                <label class="radio-inline custom-radio nowrap">
+                  <input  formControlName="role" [value]="0" [checked]="_usersModel.role == 0" type="radio">
+                  <span translate="">Yes</span>
+                </label>
+              </div>
+              <div class="col-md-4">
+                <label class="radio-inline custom-radio nowrap">
+                  <input id="inlineRadio2" checked  [value]="1" formControlName="role" [checked]="_usersModel.role == 1" type="radio">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            </div>
             <div class="form-group">
               <label for="exampleInputcity">This admin can create and view just in this state or city category</label>
-              <select class="form-control" multiple formControlName="cityRights" [(ngModel)]="_usersModel.cityRights">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                  <option>Alaska</option>
-                  <option>Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                  <option>California</option>
-                  <option>Nevada</option>
-                  <option>Oregon</option>
-                  <option>Washington</option>
-                </optgroup>
+              <select 
+                  class="form-control" 
+                  multiple 
+                  formControlName="cityRights" 
+                  [(ngModel)]="_usersModel.cityRights">
+              <option value="">--- Select ---</option>
+              <option *ngFor="let opt of _provinceListsForCity" [value]="opt.name">{{opt.name}}</option>
               </select>
               <div [hidden]="controlAccessForm.get('cityRights').valid || (controlAccessForm.get('cityRights').pristine && !controlAccessSubmitted)" class="alert alert-danger">
                   city Rights is required.

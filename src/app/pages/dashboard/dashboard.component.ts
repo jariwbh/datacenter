@@ -62,25 +62,29 @@ export class Dashboard {
   getTopAdminData() {
     this._DashboardService
       .GetAllTopAdmin()
-      .subscribe(data => {
-        data.forEach(element => {
-          element.admin[0].admin.customCount = element.count;
-          element.admin[0].admin.custom_id = element._id;
-          this._topAdminlist.push(element.admin[0].admin);
-        });
-        if (this._topAdminlist) {
-          // array sorting
-          this._topAdminlist.sort(function (a, b) {
-            return parseFloat(b.customCount) - parseFloat(a.customCount);
-          });
-          setTimeout(() => {
-            if (document.getElementById('row_' + this._topAdminlist[0]['custom_id'])) {
-              document.getElementById('row_' + this._topAdminlist[0]['custom_id']).click();
+      .subscribe( data => {
+          if (data) {
+            data.forEach(element => {
+              if (element.admin[0]) {
+                element.admin[0].admin.customCount = element.count;
+                element.admin[0].admin.custom_id = element._id;
+                this._topAdminlist.push(element.admin[0].admin);
+              }
+            });
+            if (this._topAdminlist) {
+              // array sorting
+              this._topAdminlist.sort(function(a, b) {
+                return parseFloat(b.customCount) - parseFloat(a.customCount);
+              });
+              setTimeout(() => {  
+                if (document.getElementById('row_' + this._topAdminlist[0]['custom_id'])) {
+                  document.getElementById('row_' + this._topAdminlist[0]['custom_id']).click();  
+                }
+              }, 2000);
             }
-          }, 2000);
-        }
+          }
+     });
 
-      });
   }
 
   rowClick(id: any) {

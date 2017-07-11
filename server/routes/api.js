@@ -561,6 +561,17 @@ router.route('/person/:id')
 
 router.route('/person/:id')
     .delete(function(req, res) {
+        Person.remove({
+            _id: req.params.id
+        }, function(err, person) {
+            if (err)
+                res.send(err);
+            res.json({ message: 'Successfully deleted' });
+    });
+});
+
+router.route('/person/:id')
+    .delete(function(req, res) {
 
         Person.remove({
             _id: req.params.id

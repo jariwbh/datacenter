@@ -3,21 +3,20 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgaModule } from '../../../../theme/nga.module';
 
-import { routing } from './add-user.routing';
-import { AddUserComponent } from './add-user.component';
-import { FormComponent } from './form/form.component';
-
+import { routing } from './person-points.routing';
+import { PersonPointsComponent } from './person-points.component';
 import { AppTranslationModule } from '../../../../app.translation.module';
-import { FieldsService } from '../../../../core/services/dynamic-fields/fields.service';
-import { UsersService } from '../../../../core/services/users/users.service';
 
-import { GrowlModule } from 'primeng/primeng';
-import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/primeng';
+import { PointsService } from '../../../../core/services/points/points.service';
+import { ManagepeopleService } from '../../../../core/services/people/manage-people.service';
+import { PagerService } from '../../../../core/services/common/pager.service';
+import { FieldsService } from '../../../../core/services/dynamic-fields/fields.service';
+
+import { SelectButtonModule } from 'primeng/primeng';
 
 import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
+import { GrowlModule, MessagesModule } from 'primeng/primeng';
 
-import { FileUploadModule } from 'primeng/primeng';
-import { MultiSelectModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -27,23 +26,20 @@ import { MultiSelectModule } from 'primeng/primeng';
     ReactiveFormsModule,
     NgaModule,
     routing,
-    GrowlModule,
-    GMapModule,
-    CheckboxModule,
-    SharedModule,
-    DialogModule,
+    SelectButtonModule,
     ConfirmDialogModule,
-    FileUploadModule,
-    MultiSelectModule,
+    GrowlModule,
+    MessagesModule,
   ],
   declarations: [
-    AddUserComponent,
-    FormComponent,
+    PersonPointsComponent,
   ],
   providers: [
+    PointsService,
+    PagerService,
     FieldsService,
-    UsersService,
     ConfirmationService,
+    ManagepeopleService,
   ],
 })
-export class AddUserModule {}
+export class PersonPointsModule {}

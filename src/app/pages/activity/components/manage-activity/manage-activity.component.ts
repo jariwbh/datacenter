@@ -83,6 +83,10 @@ export class ManageActivityComponent {
     this._router.navigate(['/pages/activities/add-activity/form/' + id]);
   }
 
+  detail(id: any) {
+    this._router.navigate(['/pages/activities/detail-activity/form/' + id]);
+  }
+
   delete(id: any) { 
     this.confirmationService.confirm({
             message: 'Do you want to delete this record?',

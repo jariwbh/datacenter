@@ -1,23 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgaModule } from '../../../../theme/nga.module';
 
-import { routing } from './add-user.routing';
-import { AddUserComponent } from './add-user.component';
-import { FormComponent } from './form/form.component';
+import { routing } from './manage-user.routing';
+import { ManageUserComponent } from './manage-user.component';
 
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FieldsService } from '../../../../core/services/dynamic-fields/fields.service';
 import { UsersService } from '../../../../core/services/users/users.service';
 
 import { GrowlModule } from 'primeng/primeng';
-import { GMapModule, CheckboxModule, SharedModule, DialogModule } from 'primeng/primeng';
+import { GMapModule, CheckboxModule, DialogModule } from 'primeng/primeng';
 
 import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
 
 import { FileUploadModule } from 'primeng/primeng';
-import { MultiSelectModule } from 'primeng/primeng';
+
+import { DataTableModule, SharedModule } from 'primeng/primeng';
+
 
 @NgModule({
   imports: [
@@ -34,11 +36,10 @@ import { MultiSelectModule } from 'primeng/primeng';
     DialogModule,
     ConfirmDialogModule,
     FileUploadModule,
-    MultiSelectModule,
+    DataTableModule,
   ],
   declarations: [
-    AddUserComponent,
-    FormComponent,
+    ManageUserComponent,
   ],
   providers: [
     FieldsService,
@@ -46,4 +47,4 @@ import { MultiSelectModule } from 'primeng/primeng';
     ConfirmationService,
   ],
 })
-export class AddUserModule {}
+export class ManageUserModule {}

@@ -1,10 +1,13 @@
+<p-growl [value]="msgs"></p-growl>
+<p-confirmDialog></p-confirmDialog>
+
 <section class="managepeople">
   <div class="row">
     <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-success btn-rounded" (click)="switchView()"><span *ngIf="cardViewVisibilty">Go to Table View</span><span *ngIf="!cardViewVisibilty">Go to Card View</span> </button></a></div>
   </div>
 
   <div class="row" *ngIf="cardViewVisibilty">
-    <div class="col-md-12 col-lg-4 col-xs-12" *ngFor="let ppl of _peoplelist">
+    <div class="col-md-12 col-lg-4 col-xs-12" *ngFor="let ppl of peoplelist">
       
       <ba-card title="{{ppl.fullname}}" baCardClass="with-scroll">
         <div class="user-bg text-center">
@@ -58,39 +61,84 @@
 
   <div class="row" *ngIf="!cardViewVisibilty">
     <ba-card title="Users Detail" baCardClass="with-scroll">
-      <p-dataTable 
-          #dt 
-          tableStyleClass="table table-hover"
-          [value]="_peoplelist" 
-          exportFilename="peopleinfo" 
-          [rows]="10" 
-          [paginator]="true" 
-          [pageLinks]="3" 
-          [rowsPerPageOptions]="[5,10,20]">
-
-        <p-header>
-          <div class="ui-helper-clearfix">
-            <button 
-              class="btn btn-info" 
-              type="button" 
-              pButton 
-              icon="fa-file-o" 
-              iconPos="left" 
-              label="CSV" 
-              (click)="dt.exportCSV()" 
-              style="float:left">
-              CSV
-            </button>
+      <div class="row"> 
+          <div class="col-sm-4">
+              <select
+                  id="provice"
+                  (change)="onChangeProvince($event.target.value)"
+                  class="form-control">
+                  <option value="">----</option>
+                  <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
+              </select>
           </div>
-        </p-header>
+          <div class="col-sm-4">
+              <select 
+                  id="district"
+                  (change)="onChangeDistrict($event.target.value)"
+                  class="form-control">
+                  <option value="">----</option>
+                  <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
+              </select>
+          </div>
+          <div class="col-sm-4">
+              <select 
+                  id="area"
+                  (change)="onChangeArea($event.target.value)"
+                  class="form-control">
+                  <option value="">----</option>
+                  <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
+              </select>
+          </div>
+      </div>
 
-        <p-column 
-            *ngFor="let fields of _fieldLists" 
-            field="{{fields.labelname}}" 
-            header="{{fields.displayname}}" 
-            [sortable]="true">
-        </p-column>
-      </p-dataTable>
+      <div>
+        <div class="alert alert-danger col-md-8" *ngIf="!peoplelist.length>0" style="margin: 20px; width: 1200px;">
+          <strong>Oops! </strong> No Record Found!!!
+        </div>
+        <p-dataTable 
+            #dt 
+            tableStyleClass="table table-hover"
+            [value]="peoplelist" 
+            *ngIf="peoplelist.length>0"
+            exportFilename="peopleinfo" 
+            [rows]="10" 
+            [paginator]="true" 
+            [pageLinks]="3" 
+            [rowsPerPageOptions]="[5,10,20]">
+
+          <p-header>
+            <div class="ui-helper-clearfix">
+              <button 
+                class="btn btn-info" 
+                type="button" 
+                pButton 
+                icon="fa-file-o" 
+                iconPos="left" 
+                label="CSV" 
+                (click)="dt.exportCSV()" 
+                style="float:left">
+              </button>
+            </div>
+          </p-header>
+
+          <p-column 
+              *ngFor="let fields of _fieldLists" 
+              field="{{fields.labelname}}" 
+              header="{{fields.displayname}}" 
+              [sortable]="true">
+          </p-column>
+
+          <p-column styleClass="col-button">
+            <ng-template pTemplate="header"> Actions </ng-template>
+            <ng-template let-peoplelist="rowData" pTemplate="body">
+                <button type="button" pButton (click)="edit(peoplelist)" icon="fa fa-pencil-square"></button>
+                <button type="button" pButton (click)="delete(peoplelist)" icon="fa-trash"></button>
+            </ng-template>
+          </p-column>
+
+        </p-dataTable>
+
+      </div>
     </ba-card>
   </div>
 </section>
