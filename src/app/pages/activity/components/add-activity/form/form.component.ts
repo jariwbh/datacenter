@@ -78,7 +78,7 @@ constructor(
     }
 
     this.typeForm = fb.group({
-        'type': [this._activityModel.type, Validators.required],
+        'activitytype': [this._activityModel.activitytype, Validators.required],
     });
 
     this.userSearchForm = fb.group({
@@ -87,10 +87,7 @@ constructor(
     });
 
     this.aboutForm = fb.group({
-        'province': [this._activityModel.province, Validators.required],
-        'district': [this._activityModel.district, Validators.required],
-        'area': [this._activityModel.area, Validators.required],
-        'profileimage': [this._activityModel.profileimage, Validators.required],
+        'images': [this._activityModel.images, Validators.required],
         'description': [this._activityModel.description, Validators.required],
         'url': [this._activityModel.url, Validators.required],
         'name': [this._activityModel.name],
@@ -166,7 +163,6 @@ constructor(
       .subscribe(data => {
         if (data) {
           this._activityModel = data;
-          this.onChangeProvince(this._activityModel.province);
           this._completedStep = 3;
           this.activityTypeVisibilty = false;
           this.howActivityVisibilty = false;
@@ -177,7 +173,7 @@ constructor(
 
   onUploadPhoto(event) {
       const url = event.xhr.response;
-      this._activityModel.profileimage = url;
+      this._activityModel.images = url;
   }
 
   onTypeSubmit(value: any, isValid: boolean) {
@@ -186,7 +182,7 @@ constructor(
           this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
           return false;
       } else {
-        this._activityModel.type = value.type;
+        this._activityModel.activitytype = value.activitytype;
         this.msgs = [];
         this.msgs.push ({ 
           severity: 'info', summary: 'Insert Message', detail: 'Activity has been added Successfully!!!' });
@@ -240,7 +236,6 @@ constructor(
           value.personsLists.forEach(element => {
             this._activityModel.persons.push(element.code);
           });
-          //this._activityModel.persons = value.persons;
           this.msgs = [];
           this.msgs.push ({ 
             severity: 'info', summary: 'Insert Message', detail: 'Activity has been added Successfully!!!' });
@@ -262,10 +257,6 @@ constructor(
         this._activityModel.description = value.description;
         this._activityModel.url = value.url;
         this._activityModel.name = value.name;
-        this._activityModel.province = value.province;
-        this._activityModel.district = value.district;
-        this._activityModel.area = value.area;
-        
         if (this.authId) {
           if (this.bindId) {
             this._activityService
@@ -279,11 +270,9 @@ constructor(
                 this._router.navigate(['/pages/activities/manage-activity']);
             });
           } else {
-            console.log(this._activityModel);
             this._activityService
               .Add(this.authId, this._activityModel)
               .subscribe(data => {
-                console.log(data);
                 this.msgs = [];
                 this.msgs.push ({ 
                   severity: 'info', summary: 'Insert Message', detail: 'Activity has been added Successfully!!!' });

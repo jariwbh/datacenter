@@ -32,13 +32,13 @@
               class="form-horizontal">
               <div class="form-group">
                 <label for="exampleInputname1">Activity Type</label>
-                <select class="form-control" formControlName="type" [(ngModel)]="_activityModel.type">
+                <select class="form-control" formControlName="activitytype" [(ngModel)]="_activityModel.activitytype">
                     <option>hashtag</option>
                     <option>facebook</option>
                     <option>telegram</option>
                     <option>other</option>
                 </select>
-                <div [hidden]="typeForm.get('type').valid || (typeForm.get('type').pristine && !typeSubmitted)" class="alert alert-danger">
+                <div [hidden]="typeForm.get('activitytype').valid || (typeForm.get('activitytype').pristine && !typeSubmitted)" class="alert alert-danger">
                     Type is required.
                 </div>
               </div>
@@ -86,49 +86,7 @@
               (ngSubmit)="onAboutSubmit(aboutForm.value,aboutForm.valid)" 
               novalidate 
               class="form-horizontal">
-            <div class="form-group">
-              <label for="exampleInputcity">Province</label>
-              <select 
-                  class="form-control" 
-                  (change)="onChangeProvince($event.target.value)" 
-                  [(ngModel)]="_activityModel.province" 
-                  formControlName="province">
-                  <option value="">-----Select----</option>
-                  <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
-                </select>
-              <div [hidden]="aboutForm.get('province').valid || (aboutForm.get('province').pristine && !aboutSubmitted)" class="alert alert-danger clear-fix">
-                  province is required.
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="exampleInputcity">District</label>
-              <select 
-                  class="form-control"
-                  formControlName="district"
-                  [(ngModel)]="_activityModel.district">
-                  <option value="">-----Select----</option>
-                  <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
-              </select>
-              <div [hidden]="aboutForm.get('district').valid || (aboutForm.get('district').pristine && !aboutSubmitted)" class="alert alert-danger clear-fix">
-                  district is required.
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="exampleInputcity">Area</label>
-              <select 
-                  class="form-control"
-                  formControlName="area"
-                  [(ngModel)]="_activityModel.area">
-                  <option value="">-----Select----</option>
-                  <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
-              </select>
-              <div [hidden]="aboutForm.get('area').valid || (aboutForm.get('area').pristine && !aboutSubmitted)" class="alert alert-danger clear-fix">
-                  area is required.
-              </div>
-            </div>
-
+            
             <div class="form-group">
               <label for="exampleInputcity">Tittle</label>
               <input type="text" [(ngModel)]="_activityModel.name" formControlName="name" class="form-control">
@@ -159,15 +117,15 @@
               <input 
                   class="form-control" 
                   type="hidden" 
-                  formControlName="profileimage"
-                  [(ngModel)]="_activityModel.profileimage">
+                  formControlName="images"
+                  [(ngModel)]="_activityModel.images">
               <img 
                   class="img-responsive" 
-                  src="{{serverPath}}/{{_activityModel.profileimage}}" 
+                  src="{{serverPath}}/{{_activityModel.images}}" 
                   style="height: 150px; width: 150px">
 
-              <div [hidden]="aboutForm.get('profileimage').valid || (aboutForm.get('profileimage').pristine && !aboutSubmitted)" class="alert alert-danger clear-fix">
-                    profileimage is required.
+              <div [hidden]="aboutForm.get('images').valid || (aboutForm.get('images').pristine && !aboutSubmitted)" class="alert alert-danger clear-fix">
+                    images is required.
               </div>
             </div>
 

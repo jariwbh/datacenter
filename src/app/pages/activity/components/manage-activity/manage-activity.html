@@ -3,6 +3,20 @@
     <p-confirmDialog></p-confirmDialog>
     <div class="row">
         <div class="col-md-12">
+            <div class="row"> 
+                <div class="col-sm-4" style="margin-bottom: 20px;">
+                    <select
+                        id="type"
+                        (change)="onChangeType($event.target.value)"
+                        class="form-control">
+                        <option value="" selected>All Activity Type</option>
+                        <option value="hashtag">hashtag</option>
+                        <option value="facebook">facebook</option>
+                        <option value="telegram">telegram</option>
+                        <option value="other">other</option>
+                    </select>
+                </div>
+            </div>
             <ba-card title="Activity Timeline" baCardClass="with-scroll">
                 <ul class="timeline">
                     <!--<li><div class="tldate">Apr 2014</div></li>-->
@@ -17,8 +31,8 @@
                             </div>
                             <div class="tl-body" (click)="detail(act._id)" style="cursor: pointer;">
                                 <p [innerHTML]="act.description" style="color:cornflowerblue"></p>
-                                <p><img *ngIf="!act.profileimage" src="assets/img/developers/img1.jpg" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
-                                <p><img *ngIf="act.profileimage" src="{{serverPath}}/{{act.profileimage}}" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
+                                <p><img *ngIf="!act.images" src="assets/img/developers/img1.jpg" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
+                                <p><img *ngIf="act.images" src="{{serverPath}}/{{act.images}}" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
                             </div>
                             
                         </div>
