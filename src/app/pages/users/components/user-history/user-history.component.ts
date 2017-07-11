@@ -9,6 +9,7 @@ import { AuthService } from '../../../../core/services/common/auth.service';
 @Component({
   selector: 'nga-user-history',
   templateUrl: './user-history.html',
+   styleUrls: ['./user-history.css'],
   })
 
 export class UserHistoryComponent {
@@ -39,8 +40,25 @@ export class UserHistoryComponent {
           .GetAll(id)
           .subscribe(
           data => {
+            data.forEach(element => {
+              element.date = this.updateClock(element.date);
+            });
             this._auditLists  = data;
-            console.log(this._auditLists);
         });
+  }
+
+  updateClock(startStamp) {
+    let newDate = new Date();
+    let newStamp = newDate.getTime();
+    let diff = Math.round((newStamp-startStamp)/1000);
+    
+    let d = Math.floor(diff/(24*60*60)); /* though I hope she won't be working for consecutive days :) */
+    diff = diff-(d*24*60*60);
+    let h = Math.floor(diff/(60*60));
+    diff = diff-(h*60*60);
+    let m = Math.floor(diff/(60));
+    diff = diff-(m*60);
+    let s = diff;
+    return  d + " day(s), " + h + " hour(s), " + m + " minute(s), " + s + " second(s) ago";
   }
 }

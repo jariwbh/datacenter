@@ -19,7 +19,9 @@
     margin-top: 0;
   }
 }
-.ui-autocomplete-multiple-container.ui-widget.ui-inputtext.ui-state-default.ui-corner-all {
-  width: 800px;
-  height: 50px;
+.p-autocomplete{
+    width: 100%;
+  }
+.ui-autocomplete-input-token input { 
+  width: 500px;
 }

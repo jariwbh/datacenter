@@ -1,14 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-
-import { ManagepeopleService } from '../../../../../core/services/people/manage-people.service';
 
 import { ActivityService } from '../../../../../core/services/activity/activity.service';
 import { ActivityModel } from '../../../../../core/models/activity/activity.model';
-
-import { FieldsService } from '../../../../../core/services/dynamic-fields/fields.service';
-import { FieldsModel } from '../../../../../core/models/dynamic-fields/fields.model';
 
 import { Message } from 'primeng/primeng';
 import { AuthService } from '../../../../../core/services/common/auth.service';
@@ -17,135 +11,81 @@ import { Configuration } from '../../../../../app.constants';
 @Component({
   selector: 'nga-form-activity',
   templateUrl: './form.html',
-  styleUrls: ['./grid.scss'],
+  styleUrls: ['./grid.scss', './detail-activity.css'],
 })
 
 export class FormComponent {
 
-_activityModel = new ActivityModel();
-
-typeForm: FormGroup;
-typeSubmitted: boolean;
-
-userSearchForm: FormGroup;
-userSearchSubmitted: boolean;
-
-aboutForm: FormGroup;
-aboutSubmitted: boolean;
-
-activityTypeVisibilty = true;
-howActivityVisibilty = false;
-aboutVisibilty = false;
-
+_activityDetail = new ActivityModel();
 msgs: Message[] = [];
-_completedStep = 1;
-
-_allEmails: any [] = [];
-filteredEmailsMultiple: any[];
-
 bindId: string;
-
-_provinceLists: any[] = [];
-_districtLists: any[] = [];
-_areaLists: any[] = [];
-
-_districtBasedOnProvince: any[] = [];
-_areaBasedOnProvince: any[] = [];
-
-_districtOptionLists: any[] = [];
-_areaOptionLists: any[] = [];
-
-authId: string;
 serverPath: string;
 
 constructor(
-    private fb: FormBuilder,
     private _router: Router,
     private _route: ActivatedRoute,
     private _activityService: ActivityService,
-    private _managepeopleService: ManagepeopleService,
-    private _fieldsService: FieldsService,
     private _authService: AuthService,
     private _configuration: Configuration,
   ) { 
     
     this.serverPath = this._configuration.Server;
     
-    if (this._authService.auth_id === '') {
-      this.authId = null;
-    } else {
-      this.authId = this._authService.auth_id;
+    
+    this._activityDetail.name = '';
+    this._activityDetail.description = '';
+    this._activityDetail.personsLists = [];
+    this._activityDetail.activitytype = '';
+    this._activityDetail.url = '';
+    this._activityDetail.createdAt = '';
     }
 
-    this.typeForm = fb.group({
-        'activitytype': [this._activityModel.activitytype, Validators.required],
-    });
-
-    this.userSearchForm = fb.group({
-        'persons': [this._activityModel.persons],
-        'personsLists': [this._activityModel.personsLists, Validators.required],
-    });
-
-    this.aboutForm = fb.group({
-        'images': [this._activityModel.images, Validators.required],
-        'description': [this._activityModel.description, Validators.required],
-        'url': [this._activityModel.url, Validators.required],
-        'name': [this._activityModel.name],
-    });
-
-    this.getAllPersonrEmail();
-  }
-
   ngOnInit() {
+    //get URLid
     this._route.params.subscribe(
         (param: any) => {
             this.bindId = param['id'];
     });
+   
     if (this.bindId) {
       this.getActivityById(this.bindId);
     }
   }
   
-  
-
   getActivityById(id: any) {
     this._activityService
       .GetById(id)
       .subscribe(data => {
         if (data) {
-          this._activityModel = data;
+          
+          this._activityDetail.name = data.name;
+          this._activityDetail.personsLists = data.personsLists;
+          this._activityDetail.images = data.images;
+          this._activityDetail.activitytype = data.activitytype;
+          this._activityDetail.url = data.url;
+          this._activityDetail.description = data.description;
+          let startDateTime = new Date(data.createdAt); 
+          let startStamp = startDateTime.getTime();
+          this._activityDetail.createdAt = this.updateClock(startStamp);
         }
       });
   }
-  getAllPersonrEmail() {
-      this._managepeopleService
-        .GetAll()
-        .subscribe(
-        data => {
-          data.forEach(element => {
-            const id = element._id;
-            const email = element.person.email;
-            const grp = {
-              name: email,
-              code: id,
-            }; 
-            this._allEmails.push(grp);
-          });
-      });
-    }
-    filterEmailMultiple(event) {
-      const query = event.query;
-      this.filteredEmailsMultiple = this.filterEmail(query, this._allEmails);
-    }
+
+    updateClock(startStamp) {
+    let newDate = new Date();
+    let newStamp = newDate.getTime();
+    let diff = Math.round((newStamp-startStamp)/1000);
     
-    filterEmail(query, emails: any[]): any[] {
-        const filtered: any[] = [];
-        emails.forEach(element => {
-          const email = element;
-          if (email.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-                filtered.push(email);
-          }
-        });
-        return filtered;
-    }
+    let d = Math.floor(diff/(24*60*60)); /* though I hope she won't be working for consecutive days :) */
+    diff = diff-(d*24*60*60);
+    let h = Math.floor(diff/(60*60));
+    diff = diff-(h*60*60);
+    let m = Math.floor(diff/(60));
+    diff = diff-(m*60);
+    let s = diff;
+    
+    return  d + " day(s), " + h + " hour(s), " + m + " minute(s), " + s + " second(s) ago";
 }
+
+}
+

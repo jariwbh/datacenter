@@ -1,11 +1,12 @@
 <section class="userhistory">
   <div class="row">
-    <div class="col-xl-3 col-lg-6 col-md-6">
+    <div class="col-xl-12 col-lg-12 col-md-12">
       <ba-card title="Latest USER ACTIVITY" baCardClass="with-scroll button-panel">
-          <h3 class="box-title">Last User Activity</h3>
+          <h5 class="box-title mrb15">Last User Activity</h5>
           <div class="row show-grid">
             <div class="col-12 ">
-              <div *ngFor="let audit of _auditLists"> <i class="fa fa-user-circle-o"></i> {{audit.activity}} <span class="text-muted">Just Now</span></div> <br>
+              <div *ngFor="let audit of _auditLists" class="mrb15"> <i class="fa fa-user-circle-o mrr5"></i> {{audit.activity}} 
+              <span class="text-blue pdl5"> {{audit.date}} </span></div> <br>
             </div>
           </div>
       </ba-card>

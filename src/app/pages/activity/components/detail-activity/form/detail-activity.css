@@ -1,0 +1,25 @@
+
+@media(min-width:992px) {
+.col-md-offset-2 {
+    margin-left: 16.66666667%;
+}
+}
+.img-responsive {
+   display: block;
+    height: auto;
+    max-width: 100%;
+    max-width: 100% \9; 
+}
+.mrb25 {
+  margin-bottom: 25px;
+}
+.font18 {
+  font: 18px/24px "Roboto",sans-serif;
+}
+
+.mrb15 {
+    margin-bottom: 15px;
+}
+.mrr5 {
+    margin-right: 5px;
+}

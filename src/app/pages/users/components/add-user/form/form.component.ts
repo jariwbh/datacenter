@@ -90,6 +90,9 @@ export class FormComponent {
    authRole: string;
    authId: string;
 
+   _lookupLists: any[] = [];
+   lookupError = false;
+
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -265,7 +268,8 @@ export class FormComponent {
           data => {
             this._fieldsModel = data;
             if (this._fieldsModel) {
-              this._sampleJson = JSON.stringify(this._fieldsModel.lookupdata);
+              this._lookupLists = this._fieldsModel.lookupdata;
+              //this._sampleJson = JSON.stringify(this._fieldsModel.lookupdata);
               const isButton = <HTMLInputElement> document.getElementById('formfieldButton');
               isButton.click();
             }
@@ -360,6 +364,50 @@ export class FormComponent {
               this._usersModel.role = true;
             }
         });
+  }
+  addLookup() {
+    
+    this.lookupError = false;
+
+    let key = <HTMLInputElement> document.getElementById('lookupKey');
+    let keyValue = key.value;
+    let val = <HTMLInputElement> document.getElementById('lookupValue');
+    let valValue = val.value;
+
+    let uuid = this.uuid();
+
+    let grp = {
+      id: uuid,
+      key: keyValue,
+      value: valValue,
+    };
+    this._lookupLists.push(grp);
+    this._fieldsModel.lookupdata = this._lookupLists;
+    key.value = '';
+    val.value = '';
+  }
+  removeLookup(id) {
+    this.removeLookupfromArray(id, this._lookupLists);
+    this._fieldsModel.lookupdata = this._lookupLists;
+  }
+  removeLookupfromArray(id: number, array: any) {
+    for (let i in array) {
+      if (array[i].id == id) {
+        array.splice(i, 1);
+      }
+    }
+  }
+  uuid() {
+    let uuid = "", i, random;
+    for (i = 0; i < 32; i++) {
+      random = Math.random() * 16 | 0;
+
+      if (i == 8 || i == 12 || i == 16 || i == 20) {
+        uuid += "-"
+      }
+      uuid += (i == 12 ? 4 : (i == 16 ? (random & 3 | 8) : random)).toString(16);
+    }
+    return uuid;
   }
   getAdminDetailBasedonID(id: any) {
     this._completedStep = 3;
@@ -637,15 +685,14 @@ export class FormComponent {
         } else {
           this.isidexist = false;
         }
-
-        let lookupJson = [];
-        if (value.lookupdata) {
-          lookupJson = JSON.parse(value.lookupdata);
+        
+        if (value.lookupdata.length == 0) {
+          this.lookupError = true;
         }
         const editedLabel = value.labelname.replace(/ /g, '_');
         this._fieldsModel.formname = 'admin';
         this._fieldsModel.fieldtype = value.fieldtype;
-        this._fieldsModel.lookupdata = lookupJson;
+        this._fieldsModel.lookupdata = value.lookupdata;
         this._fieldsModel.displayname = value.displayname;
         this._fieldsModel.labelname = editedLabel.toLowerCase();
         this._fieldsModel.description = value.description;
@@ -658,26 +705,27 @@ export class FormComponent {
           this._fieldsModel.isMandatory = false;
         }
 
-        if (this.isidexist) {
-          this._fieldsService
-              .Update(this._fieldsModel._id, this._fieldsModel)
-              .subscribe(
-              data => {
-                const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
-                if (isClosed) {
-                  isClosed.click();
-                  this.getAllFields();
-                  this.clearFormFields();
-                  this.msgs = [];
-                  this.msgs.push ({ 
-  severity: 'info', summary: 'Update Message', detail: 'Fields has been Updated Successfully!!!' });
-                  
-                }
-            });
-        } else {
-           this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
+        if (!this.lookupError) {
+            if (this.isidexist) {
+                this._fieldsService
+                    .Update(this._fieldsModel._id, this._fieldsModel)
+                    .subscribe(
+                    data => {
+                      const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+                      if (isClosed) {
+                        isClosed.click();
+                        this.getAllFields();
+                        this.clearFormFields();
+                        this.msgs = [];
+                        this.msgs.push ({ 
+        severity: 'info', summary: 'Update Message', detail: 'Fields has been Updated Successfully!!!' });
+                        
+                      }
+                  });
+              } else {
+                this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
+              }
         }
-        
       }
   }
   labelvaluechange() {

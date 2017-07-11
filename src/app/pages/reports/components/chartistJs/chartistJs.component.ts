@@ -31,9 +31,11 @@ export class ChartistJsComponent {
   secondDistrict: string = '';
   selectProvince: string = '';
   selectDistrict: string = '';
+  xAxisField: string = '';
 
   showGenCompareReport = false;
   showGenSelectReport = false;
+  showGenDynamicReport = false;
 
   dataComparePointHistory: any = {};
   dataCompareUserHistory: any = {};
@@ -48,6 +50,7 @@ export class ChartistJsComponent {
   // allView: boolean = true;
   compareView: boolean = true;
   selectedView: boolean = false;
+  dynamicView: boolean = false;
 
   provinceList: any[] = [];
   districtList: any[] = [];
@@ -132,14 +135,22 @@ export class ChartistJsComponent {
 
     this.showGenCompareReport = false;
     this.showGenSelectReport = false;
+    this.showGenDynamicReport = false;
     if (view === 'CompareView') {
       //this.allView = false;
       this.compareView = true;
       this.selectedView = false;
+      this.dynamicView = false;
     } else if (view === 'SelectedView') {
       //this.allView = false;
       this.compareView = false;
       this.selectedView = true;
+      this.dynamicView = false;
+    } else if (view === 'DynamicView') {
+      //this.allView = false;
+      this.compareView = false;
+      this.selectedView = false;
+      this.dynamicView = true;
     }
   }
 
@@ -165,6 +176,14 @@ export class ChartistJsComponent {
     } else if (selectedField === 'District') {
       this.selectType = 'District';
     }
+  }
+
+  onChangeFieldforDynamicReport(selectedField) {
+     this.showGenDynamicReport = false;
+     this.xAxisField = selectedField;
+  }
+  onChangeAxisforDynamicReport(selectedAxis) {
+      
   }
 
   onChangeFirstProvince(firstProvince) {
@@ -193,6 +212,10 @@ export class ChartistJsComponent {
   onChangeSelectDistrict(selectDistrict) {
     this.showGenSelectReport = false;
     this.selectDistrict = selectDistrict;
+  }
+
+  genrateReportForDynamic() {
+   this.showGenDynamicReport = true;
   }
 
   genrateReportForCompare() {
