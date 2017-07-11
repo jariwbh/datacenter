@@ -9,6 +9,8 @@ export const routes: Routes = [
        { path: 'add-activity', loadChildren: './components/add-activity/add-activity.module#AddActivityModule' },
        { path: 'manage-activity', 
           loadChildren: './components/manage-activity/manage-activity.module#ManageActivityModule' },
+       { path: 'detail-activity', 
+          loadChildren: './components/detail-activity/detail-activity.module#DetailActivityModule' },
     ],
   },
 ];

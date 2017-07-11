@@ -10,12 +10,12 @@
                         <div class="tl-circ"></div>
                         <div class="timeline-panel">
                             <div class="tl-heading">
-                            <h4>{{act.name}}</h4>
+                            <h4 (click)="detail(act._id)">{{act.name}}</h4>
                             <a class="pull-right ng2-smart-action ng2-smart-action-delete-delete" style="cursor: pointer; margin-left: 10px;color: #285eb8;text-decoration: none !important;transition: color 0.2s ease;" (click)="delete(act._id)"><i class="ion-trash-a"></i></a>
                             <a class="pull-right ng2-smart-action ng2-smart-action-edit-edit" (click)="edit(act._id)" style="cursor: pointer; color: #285eb8;text-decoration: none !important;transition: color 0.2s ease;"><i class="ion-edit"></i></a>
                             <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{act.customSinceTime}} </small></p>
                             </div>
-                            <div class="tl-body">
+                            <div class="tl-body" (click)="detail(act._id)">
                                 <p [innerHTML]="act.description" style="color:cornflowerblue"></p>
                                 <p><img *ngIf="!act.profileimage" src="assets/img/developers/img1.jpg" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
                                 <p><img *ngIf="act.profileimage" src="{{serverPath}}/{{act.profileimage}}" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
