@@ -5,6 +5,7 @@ var Schema       = mongoose.Schema;
 
 var AdminSchema   = new Schema({
     admin:Object,
+    adminid:Number,
     username: String,
     password: String,
     points:Number

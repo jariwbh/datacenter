@@ -6,17 +6,12 @@ var Schema       = mongoose.Schema;
 var ActivitySchema   = new Schema({
     name:String,
     description:String,
-    type:String,
-    persons:[{type: Schema.ObjectId, ref: 'person' }],
-    personsLists:Array,
-    profileimage:String,
-    url:String,
-    points:Number,
-    province: String,
-    district: String,
-    area: String,
+    activitytype:String,
+    persons:[{type: Schema.ObjectId, ref: 'person' }],    
+    image:String,
+    url:String,    
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('ActivitySchema', ActivitySchema);
+module.exports = mongoose.model('Activity', ActivitySchema);
 

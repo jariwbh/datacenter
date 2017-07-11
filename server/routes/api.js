@@ -112,6 +112,19 @@ function saveAudit(activity, date, adminid )
 
 }
 
+router.route('/search/activity')    
+    .post(function(req, res) {
+
+       var type = req.body.activitytype;
+
+       if (req.params.id) {
+            Activity.find({ activitytype: type }, function (err, docs) {
+                res.json(docs);
+            });
+       }
+    });
+
+
 router.route('/audit/:adminid')
     .get(function(req, res) {
 
@@ -840,6 +853,7 @@ router.route('/activity')
         });
 
     });
+
 
 router.route('/activity/:person')
     // create a bear (accessed at POST http://localhost:8080/api/bears)
