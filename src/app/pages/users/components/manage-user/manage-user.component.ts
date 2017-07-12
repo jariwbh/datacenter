@@ -33,6 +33,7 @@ export class ManageUserComponent {
   _districtOptionLists: any[] = [];
   _areaOptionLists: any[] = [];
 
+  _countAdmin: boolean = false;
    constructor(
     private _router: Router,
     private _route: ActivatedRoute,
@@ -168,6 +169,11 @@ export class ManageUserComponent {
                     }
                 }
             });
+            if ( this.adminlist.length > 0) {
+                this._countAdmin = true;
+            } else {
+                this._countAdmin = false;
+            }
         });
     }
 
@@ -180,6 +186,11 @@ export class ManageUserComponent {
           element.admin.id = element._id;
           this.adminlist.push(element.admin);
         });
+        if ( this.adminlist.length > 0) {
+            this._countAdmin = true;
+        } else {
+            this._countAdmin = false;
+        }
       });
   }
 

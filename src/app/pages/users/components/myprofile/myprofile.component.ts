@@ -67,6 +67,12 @@ export class MyprofileComponent {
           data => {
             this.userData = data.admin;
             this.fieldLists.forEach(element => {
+              if(element.labelname == 'profile_picture') {
+                let isImage = <HTMLInputElement> document.getElementById('image_profile_picture');
+                let isImageDisplay = <HTMLInputElement> document.getElementById('profile_picture');
+                isImage.value = this.userData[element.labelname];
+                isImageDisplay.src = this.userData[element.labelname];
+              }
               element.value = this.userData[element.labelname];
               element.visiblity = false;
             });

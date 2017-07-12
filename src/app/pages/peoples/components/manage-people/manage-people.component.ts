@@ -41,6 +41,7 @@ export class ManagePeopleComponent {
   _areaOptionLists: any[] = [];
 
   msgs: Message[] = [];
+  _countPerson: boolean = false;
 
   constructor(
     private _router: Router,
@@ -192,6 +193,13 @@ export class ManagePeopleComponent {
                     }
                 }
             });
+            if (this.peoplelist.length > 0) {
+              this.showPeopleList = false;
+              this._countPerson = true;
+            } else {
+              this.showPeopleList = true;
+              this._countPerson = false;
+            }
         });
     }
 
@@ -250,10 +258,13 @@ export class ManagePeopleComponent {
               this.peoplelist.push(element.person);
             }
           });
+          this._countPerson = this.peoplelist.length;
           if (this.peoplelist.length > 0) {
             this.showPeopleList = false;
+            this._countPerson = true;
           } else {
             this.showPeopleList = true;
+            this._countPerson = false;
           }
           //this.cardViewVisibilty = false;
           if (this._CommonDataService.filterDataBy === 'province' || this._CommonDataService.filterDataBy === 'social') {
@@ -281,10 +292,13 @@ export class ManagePeopleComponent {
               this.peoplelist.push(element.person);
             }
           });
+          
           if (this.peoplelist.length > 0) {
             this.showPeopleList = false;
+            this._countPerson = true;
           } else {
             this.showPeopleList = true;
+            this._countPerson = false;
           }
         }
       });

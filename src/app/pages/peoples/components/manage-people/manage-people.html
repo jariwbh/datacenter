@@ -94,14 +94,14 @@
       
 
       <div>
-        <div class="alert alert-danger col-md-8" *ngIf="!peoplelist.length>0" style="margin: 20px; width: 1200px;">
+        <div class="alert alert-danger col-md-8" *ngIf="!_countPerson" style="margin: 20px; width: 1200px;">
           <strong>Oops! </strong> No Record Found!!!
         </div>
         <p-dataTable 
             #dt 
             tableStyleClass="table table-hover"
             [value]="peoplelist" 
-            *ngIf="peoplelist.length>0"
+            *ngIf="_countPerson"
             exportFilename="peopleinfo" 
             [rows]="10" 
             [paginator]="true" 
