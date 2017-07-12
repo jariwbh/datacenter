@@ -55,7 +55,27 @@
                   </span>
                   <div *ngSwitchCase="'text'">
                     <div *ngIf="fields.labelname == 'points'">
-                      <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value" readonly>
+                      <div *ngIf="bindId">
+                        <input 
+                          class="form-control" 
+                          type="text" 
+                          [formControlName]="fields.labelname" 
+                          [(ngModel)]="fields.value" 
+                          readonly>
+                      </div>
+                      <div *ngIf="!bindId">
+                        <input 
+                          class="form-control" 
+                          type="text" 
+                          [formControlName]="fields.labelname" 
+                          [(ngModel)]="fields.value" 
+                          readonly
+                          [value]="0">
+                      </div>
+                      
+                      <span class="help-block sub-little-text" style="color: #ecc839">
+                        You cannt add / edit this field. [ READ ONLY PROPERTY ]
+                      </span>
                     </div>
                     <div *ngIf="fields.labelname !== 'points'">
                         <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
@@ -392,8 +412,43 @@
                   </div>
                   <div class="form-group" *ngIf="_lookupVisibiity">
                     <label for="input01">LookUp</label>
-                    <textarea class="form-control form-control-lg" formControlName="lookupdata" [(ngModel)]='_sampleJson'>  </textarea>
-                    <div [hidden]="form.get('lookupdata').valid || (form.get('lookupdata').pristine && !submitted)" class="alert alert-danger">
+                    <div class="row"> 
+                      <div class="col-sm-4">
+                          <span class="help-block sub-little-text" style="color: #ecc839">Key</span>
+                          <input type="text" class="form-control" id="lookupKey">
+                      </div>
+                      <div class="col-sm-4">
+                          <span class="help-block sub-little-text" style="color: #ecc839">Value</span>
+                          <input type="text" class="form-control" id="lookupValue">
+                      </div>
+                      <div class="col-sm-4">
+                          <input type="button" value="Add" (click)="addLookup()" class="btn btn-primary">
+                      </div>
+                  </div>
+                    <div class="horizontal-scroll" style="margin: 20px;" *ngIf="_lookupLists.length>0">
+                      <table class="table table-condensed">
+                        <thead>
+                        <tr>
+                          <th>Key</th>
+                          <th>Value</th>
+                          <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let lukup of _lookupLists">
+                          <td>{{lukup.key}}</td>
+                          <td>{{lukup.value}}</td>
+                          <td>
+                            <button class="status-button btn btn-xs btn-danger" (click)="removeLookup(lukup.id)">Delete</button>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <input type="hidden" formControlName="lookupdata" [(ngModel)]="_fieldsModel.lookupdata">
+                    <!--<textarea class="form-control form-control-lg" formControlName="lookupdata" [(ngModel)]='_sampleJson'>  </textarea>-->
+                    <div *ngIf="lookupError" class="alert alert-danger">
                         lookupdata is required.
                     </div>
                   </div>

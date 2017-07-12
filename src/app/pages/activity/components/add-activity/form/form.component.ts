@@ -58,6 +58,8 @@ _areaOptionLists: any[] = [];
 authId: string;
 serverPath: string;
 
+_imageLists: any [] = [];
+
 constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -163,6 +165,7 @@ constructor(
       .subscribe(data => {
         if (data) {
           this._activityModel = data;
+          this._imageLists = this._activityModel.images;
           this._completedStep = 3;
           this.activityTypeVisibilty = false;
           this.howActivityVisibilty = false;
@@ -173,7 +176,26 @@ constructor(
 
   onUploadPhoto(event) {
       const url = event.xhr.response;
-      this._activityModel.images = url;
+      let uuid = this.uuid();
+      let grp = {
+        id: uuid,
+        imagevalue: url,
+      };
+      this._imageLists.push(grp);
+      this._activityModel.images = this._imageLists;
+  }
+
+  uuid() {
+    let uuid = "", i, random;
+    for (i = 0; i < 32; i++) {
+      random = Math.random() * 16 | 0;
+
+      if (i == 8 || i == 12 || i == 16 || i == 20) {
+        uuid += "-"
+      }
+      uuid += (i == 12 ? 4 : (i == 16 ? (random & 3 | 8) : random)).toString(16);
+    }
+    return uuid;
   }
 
   onTypeSubmit(value: any, isValid: boolean) {

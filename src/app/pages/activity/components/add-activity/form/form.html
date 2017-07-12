@@ -64,7 +64,10 @@
                   (completeMethod)="filterEmailMultiple($event)" 
                   placeholder="Users" 
                   field="name"
-                  [multiple]="true">
+                  [multiple]="true"
+                  [style]="{'width':'100%'}" 
+                  [inputStyle]="{'width':'100%'}" 
+                  class="p-autocomplete">
                 </p-autoComplete>
                 <input type="hidden" [(ngModel)]="_activityModel.persons" formControlName="persons">
                 <ul>
@@ -119,9 +122,12 @@
                   type="hidden" 
                   formControlName="images"
                   [(ngModel)]="_activityModel.images">
-              <img 
+
+                  
+              <img
+                  *ngFor="let img of _imageLists"
                   class="img-responsive" 
-                  src="{{serverPath}}/{{_activityModel.images}}" 
+                  src="{{serverPath}}/{{img.imagevalue}}" 
                   style="height: 150px; width: 150px">
 
               <div [hidden]="aboutForm.get('images').valid || (aboutForm.get('images').pristine && !aboutSubmitted)" class="alert alert-danger clear-fix">

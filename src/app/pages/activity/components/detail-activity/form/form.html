@@ -1,18 +1,49 @@
 <p-growl [value]="msgs"></p-growl>
 <section class="addactivity">
-    <div class="row">
-  <div class="col-md-12">
+  <div class="row">
+    <div class="col-md-12">
       <ba-card title="Activity Details" baCardClass="with-scroll">
-         <ba-card title="Activity Details" baCardClass="with-scroll">
- 
-        </ba-card>
-        <ba-card title="Activity Details" baCardClass="with-scroll">
- 
+        <div class="row">
+          <div class="col-md-offset-2 col-md-8">
+            <h1 class="mrb25">{{_activityDetail.name}}</h1>
+            <div class="form-group">
+              <img *ngIf="!_activityDetail.images" src="assets/img/developers/img1.jpg" alt="lorem pixel" class="img-responsive">
+              <img *ngIf="_activityDetail.images" src="{{serverPath}}/{{_activityDetail.images[0]['imagevalue']}}" alt="lorem pixel" class="img-responsive">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">Activity Time</label>
+              <div class="font18">
+                {{_activityDetail.createdAt}}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">Activity Type</label>
+              <div class="font18">
+                {{_activityDetail.activitytype}}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">Person List</label>
+              <div class="font18">
+                <div *ngFor="let person of _activityDetail.personsLists" class="mrb15">
+                   <i class="fa fa-user-circle-o mrr5"></i> {{person.name}}
+                    </div> <br>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">Url</label>
+              <div class="font18"> {{_activityDetail.url}} </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputcity">Description</label>
+              <div class="font18" [innerHTML]='_activityDetail.description'>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </ba-card>
-      <ba-card title="Activity Details" baCardClass="with-scroll">
- 
-      </ba-card>
-      </ba-card>
-  </div>
+    </div>
+
   </div>
 </section>

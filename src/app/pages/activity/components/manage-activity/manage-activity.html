@@ -32,7 +32,7 @@
                             <div class="tl-body" (click)="detail(act._id)" style="cursor: pointer;">
                                 <p [innerHTML]="act.description" style="color:cornflowerblue"></p>
                                 <p><img *ngIf="!act.images" src="assets/img/developers/img1.jpg" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
-                                <p><img *ngIf="act.images" src="{{serverPath}}/{{act.images}}" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
+                                <p><img *ngIf="act.images" src="{{serverPath}}/{{act.images[0]['imagevalue']}}" style="height: 300px; width: 550px;" alt="lorem pixel" class="img-responsive"></p>
                             </div>
                             
                         </div>
