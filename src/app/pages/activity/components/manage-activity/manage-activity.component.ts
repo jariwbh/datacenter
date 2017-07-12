@@ -41,7 +41,7 @@ export class ManageActivityComponent {
     if (value == '') {
       this.getAllActivities();
     } else {
-      this.getAllActivitiesByFiltter('type', value);
+      this.getAllActivitiesByFiltter('actvitytype', value);
     }
   }
 

@@ -193,12 +193,19 @@ export class ManagePeopleComponent {
                     }
                 }
             });
+
+            setTimeout(() => {
+              if ( this.peoplelist.length > 0) {
+                  this._countPerson = true;
+              } else {
+                  this._countPerson = false;
+              }
+            }, 100);
+
             if (this.peoplelist.length > 0) {
               this.showPeopleList = false;
-              this._countPerson = true;
             } else {
               this.showPeopleList = true;
-              this._countPerson = false;
             }
         });
     }
@@ -258,7 +265,7 @@ export class ManagePeopleComponent {
               this.peoplelist.push(element.person);
             }
           });
-          this._countPerson = this.peoplelist.length;
+          //this._countPerson = this.peoplelist.length;
           if (this.peoplelist.length > 0) {
             this.showPeopleList = false;
             this._countPerson = true;
@@ -293,13 +300,20 @@ export class ManagePeopleComponent {
             }
           });
           
+          setTimeout(() => {
+            if ( this.peoplelist.length > 0) {
+                this._countPerson = true;
+            } else {
+                this._countPerson = false;
+            }
+          }, 100);
+
           if (this.peoplelist.length > 0) {
             this.showPeopleList = false;
-            this._countPerson = true;
           } else {
             this.showPeopleList = true;
-            this._countPerson = false;
           }
+
         }
       });
   }
