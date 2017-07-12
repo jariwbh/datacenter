@@ -93,6 +93,8 @@ export class FormComponent {
    _lookupLists: any[] = [];
    lookupError = false;
 
+   location = {};
+
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -125,6 +127,7 @@ export class FormComponent {
         'labelname': [this._fieldsModel.labelname],
         'description': [this._fieldsModel.description, Validators.required],
         'isMandatory': [this._fieldsModel.isMandatory, Validators.required],
+        'isDisplayOnList': [this._fieldsModel.isDisplayOnList, Validators.required],
         'formorder': [this._fieldsModel.formorder, [Validators.required, OnlyNumberValidator.insertonlynumber]],
       });
 
@@ -146,7 +149,8 @@ export class FormComponent {
       this.cityRights[3] = 'View User History';
       this.cityRights[4] = 'View report page';
       this.cityRights[5] = 'View Manage person page';
-
+      this.cityRights[6] = 'View Dashboard page';
+      
       // Made Sample Json Data For Lookup
       this._sampleJson = `[
           {
@@ -190,8 +194,31 @@ export class FormComponent {
     this.getAllProvince();
     this.getAllDistrict();
     this.getAllArea();
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
+    }
   }
 
+  
+  setPosition(position) {
+    this.location = position.coords;
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+
+    if (latitude !== '' && longitude !== '') {
+        console.log('Map Mapped');
+        // Google Map Start
+          this.options = {
+              center: { lat: latitude, lng: longitude },
+              zoom: 12,
+          };
+          this.initOverlays();
+          this.infoWindow = new google.maps.InfoWindow();
+        // Google Map Start
+    }
+    
+  }
   getAllProvinceForCityBasedonAdmin() {
     this._fieldsService
       .GetAllProvince()
@@ -660,6 +687,10 @@ export class FormComponent {
                 const isChecked = <HTMLInputElement> document.getElementById('acl_5');
                 isChecked.checked = true;
               }
+              if (element == 'View Dashboard page') {
+                const isChecked = <HTMLInputElement> document.getElementById('acl_6');
+                isChecked.checked = true;
+              }
             }); 
       }, 1000);
     }
@@ -694,10 +725,17 @@ export class FormComponent {
         this._fieldsModel.description = value.description;
         this._fieldsModel.formorder = value.formorder;
         this._fieldsModel.issystemfield = false;
+
         if (value.isMandatory === 0) {
           this._fieldsModel.isMandatory = true;
         } else {
           this._fieldsModel.isMandatory = false;
+        }
+
+        if (value.isDisplayOnList === 0) {
+          this._fieldsModel.isDisplayOnList = true;
+        } else {
+          this._fieldsModel.isDisplayOnList = false;
         }
 
         if (!this.lookupError) {

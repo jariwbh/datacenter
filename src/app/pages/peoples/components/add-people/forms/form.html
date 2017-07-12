@@ -27,19 +27,41 @@
               novalidate>
               <div *ngFor="let fields of fieldLists" class="form-group">
                 <div [ngSwitch]="fields.fieldtype">
-                  <label for="exampleInputname1">{{fields.displayname}}</label>
-                  <span *ngIf="authRole == 'A'">
-                    <a *ngIf="fields.issystemfield" style="margin-left: 20px;"> <i class="ion-locked"></i> </a>
-                    <a *ngIf="!fields.issystemfield" (click)="editFields(fields._id)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
-                    <a *ngIf="!fields.issystemfield" (click)="deleteFields(fields._id)" style="cursor: pointer; margin-left: 20px;"><i class="ion-trash-a"></i></a>
-                  </span>
+                  <div *ngIf="fields.labelname !== 'points'">
+                    <label for="exampleInputname1">{{fields.displayname}}</label>
+                    <span *ngIf="authRole == 'A'">
+                      <a *ngIf="fields.issystemfield" style="margin-left: 20px;"> <i class="ion-locked"></i> </a>
+                      <a *ngIf="!fields.issystemfield" (click)="editFields(fields._id)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
+                      <a *ngIf="!fields.issystemfield" (click)="deleteFields(fields._id)" style="cursor: pointer; margin-left: 20px;"><i class="ion-trash-a"></i></a>
+                    </span>
+                  </div>
                   <div *ngSwitchCase="'text'">
-                    <div *ngIf="fields.labelname == 'points'">
-                      <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value" readonly>
-                    </div>
-                    <div *ngIf="fields.labelname !== 'points'">
-                      <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
-                    </div>
+                      <div *ngIf="fields.labelname == 'points'" style="display: none">
+                        <div *ngIf="bindId">
+                          <input 
+                            class="form-control" 
+                            type="text" 
+                            [formControlName]="fields.labelname" 
+                            [(ngModel)]="fields.value" 
+                            readonly>
+                        </div>
+                        <div *ngIf="!bindId">
+                          <input 
+                            class="form-control" 
+                            type="text" 
+                            [formControlName]="fields.labelname" 
+                            [(ngModel)]="fields.value" 
+                            readonly
+                            [value]="0">
+                        </div>
+                        
+                        <span class="help-block sub-little-text" style="color: #ecc839">
+                          You cannt add / edit this field. [ READ ONLY PROPERTY ]
+                        </span>
+                      </div>
+                      <div *ngIf="fields.labelname !== 'points'">
+                        <input class="form-control" type="text" [formControlName]="fields.labelname" [(ngModel)]="fields.value">
+                      </div>
                   </div>
                   <div *ngSwitchCase="'long_text'">
                     <textarea class="form-control" [formControlName]="fields.labelname" [(ngModel)]="fields.value">

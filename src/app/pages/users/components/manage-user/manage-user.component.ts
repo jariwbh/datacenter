@@ -9,6 +9,7 @@ import { Configuration } from '../../../../app.constants';
 
 import { ConfirmationService } from 'primeng/primeng';
 import { Message } from 'primeng/primeng';
+import { AuthService } from '../../../../core/services/common/auth.service';
 
 @Component({
   selector: 'nga-manage-user',
@@ -35,6 +36,7 @@ export class ManageUserComponent {
 
   _countAdmin: boolean = false;
 
+  authId: string;
    constructor(
     private _router: Router,
     private _route: ActivatedRoute,
@@ -42,7 +44,14 @@ export class ManageUserComponent {
     private _fieldsService: FieldsService,
     private _configuration: Configuration,
     private _confirmationService: ConfirmationService,
+    private _authService: AuthService,
   ) {
+
+    if (this._authService.auth_id === '') {
+        this.authId = null;
+    } else {
+        this.authId = this._authService.auth_id;
+    }
 
   }
 
@@ -222,15 +231,20 @@ export class ManageUserComponent {
     this._confirmationService.confirm({
         message: 'Are you sure that you want to perform this action?',
         accept: () => {
-            this._usersService
-              .Delete(user.id)
-              .subscribe( data => {
-                this.getAllAdmin();
-                this.msgs = [];
-                this.msgs.push({ severity: 'success', summary: 'Delete Message', detail: 'Admin deleted Successfully!!',
-              });
-              
-              });
+            if (this.authId) {
+                this._usersService
+                    .Delete(user.id, this.authId)
+                    .subscribe( data => {
+                        this.getAllAdmin();
+                        this.msgs = [];
+                        this.msgs.push({ 
+                            severity: 'success', 
+                            summary: 'Delete Message', 
+                            detail: 'Admin deleted Successfully!!',
+                        });
+                    });
+            }
+            
         },
     });
   }

@@ -2,7 +2,7 @@
 	<nav id="sidebar">
         <div id="slimScrollDiv">
             <ul class="al-sidebar-list">
-                <li class="al-sidebar-list-item">
+                <li class="al-sidebar-list-item" *ngIf="viewDashboardPage">
                      <a routerLink="/pages/dashboard" [routerLinkActive]="['router-link-active']" class="al-sidebar-list-link">
                         <i class="ion-android-home"></i>
                         <span>Dashboard</span>

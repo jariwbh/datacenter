@@ -40,6 +40,14 @@ export class PointsService {
            .map(res => <any>res.json());
     }
 
+    public AddAdminPoint = (loginId: any, data: any): Observable<any> => {
+       const toAdd = JSON.stringify(data);
+       return this.http.post(this.actionUrl + 'pointadmin/' + loginId, toAdd, { headers: this.headers })
+           .map(res => <any>res.json());
+    }
+
+    
+
     public Update = (id: number, data: any): Observable<any> => {
        const toAdd = JSON.stringify(data);
        //console.log(toAdd);

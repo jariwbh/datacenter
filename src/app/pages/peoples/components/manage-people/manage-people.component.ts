@@ -12,6 +12,8 @@ import { Message } from 'primeng/primeng';
 import { Configuration } from '../../../../app.constants';
 import { ConfirmationService } from 'primeng/primeng';
 
+import { AuthService } from '../../../../core/services/common/auth.service';
+
 @Component({
   selector: 'nga-manage-people',
   templateUrl: './manage-people.html',
@@ -43,6 +45,8 @@ export class ManagePeopleComponent {
   msgs: Message[] = [];
   _countPerson: boolean = false;
 
+  authId: string;
+
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
@@ -51,9 +55,16 @@ export class ManagePeopleComponent {
     private _CommonDataService: CommonDataService,
     private _configuration: Configuration,
     private _confirmationService: ConfirmationService,
+    private _authService: AuthService,
   ) {
 
     this.serverPath = this._configuration.Server;
+
+    if (this._authService.auth_id === '') {
+        this.authId = null;
+      } else {
+        this.authId = this._authService.auth_id;
+      }
 
     if (_CommonDataService.filterDataBy) {
       this.filterDataBy = _CommonDataService.filterDataBy;
@@ -332,17 +343,20 @@ export class ManagePeopleComponent {
     this._confirmationService.confirm({
         message: 'Are you sure that you want to perform this action?',
         accept: () => {
-            this._managepeopleService
-              .Delete(person.id)
-              .subscribe( data => {
-                this.getAllPeople();
-                this.msgs = [];
-                this.msgs.push({ 
-                severity: 'success', 
-                summary: 'Delete Message', 
-                detail: 'People deleted Successfully!!',
+            if (this.authId) {
+              this._managepeopleService
+                .Delete(person.id, this.authId)
+                .subscribe( data => {
+                  this.getAllPeople();
+                  this.msgs = [];
+                  this.msgs.push({ 
+                  severity: 'success', 
+                  summary: 'Delete Message', 
+                  detail: 'People deleted Successfully!!',
+                });
               });
-            });
+            }
+            
         },
     });
   }
