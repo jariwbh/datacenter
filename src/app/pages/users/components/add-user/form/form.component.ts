@@ -717,7 +717,22 @@ export class FormComponent {
                       }
                   });
               } else {
-                this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
+                //this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
+                this._fieldsService
+                  .Add(this._fieldsModel)
+                  .subscribe(
+                  data => {
+                    const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+                    if (isClosed) {
+                      isClosed.click();
+                      this.getAllFields();
+                      this.clearFormFields();
+                              this.msgs = [];
+                              this.msgs.push ({ 
+      severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
+                      
+                    }
+                });
               }
         }
       }
@@ -725,43 +740,43 @@ export class FormComponent {
   labelvaluechange() {
     this.labelnameVisibility = false;
   }
-  checkLabelNameAlreayExistsOrNot(labelname) {
-    this._fieldsService
-        .GetAll('admin')
-        .subscribe(
-        data => {
-          let cnt = 0;
-          data.forEach(element => {
-            if (element.labelname == labelname) {
-              cnt++;
-            }
-          });
-          if (cnt === 0 ) {
-              this._fieldsService
-                .Add(this._fieldsModel)
-                .subscribe(
-                data => {
-                  const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
-                  if (isClosed) {
-                    isClosed.click();
-                    this.getAllFields();
-                    this.clearFormFields();
-                            this.msgs = [];
-                            this.msgs.push ({ 
-    severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
+  // checkLabelNameAlreayExistsOrNot(labelname) {
+  //   this._fieldsService
+  //       .GetAll('admin')
+  //       .subscribe(
+  //       data => {
+  //         let cnt = 0;
+  //         data.forEach(element => {
+  //           if (element.labelname == labelname) {
+  //             cnt++;
+  //           }
+  //         });
+  //         if (cnt === 0 ) {
+  //             this._fieldsService
+  //               .Add(this._fieldsModel)
+  //               .subscribe(
+  //               data => {
+  //                 const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+  //                 if (isClosed) {
+  //                   isClosed.click();
+  //                   this.getAllFields();
+  //                   this.clearFormFields();
+  //                           this.msgs = [];
+  //                           this.msgs.push ({ 
+  //   severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
                     
-                  }
-              });
-          } else {
+  //                 }
+  //             });
+  //         } else {
 
-          this.msgs = [];
-          this.msgs.push ({ 
-                  severity: 'error', summary: 'Error  Message', detail: 'Label Name Already Exist.!!!' });
-          this.labelnameVisibility = true;
+  //         this.msgs = [];
+  //         this.msgs.push ({ 
+  //                 severity: 'error', summary: 'Error  Message', detail: 'Label Name Already Exist.!!!' });
+  //         this.labelnameVisibility = true;
 
-          }
-        });
-  }
+  //         }
+  //       });
+  // }
 
   onUploadPhoto(event, val) {
       this.errorImage[val] = false;

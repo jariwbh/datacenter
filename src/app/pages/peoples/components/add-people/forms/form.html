@@ -243,7 +243,12 @@
                         displayname is required.
                     </div>
                   </div>
-                  <div class="form-group">
+                  <input 
+                      type="hidden"
+                      class="form-control form-control-lg" 
+                      formControlName="labelname" 
+                      [(ngModel)]="_fieldsModel.labelname">
+                  <!-- <div class="form-group">
                     <label for="input01">Label Name</label>
                     <input [readonly]="_fieldsModel._id ? 'true' : false" type="text" (keypress)="labelvaluechange()" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
                     <span *ngIf="_fieldsModel._id" class="help-block sub-little-text" style="color: #ecc839">
@@ -255,7 +260,7 @@
                     <div *ngIf="labelnameVisibility" class="alert alert-danger">
                       LabelName Already Exist.
                     </div>
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <label for="input01">Mandatory field</label>
                     <div class="input-demo radio-demo row">
