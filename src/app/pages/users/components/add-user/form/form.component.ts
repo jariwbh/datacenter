@@ -786,6 +786,13 @@ export class FormComponent {
       const ispath = <HTMLInputElement> document.getElementById('imagePath_' + val);
       ispath.src = this._configuration.Server + url;
   }
+
+  removeImage(val) {
+    const isImageValue = <HTMLInputElement> document.getElementById('image_' + val);
+    isImageValue.value = '';
+    const ispath = <HTMLInputElement> document.getElementById('imagePath_' + val);
+    ispath.src = '';
+  }
   
   onChange(newValue: any) {
     if ((newValue === 'list') || (newValue === 'multi_selected_list') || (newValue === 'checkbox')) {
