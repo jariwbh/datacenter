@@ -85,12 +85,24 @@ function saveAdminPoints(adminid, activity, points)
     adminpointhistory.point = points; 
     adminpointhistory.activity = activity; 
     adminpointhistory.date = Date.now(); 
-    
-    adminpointhistory.save(function(err, data) {
-        if (err)
-            res.send(err);
 
-        return "Saved";
+    Admin.findById(adminid).exec()
+        .then(function(data){
+            
+            adminpointhistory.save(function(err, result) {
+                if (err)
+                    res.send(err);
+            });
+
+            var updatepoints = parseInt(data.points) + parseInt(points);                                    
+            console.log("updated :" + updatepoints);
+            Admin.findOneAndUpdate({ _id: adminid }, {
+                $set: {
+                    points: updatepoints
+                }
+            }, { new: true }, function(err, a) {
+                console.log(a);            
+            }); 
     });
 
 }
@@ -166,6 +178,38 @@ router.route('/point/:adminid')
         });
 
     });
+
+
+router.route('/pointadmin/:adminid')
+    // create a point 
+    .post(function(req, res) {
+
+        var point = new Point();      
+        point.users = req.body.users;
+        point.province = req.body.province; 
+        point.area = req.body.area;  
+        point.district = req.body.district;
+        point.points = req.body.points;  
+
+        loadAdminPoints();
+
+        point.save(function(err, data) {
+            if (err)
+                res.send(err);
+            
+            saveAdminPoints(req.params.adminid, "Point added" , addPointPointsAdmin);
+
+            saveAudit("Point added", Date.now(), req.params.adminid);
+
+            for (var i = 0, len = point.users.length; i < len; i++) {
+                saveAdminPoints(point.users[i], "Point added" , data.points);
+            }
+
+            res.json(data);
+        });
+
+    });
+
 
 router.route('/point')
     .get(function(req, res) {
@@ -559,30 +603,19 @@ router.route('/person/:id')
         });
     });
 
-router.route('/person/:id')
+router.route('/person/:id/:adminid')
     .delete(function(req, res) {
         Person.remove({
             _id: req.params.id
         }, function(err, person) {
             if (err)
                 res.send(err);
+            
+            saveAudit("Person deleted", Date.now(), req.params.adminid);
+            
             res.json({ message: 'Successfully deleted' });
     });
 });
-
-router.route('/person/:id')
-    .delete(function(req, res) {
-
-        Person.remove({
-            _id: req.params.id
-        }, function(err, person) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'Successfully deleted' });
-        });
-
-    });
 
 router.route('/formfield/add')
 
@@ -718,7 +751,7 @@ router.route('/admin/login')
 });
 
 
-router.route('/admin')
+router.route('/admin/:adminid')
     // create a person 
     .post(function(req, res) {
 
@@ -727,6 +760,8 @@ router.route('/admin')
         admin.save(function(err, data) {
             if (err)
                 res.send(err);
+
+            saveAudit("Admin added", Date.now(), req.params.adminid);
 
             res.json(data);
         });
@@ -774,7 +809,7 @@ router.route('/admin/:id')
         });
     });
 
-router.route('/admin/:id')
+router.route('/admin/:id/:adminid')
     .delete(function(req, res) {
 
         Admin.remove({
@@ -782,6 +817,8 @@ router.route('/admin/:id')
         }, function(err, admin) {
             if (err)
                 res.send(err);
+            
+            saveAudit("Admin deleted", Date.now(), req.params.adminid);
 
             res.json({ message: 'Successfully deleted' });
         });
@@ -885,7 +922,7 @@ router.route('/activityById/:id')
 
 
 
-router.route('/activity/:id')
+router.route('/activity/:id/:adminid')
     .delete(function(req, res) {
 
         Activity.remove({
@@ -893,6 +930,8 @@ router.route('/activity/:id')
         }, function(err, point) {
             if (err)
                 res.send(err);
+            
+            saveAudit("Activity deleted", Date.now(), req.params.adminid);
 
             res.json({ message: 'Successfully deleted' });
         });
