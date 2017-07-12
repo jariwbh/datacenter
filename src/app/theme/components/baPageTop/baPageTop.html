@@ -12,7 +12,8 @@
     <!--<span>{{username}}</span>-->
     <div class="dropdown al-user-profile">
       <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
-        <img src="{{ ( 'Nasta' | baProfilePicture ) }}">
+         <img *ngIf="!profilePicPath" src="{{ ( 'Nasta' | baProfilePicture ) }}"> 
+        <img *ngIf="profilePicPath"  src="{{serverPath}}{{profilePicPath}}">
       </a>
       <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
         <li class="dropdown-item"><a href [routerLink]="['/pages/users/myprofile']"><i class="fa fa-user"></i>Profile</a></li>

@@ -1,3 +1,4 @@
+import { Configuration } from './../../../app.constants';
 import { AuthService } from '../../../core/services/common/auth.service';
 import { Router } from '@angular/router';
 import { UserloginService } from './../../../core/services/userlogin/userlogin.service';
@@ -15,15 +16,20 @@ export class BaPageTop {
   public isScrolled: boolean = false;
   public isMenuCollapsed: boolean = false;
   public username: string;
-
+  public profilePicPath: string;
+  public serverPath: string;
   constructor(private _state: GlobalState, private userloginService: UserloginService,
-   private _router: Router, private authService: AuthService ) {
+   private _router: Router, private authService: AuthService,
+  private _configuration: Configuration ) {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
+      this.serverPath = this._configuration.Server;
     });
-    if (JSON.parse(localStorage.getItem('currentUser')) != null) {
+    if (JSON.parse(localStorage.getItem('currentUser')) !== null) {
             this.username = JSON.parse(localStorage.getItem('currentUser')).username;
             //this.roleList = JSON.parse(localStorage.getItem('currentUser')).roleList;
+            this.profilePicPath = JSON.parse(localStorage.getItem('currentUser')).user.profile_picture;
+
         }
     // this.username = this.authService.auth_email;
   }

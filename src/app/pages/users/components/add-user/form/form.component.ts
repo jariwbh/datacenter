@@ -590,10 +590,11 @@ export class FormComponent {
           this.aclVisibility = true;
         } else {
           this.aclVisibility = false;
+
           if (value.role) {
-            this._needToSaveData['role'] = 'A';
-          } else {
             this._needToSaveData['role'] = 'S';
+          } else {
+            this._needToSaveData['role'] = 'A';
           }
           this._needToSaveData['acl'] = this.selectedcityRights;
           this._needToSaveData['cityRights'] = value.cityRights;
