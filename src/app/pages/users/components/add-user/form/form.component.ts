@@ -121,8 +121,8 @@ export class FormComponent {
         'id': [this._fieldsModel._id],
         'fieldtype': [this._fieldsModel.fieldtype, Validators.required],
         'lookupdata': [this._fieldsModel.lookupdata],
-        'displayname': [this._fieldsModel.displayname],
-        'labelname': [this._fieldsModel.labelname, Validators.required],
+        'displayname': [this._fieldsModel.displayname, Validators.required],
+        'labelname': [this._fieldsModel.labelname],
         'description': [this._fieldsModel.description, Validators.required],
         'isMandatory': [this._fieldsModel.isMandatory, Validators.required],
         'formorder': [this._fieldsModel.formorder, [Validators.required, OnlyNumberValidator.insertonlynumber]],
@@ -186,12 +186,7 @@ export class FormComponent {
     });
 
     this.getAllFields();
-    if (this.authRole == 'S') {
-      this.getAllProvinceForCityBasedonAdmin();
-    } else {
-      this.getAllProvinceForCity();
-
-    }
+    this.getAllProvinceForCityBasedonAdmin();
     this.getAllProvince();
     this.getAllDistrict();
     this.getAllArea();
@@ -369,14 +364,14 @@ export class FormComponent {
     
     this.lookupError = false;
 
-    let key = <HTMLInputElement> document.getElementById('lookupKey');
-    let keyValue = key.value;
-    let val = <HTMLInputElement> document.getElementById('lookupValue');
-    let valValue = val.value;
+    const key = <HTMLInputElement>document.getElementById('lookupKey');
+    const keyValue = key.value;
+    const val = <HTMLInputElement> document.getElementById('lookupValue');
+    const valValue = val.value;
 
-    let uuid = this.uuid();
+    const uuid = this.uuid();
 
-    let grp = {
+    const grp = {
       id: uuid,
       key: keyValue,
       value: valValue,
@@ -391,19 +386,19 @@ export class FormComponent {
     this._fieldsModel.lookupdata = this._lookupLists;
   }
   removeLookupfromArray(id: number, array: any) {
-    for (let i in array) {
+    for (const i in array) {
       if (array[i].id == id) {
         array.splice(i, 1);
       }
     }
   }
   uuid() {
-    let uuid = "", i, random;
+    let uuid = '', i, random;
     for (i = 0; i < 32; i++) {
       random = Math.random() * 16 | 0;
 
       if (i == 8 || i == 12 || i == 16 || i == 20) {
-        uuid += "-"
+        uuid += '-'
       }
       uuid += (i == 12 ? 4 : (i == 16 ? (random & 3 | 8) : random)).toString(16);
     }
@@ -426,7 +421,7 @@ export class FormComponent {
           } else if (element.fieldtype == 'map') {
             if (data.admin[element.labelname]) {
               if (data.admin[element.labelname] !== null) {
-                let res = data.admin[element.labelname].split('####');
+                const res = data.admin[element.labelname].split('####');
                 this.overlays[element.labelname].push(new google.maps.Marker({ 
                   position: { lat: parseFloat(res[0]), 
                     lng: parseFloat(res[1]) }, 
@@ -527,12 +522,16 @@ export class FormComponent {
                   this.accesscontrolVisibilty = false;
               });
             } else {
+              if (this._usersModel.role) {
+                value.role = 'A';
+              } else {
+                value.role = 'S';
+              }
               value.email = this._usersModel['email'];
               value.username = this._usersModel['username'];
               value.password = this._usersModel['password'];
               value.cityRights = this._usersModel['cityRights'];
               value.acl = this._usersModel['acl'];
-              value.role = this._usersModel['role'];
               this._usersService
                 .Update(this.bindId, value)
                 .subscribe(
@@ -592,9 +591,9 @@ export class FormComponent {
         } else {
           this.aclVisibility = false;
           if (value.role) {
-            this._needToSaveData['role'] = 'S';
-          } else {
             this._needToSaveData['role'] = 'A';
+          } else {
+            this._needToSaveData['role'] = 'S';
           }
           this._needToSaveData['acl'] = this.selectedcityRights;
           this._needToSaveData['cityRights'] = value.cityRights;
@@ -605,12 +604,7 @@ export class FormComponent {
               this.msgs = [];
               this.msgs.push ({ 
                 severity: 'info', summary: 'Insert Message', detail: 'Admin has been Updated Successfully!!!' });
-              this._completedStep = 1;
-              this.informationVisibilty = true;
-              this.usernamepasswordVisibilty = false;
-              this.accesscontrolVisibilty = false;
-              
-              this.getAllFields();
+              this._router.navigate(['/pages/users/manage-user']);
           });
         }
       }
@@ -639,30 +633,30 @@ export class FormComponent {
       this.usernamepasswordVisibilty = false;
       this.accesscontrolVisibilty = true;
       
-      setTimeout(()=> { 
+      setTimeout(() => { 
            this.selectedcityRights.forEach(element => {
               if (element == 'Create a new admin') {
-                let isChecked = <HTMLInputElement> document.getElementById('acl_0');
+                const isChecked = <HTMLInputElement> document.getElementById('acl_0');
                 isChecked.checked = true;
               }
               if (element == 'Create a new person') {
-                let isChecked = <HTMLInputElement> document.getElementById('acl_1');
+                const isChecked = <HTMLInputElement> document.getElementById('acl_1');
                 isChecked.checked = true;
               }
               if (element == 'Create a new activity') {
-                let isChecked = <HTMLInputElement> document.getElementById('acl_2');
+                const isChecked = <HTMLInputElement> document.getElementById('acl_2');
                 isChecked.checked = true;
               }
               if (element == 'View User History') {
-                let isChecked = <HTMLInputElement> document.getElementById('acl_3');
+                const isChecked = <HTMLInputElement> document.getElementById('acl_3');
                 isChecked.checked = true;
               }
               if (element == 'View report page') {
-                let isChecked = <HTMLInputElement> document.getElementById('acl_4');
+                const isChecked = <HTMLInputElement> document.getElementById('acl_4');
                 isChecked.checked = true;
               }
               if (element == 'View Manage person page') {
-                let isChecked = <HTMLInputElement> document.getElementById('acl_5');
+                const isChecked = <HTMLInputElement> document.getElementById('acl_5');
                 isChecked.checked = true;
               }
             }); 
@@ -685,20 +679,20 @@ export class FormComponent {
         } else {
           this.isidexist = false;
         }
-        
-        if (value.lookupdata.length == 0) {
-          this.lookupError = true;
+        if (value.lookupdata) {
+          if (value.lookupdata.length == 0) {
+            this.lookupError = true;
+          }
         }
-        const editedLabel = value.labelname.replace(/ /g, '_');
+        const editedLabel = value.displayname.replace(/ /g, '_').toLowerCase() + this.uuid();
         this._fieldsModel.formname = 'admin';
         this._fieldsModel.fieldtype = value.fieldtype;
         this._fieldsModel.lookupdata = value.lookupdata;
         this._fieldsModel.displayname = value.displayname;
-        this._fieldsModel.labelname = editedLabel.toLowerCase();
+        this._fieldsModel.labelname = editedLabel;
         this._fieldsModel.description = value.description;
         this._fieldsModel.formorder = value.formorder;
         this._fieldsModel.issystemfield = false;
-
         if (value.isMandatory === 0) {
           this._fieldsModel.isMandatory = true;
         } else {
