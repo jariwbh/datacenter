@@ -173,7 +173,17 @@ constructor(
         }
       });
   }
+  removeImage(id) {
+    this.removeSeletectdImage(id, this._imageLists);
+  }
 
+  removeSeletectdImage(id: number, array: any) {
+    for (let i in array) {
+      if (array[i].id == id) {
+        array.splice(i, 1);
+      }
+    }
+  }
   onUploadPhoto(event) {
       const url = event.xhr.response;
       let uuid = this.uuid();

@@ -123,12 +123,13 @@
                   formControlName="images"
                   [(ngModel)]="_activityModel.images">
 
-                  
-              <img
-                  *ngFor="let img of _imageLists"
+              <div *ngFor="let img of _imageLists">    
+                <img
                   class="img-responsive" 
                   src="{{serverPath}}/{{img.imagevalue}}" 
                   style="height: 150px; width: 150px">
+                <input type="button" class="btn btn-danger" (click)="removeImage(img.id)" value="Remove">
+              </div>
 
               <div [hidden]="aboutForm.get('images').valid || (aboutForm.get('images').pristine && !aboutSubmitted)" class="alert alert-danger clear-fix">
                     images is required.
