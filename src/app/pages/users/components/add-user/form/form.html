@@ -99,7 +99,8 @@
                         class="form-control" 
                         type="hidden" 
                         id="image_{{fields.labelname}}"
-                        [formControlName]="fields.labelname">
+                        [formControlName]="fields.labelname"
+                        [(ngModel)]="fields.value">
 
                     <img id="imagePath_{{fields.labelname}}" class="img-responsive" style="height: 150px; width: 150px">
                     <div
@@ -117,7 +118,7 @@
                               [formControlName]="fields.labelname" 
                               [(ngModel)]="fields.value">
                             <option value="">--- Select ---</option>
-                            <option *ngFor="let opt of _provinceLists" [value]="opt.name">{{opt.name}}</option>
+                            <option *ngFor="let opt of _provinceListsForCity" [value]="opt.name">{{opt.name}}</option>
                           </select>
                       </div>
                       <div *ngIf="fields.labelname == 'district'">
@@ -297,13 +298,13 @@
               <div class="input-demo radio-demo row">
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input  formControlName="role" [value]="0" [checked]="_usersModel.role == 0" type="radio">
+                  <input  formControlName="role" [value]="0" [checked]="_usersModel.role" type="radio">
                   <span translate="">Yes</span>
                 </label>
               </div>
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input id="inlineRadio2" checked  [value]="1" formControlName="role" [checked]="_usersModel.role == 1" type="radio">
+                  <input id="inlineRadio2" checked  [value]="1" formControlName="role" [checked]="!_usersModel.role" type="radio">
                   <span>No</span>
                 </label>
               </div>
@@ -317,7 +318,7 @@
                   formControlName="cityRights" 
                   [(ngModel)]="_usersModel.cityRights">
               <option value="">--- Select ---</option>
-              <option *ngFor="let opt of _provinceListsForCity" [value]="opt.name">{{opt.name}}</option>
+              <option *ngFor="let opt of _provinceLists" [value]="opt.name">{{opt.name}}</option>
               </select>
               <div [hidden]="controlAccessForm.get('cityRights').valid || (controlAccessForm.get('cityRights').pristine && !controlAccessSubmitted)" class="alert alert-danger">
                   city Rights is required.
@@ -377,7 +378,12 @@
                         displayname is required.
                     </div>
                   </div>
-                  <div class="form-group">
+                  <input 
+                      type="hidden"
+                      class="form-control form-control-lg" 
+                      formControlName="labelname" 
+                      [(ngModel)]="_fieldsModel.labelname">
+                  <!-- <div class="form-group">
                     <label for="input01">Label Name</label>
                     <input type="text" [readonly]="_fieldsModel._id ? 'true' : false" (keypress)="labelvaluechange()" class="form-control form-control-lg" formControlName="labelname" [(ngModel)]="_fieldsModel.labelname"  placeholder="Label Name">
                     <span *ngIf="_fieldsModel._id" class="help-block sub-little-text" style="color: #ecc839">
@@ -389,7 +395,7 @@
                     <div *ngIf="labelnameVisibility" class="alert alert-danger">
                       LabelName Already Exist.
                     </div>
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <label for="input01">Mandatory field</label>
                     <div class="input-demo radio-demo row">

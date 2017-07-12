@@ -452,12 +452,12 @@ export class FormComponent {
           this.lookupError = true;
         }
 
-        const editedLabel = value.labelname.replace(/ /g, '_');
+        const editedLabel = value.displayname.replace(/ /g, '_').toLowerCase() + this.uuid();
         this._fieldsModel.formname = 'people';
         this._fieldsModel.fieldtype = value.fieldtype;
         this._fieldsModel.lookupdata = value.lookupdata;
         this._fieldsModel.displayname = value.displayname;
-        this._fieldsModel.labelname = editedLabel.toLowerCase();
+        this._fieldsModel.labelname = editedLabel;
         this._fieldsModel.description = value.description;
         this._fieldsModel.formorder = value.formorder;
         this._fieldsModel.issystemfield = false;
@@ -492,7 +492,22 @@ export class FormComponent {
                     }
                 });
           } else {
-            this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
+            //this.checkLabelNameAlreayExistsOrNot(this._fieldsModel.labelname);
+              this._fieldsService
+                  .Add(this._fieldsModel)
+                  .subscribe(
+                  data => {
+                    const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+                    if (isClosed) {
+                      isClosed.click();
+                      this.getAllFields();
+                      this.form.reset();
+                              this.msgs = [];
+                              this.msgs.push ({ 
+                      severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
+                      
+                    }
+                });
           }
         }
       }
@@ -502,41 +517,41 @@ export class FormComponent {
     this.labelnameVisibility = false;
   }
 
-  checkLabelNameAlreayExistsOrNot(labelname) {
-    this._fieldsService
-        .GetAll('people')
-        .subscribe(
-        data => {
-          let cnt = 0;
-          data.forEach(element => {
-            if (element.labelname == labelname) {
-              cnt++;
-            }
-          });
-          if (cnt === 0) {
-              this._fieldsService
-                .Add(this._fieldsModel)
-                .subscribe(
-                data => {
-                  const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
-                  if (isClosed) {
-                    isClosed.click();
-                    this.getAllFields();
-                    this.form.reset();
-                            this.msgs = [];
-                            this.msgs.push ({ 
-                    severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
+  // checkLabelNameAlreayExistsOrNot(labelname) {
+  //   this._fieldsService
+  //       .GetAll('people')
+  //       .subscribe(
+  //       data => {
+  //         let cnt = 0;
+  //         data.forEach(element => {
+  //           if (element.labelname == labelname) {
+  //             cnt++;
+  //           }
+  //         });
+  //         if (cnt === 0) {
+  //             this._fieldsService
+  //               .Add(this._fieldsModel)
+  //               .subscribe(
+  //               data => {
+  //                 const isClosed = <HTMLInputElement> document.getElementById('closeAddFields');
+  //                 if (isClosed) {
+  //                   isClosed.click();
+  //                   this.getAllFields();
+  //                   this.form.reset();
+  //                           this.msgs = [];
+  //                           this.msgs.push ({ 
+  //                   severity: 'info', summary: 'Insert Message', detail: 'Fields has been added Successfully!!!' });
                     
-                  }
-              });
-          } else {
-            this.msgs = [];
-            this.msgs.push ({ 
-                    severity: 'error', summary: 'Error  Message', detail: 'Label Name Already Exist.!!!' });
-            this.labelnameVisibility = true;
-          }
-        });
-  }
+  //                 }
+  //             });
+  //         } else {
+  //           this.msgs = [];
+  //           this.msgs.push ({ 
+  //                   severity: 'error', summary: 'Error  Message', detail: 'Label Name Already Exist.!!!' });
+  //           this.labelnameVisibility = true;
+  //         }
+  //       });
+  // }
   onUploadPhoto(event, val) {
       this.errorImage[val] = false;
       const url = event.xhr.response;
