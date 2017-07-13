@@ -125,15 +125,27 @@ function saveAudit(activity, date, adminid )
 }
 
 router.route('/search/activity')    
-    .post(function(req, res) {
+    .post(function(req, res){
 
-       var type = req.body.activitytype;
-
-       if (req.params.id) {
-            Activity.find({ activitytype: type }, function (err, docs) {
-                res.json(docs);
-            });
-       }
+        var type = req.body.activitytype;
+        var province = req.body.province;
+        var district = req.body.district;
+        var area = req.body.area;
+       
+        Activity.find({ activitytype: { $in: type } })
+                .populate({
+                    path: 'persons',
+                    match: { "person.province": { $in: province },
+                             "person.district": { $in: district },
+                             "person.area": { $in: area }}
+                }).exec()
+                .then(function(data){                    
+                    res.json(data);
+                })
+                .catch(function(err){ 
+                    res.json(err);
+                });                  
+        
     });
 
 
@@ -648,7 +660,7 @@ router.route('/formfield/add')
 
 router.route('/formfield/:formname')
 
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    
     .get(function(req, res) {
 
        if (req.params.formname) {
@@ -662,7 +674,7 @@ router.route('/formfield/:formname')
     });
 
 router.route('/formfieldByID/:id')
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    
     .get(function(req, res) {
        if (req.params.id) {
             Formfield.findById(req.params.id, function (err, docs) {
@@ -780,7 +792,7 @@ router.route('/admin')
     });
 
 router.route('/admin/:id')
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    
     .get(function(req, res) {
 
        if (req.params.id) {
@@ -792,7 +804,7 @@ router.route('/admin/:id')
 
 router.route('/admin/:id')
     .put(function(req, res) {
-        // use our bear model to find the bear we want
+        
         Admin.findById(req.params.id, function(err, admin) {
 
             if (err)
@@ -900,7 +912,7 @@ router.route('/activity')
 
 
 router.route('/activity/:person')
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    
     .get(function(req, res) {
 
        if (req.params.id) {
@@ -912,7 +924,7 @@ router.route('/activity/:person')
 
 router.use(fileUpload());
 router.route('/activityById/:id')
-   // create a bear (accessed at POST http://localhost:8080/api/bears)
+   
     .get(function(req, res) {
 
        if (req.params.id) {
