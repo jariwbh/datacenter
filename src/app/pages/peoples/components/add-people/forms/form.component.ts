@@ -139,7 +139,7 @@ export class FormComponent {
 
       // Google Map Start
       this.options = {
-          center: { lat: 21.1835034, lng: 72.8197083 },
+          center: { lat: 33.3128, lng: 44.3615 },
           zoom: 12,
       };
       this.initOverlays();

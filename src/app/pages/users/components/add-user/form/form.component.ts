@@ -152,33 +152,33 @@ export class FormComponent {
       this.cityRights[6] = 'View Dashboard page';
       
       // Made Sample Json Data For Lookup
-      this._sampleJson = `[
-          {
-              "key": "gujarat",
-              "value": "gujarat"
-          },
-          {
-              "key": "Mumbai",
-              "value": "Mumbai"
-          },
-          {
-              "key": "Up",
-              "value": "UP"
-          },
-          {
-              "key": "MP",
-              "value": "MP"
-          }
-      ]`;
+      // this._sampleJson = `[
+      //     {
+      //         "key": "gujarat",
+      //         "value": "gujarat"
+      //     },
+      //     {
+      //         "key": "Mumbai",
+      //         "value": "Mumbai"
+      //     },
+      //     {
+      //         "key": "Up",
+      //         "value": "UP"
+      //     },
+      //     {
+      //         "key": "MP",
+      //         "value": "MP"
+      //     }
+      // ]`;
       // Made Sample Json Data For Lookup
 
       // Google Map Start
       this.options = {
-          center: { lat: 21.1835034, lng: 72.8197083 },
+          center: { lat: 33.3128, lng: 44.3615 },
           zoom: 12,
       };
-      this.initOverlays();
-      this.infoWindow = new google.maps.InfoWindow();
+       this.initOverlays();
+      // this.infoWindow = new google.maps.InfoWindow();
       // Google Map Start
   }
   ngOnInit() {
@@ -207,14 +207,12 @@ export class FormComponent {
     let longitude = position.coords.longitude;
 
     if (latitude !== '' && longitude !== '') {
-        console.log('Map Mapped');
         // Google Map Start
           this.options = {
               center: { lat: latitude, lng: longitude },
               zoom: 12,
           };
           this.initOverlays();
-          this.infoWindow = new google.maps.InfoWindow();
         // Google Map Start
     }
     

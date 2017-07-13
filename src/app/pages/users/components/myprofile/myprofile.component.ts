@@ -67,11 +67,11 @@ export class MyprofileComponent {
           data => {
             this.userData = data.admin;
             this.fieldLists.forEach(element => {
-              if(element.labelname == 'profile_picture') {
-                let isImage = <HTMLInputElement> document.getElementById('image_profile_picture');
-                let isImageDisplay = <HTMLInputElement> document.getElementById('profile_picture');
+              if (element.fieldtype == 'image') {
+                let isImage = <HTMLInputElement> document.getElementById('image_' + element.labelname);
+                let isImageDisplay = <HTMLInputElement> document.getElementById('imagePath_' + element.labelname);
                 isImage.value = this.userData[element.labelname];
-                isImageDisplay.src = this.userData[element.labelname];
+                isImageDisplay.src = this._configuration.Server + this.userData[element.labelname];
               }
               element.value = this.userData[element.labelname];
               element.visiblity = false;
@@ -79,6 +79,7 @@ export class MyprofileComponent {
             this.onChangeProvince(this.userData['province']);
         });
   }
+  
   getAllProvince() {
     this._fieldsService
           .GetAllProvince()
@@ -138,9 +139,17 @@ export class MyprofileComponent {
       const url = event.xhr.response;
       const isImageValue = <HTMLInputElement> document.getElementById('image_' + val);
       isImageValue.value = url;
-      const ispath = <HTMLInputElement> document.getElementById(val);
+      const ispath = <HTMLInputElement> document.getElementById('imagePath_' + val);
       ispath.src = this._configuration.Server + url;
-      this.editSave(val);
+      this.editSave(val, 'image');
+  }
+
+  removeImage(val) {
+    const isImageValue = <HTMLInputElement> document.getElementById('image_' + val);
+    isImageValue.value = '';
+    const ispath = <HTMLInputElement> document.getElementById('imagePath_' + val);
+    ispath.src = '';
+    this.editSave(val, 'image');
   }
 
   edit(fieldname: any) {
@@ -152,13 +161,19 @@ export class MyprofileComponent {
       }
     });
   }
-  editSave(fieldname: any) {
+  editSave(fieldname: any, fieldType: any) {
     this._usersService
       .GetById(this.authId)
       .subscribe(
       data => {
         this._needToSave = data;
-        const updatedValue = <HTMLInputElement> document.getElementById(fieldname);
+        let updatedValue;
+        if (fieldType == 'image') {
+          updatedValue = <HTMLInputElement> document.getElementById('image_' + fieldname);
+        } else {
+          updatedValue = <HTMLInputElement> document.getElementById(fieldname);
+        }
+        
         this._needToSave['admin'][fieldname] = updatedValue.value;
         this.saveProfile(this._needToSave['admin'], fieldname, updatedValue.value);
       });
