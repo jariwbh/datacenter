@@ -19,7 +19,7 @@
   <div class="channels-info">
 
     <div class="row">
-      <div class="channels-info-item" *ngFor="let item of doughnutData" class="col-6" (click)="goToPeopleListView(item.label)" style="cursor:pointer">
+      <div class="channels-info-item" *ngFor="let item of doughnutData" class="col-6 col-xs-12" (click)="goToPeopleListView(item.label)" style="cursor:pointer">
         
         <div class="legend-color" [ngStyle]="{'background-color': item.color }"></div>
         <p >{{ item.label }}<span class="channel-number">{{ item.percentage > 100 ? 100 : item.percentage }}% {{item.percentage > 100 ? '+': ''}}</span></p>

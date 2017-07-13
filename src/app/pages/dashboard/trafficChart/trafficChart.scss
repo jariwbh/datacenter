@@ -155,7 +155,7 @@
     div.channels-info {
       display: block;
       width: calc(100% - 88px);
-      margin-top: -65px;
+      margin-top: 15px;
       margin-bottom: 10px;
     }
     .traffic-chart {
@@ -209,3 +209,27 @@
     }
   }
 }
+@media screen and (max-width: 767px)  {
+    .col-xs-12 {
+      max-width: 100% !important;
+      flex: 0 0 100% !important;
+    }
+    .channels-info {
+    display: inline-block;
+    width: calc(100% - 100px);
+    margin-left: 40px !important;
+    margin-top: -20px;
+   }
+  div.channels-info {
+      display: block;
+      width: calc(100% - 54px) !important;
+      margin-top: -65px;
+      margin-bottom: 10px;
+    }
+
+   .channels-info {    
+    .col-6 {
+      padding-right: 0;
+    }
+  }
+  }
