@@ -1,3 +1,4 @@
+import { CommonDataService } from './../../../core/services/common/common-data.service';
 import { Configuration } from './../../../app.constants';
 import { AuthService } from '../../../core/services/common/auth.service';
 import { Router } from '@angular/router';
@@ -20,6 +21,7 @@ export class BaPageTop {
   public serverPath: string;
   constructor(private _state: GlobalState, private userloginService: UserloginService,
    private _router: Router, private authService: AuthService,
+   private _commonDataService: CommonDataService,
   private _configuration: Configuration ) {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
@@ -29,9 +31,13 @@ export class BaPageTop {
             this.username = JSON.parse(localStorage.getItem('currentUser')).username;
             //this.roleList = JSON.parse(localStorage.getItem('currentUser')).roleList;
             this.profilePicPath = JSON.parse(localStorage.getItem('currentUser')).user.profile_picture;
-
+            // this.username = this.authService.auth_email;
         }
-    // this.username = this.authService.auth_email;
+    this._commonDataService.updatePData.subscribe(data => {
+      if (this._commonDataService.profilePicPath !== '') {
+           this.profilePicPath = this._commonDataService.profilePicPath;
+      }
+    });
   }
 
   public toggleMenu() {
@@ -55,4 +61,5 @@ export class BaPageTop {
         this.authService.logout();
          this._router.navigate(['login']);
     }
+
 }

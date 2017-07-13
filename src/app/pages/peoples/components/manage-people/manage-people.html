@@ -37,15 +37,15 @@
   </div>
 
   <div class="row" *ngIf="cardViewVisibilty">
-    <div class="col-md-12 col-lg-4 col-xs-12" *ngFor="let ppl of peoplelist">
+    <div class="col-md-12 col-lg-4 col-xs-12" *ngFor="let ppl of peoplelist" (click)="edit(ppl)" style="cursor:pointer;">
       
       <ba-card title="{{ppl.fullname}}" baCardClass="with-scroll">
         <div class="user-bg text-center">
           <div class="overlay-box">
             <div class="user-content">
-              <a href="people_selected.html">
-                <img *ngIf="ppl.profile_picture" alt="img" src="{{serverPath}}/{{ppl.profile_picture}}" class="thumb-lg img-circle img-width-130">
-                <img *ngIf="!ppl.profile_picture" alt="img" src="assets/img/app/profile/Vlad.png" class="thumb-lg img-circle img-width-130">
+              <a >
+                <img *ngIf="ppl.profile_picture" alt="img" src="{{serverPath}}/{{ppl.profile_picture}}" onError="this.src='assets/img/no-profile-Image.png';" class="thumb-lg img-circle img-width-130">
+                <img *ngIf="!ppl.profile_picture" alt="img" src="assets/img/no-profile-Image.png" class="thumb-lg img-circle img-width-130">
               </a>
               <h4 class="text-white">{{ppl.full_name}}</h4>
               <h5 class="text-white"> {{ppl.email}} </h5>

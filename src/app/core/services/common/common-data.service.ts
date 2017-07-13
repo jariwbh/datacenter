@@ -1,11 +1,15 @@
-// import { EventEmitter } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 export class CommonDataService {
+    authId: string;
     a: any;
     filterDataBy: string = '';
     filterData: string = '';
-    // showSidebarlinkevnt = new EventEmitter();
-    constructor() {
-
+    profilePicPath: string = '';
+    updatePData = new EventEmitter();
+    constructor(
+   
+) {
     }
+
 }
