@@ -160,30 +160,30 @@ export class FormComponent {
     this.getAllDistrict();
     this.getAllArea();
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
-    }
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
+    // }
 
   }
 
-  setPosition(position) {
-    this.location = position.coords;
-    let latitude = position.coords.latitude;
-    let longitude = position.coords.longitude;
+  // setPosition(position) {
+  //   this.location = position.coords;
+  //   let latitude = position.coords.latitude;
+  //   let longitude = position.coords.longitude;
 
-    if (latitude !== '' && longitude !== '') {
-        console.log('Map Mapped');
-        // Google Map Start
-          this.options = {
-              center: { lat: latitude, lng: longitude },
-              zoom: 12,
-          };
-          this.initOverlays();
-          this.infoWindow = new google.maps.InfoWindow();
-        // Google Map Start
-    }
+  //   if (latitude !== '' && longitude !== '') {
+  //       console.log('Map Mapped');
+  //       // Google Map Start
+  //         this.options = {
+  //             center: { lat: latitude, lng: longitude },
+  //             zoom: 12,
+  //         };
+  //         this.initOverlays();
+  //         this.infoWindow = new google.maps.InfoWindow();
+  //       // Google Map Start
+  //   }
     
-  }
+  // }
   
   getAllProvince() {
     this._fieldsService
