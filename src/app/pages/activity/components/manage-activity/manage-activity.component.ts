@@ -4,10 +4,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ActivityService } from '../../../../core/services/activity/activity.service';
 import { ActivityModel } from '../../../../core/models/activity/activity.model';
 
+
 import { Message } from 'primeng/primeng';
 import { ConfirmationService } from 'primeng/primeng';
 import { AuthService } from '../../../../core/services/common/auth.service';
 import { Configuration } from '../../../../app.constants';
+import { FieldsService } from '../../../../core/services/dynamic-fields/fields.service';
 
 @Component({
   selector: 'nga-manage-activity',
@@ -25,6 +27,18 @@ export class ManageActivityComponent {
   serverPath: string;
   authId: string;
 
+  _provinceLists: any[] = [];
+  _districtLists: any[] = [];
+  _areaLists: any[] = [];
+
+  _districtBasedOnProvince: any[] = [];
+  _areaBasedOnProvince: any[] = [];
+
+  _districtOptionLists: any[] = [];
+  _areaOptionLists: any[] = [];
+
+  _filteredArray: any [] = [];
+
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
@@ -32,6 +46,7 @@ export class ManageActivityComponent {
     private confirmationService: ConfirmationService,
     private _configuration: Configuration,
     private _authService: AuthService,
+    private _fieldsService: FieldsService,
   ) {
     this.serverPath = this._configuration.Server;
         
@@ -44,19 +59,114 @@ export class ManageActivityComponent {
 
   ngOnInit() {
     this.getAllActivities();
+
+    this.getAllProvince();
+    this.getAllDistrict();
+    this.getAllArea();
+
   }
 
+  getAllProvince() {
+      this._fieldsService
+          .GetAllProvince()
+          .subscribe(
+          data => {
+              this._provinceLists  = data;
+          });
+  }
+  getAllDistrict() {
+      this._fieldsService
+          .GetAllDistrict()
+          .subscribe(
+          data => {
+              this._districtLists  = data;
+              this._districtLists.forEach(element => {
+              const index = element.province;
+              if ( !this._districtBasedOnProvince[index] ) {
+                  this._districtBasedOnProvince[index] = [];
+              }
+              this._districtBasedOnProvince[index].push(element.district);
+              });
+              
+          });
+    }
+
+    getAllArea() {
+      this._fieldsService
+          .GetAllArea()
+          .subscribe(
+          data => {
+              this._areaLists  = data;
+              this._areaLists.forEach(element => {
+              const index = element.province;
+              if ( !this._areaBasedOnProvince[index] ) {
+                  this._areaBasedOnProvince[index] = [];
+              }
+              this._areaBasedOnProvince[index].push(element.area);
+              });
+              
+          });
+    }
+  
+  onChangeProvince(value: any) {
+        this._allActivites = [];
+        if (value == '') {
+            this.getAllActivities();
+        } else {
+            //this.FilteredUsers('province', value);
+        }
+        
+
+        this._districtOptionLists = [];
+        this._areaOptionLists = [];
+
+        this._districtOptionLists = this._districtBasedOnProvince[value];
+        this._areaOptionLists = this._areaBasedOnProvince[value];
+  }
+
+  onChangeDistrict(value: any) {
+        let areaValue = <HTMLInputElement> document.getElementById('area');
+        areaValue.value = '';
+        if (value == '') {
+            let proviceValue = <HTMLInputElement> document.getElementById('provice');
+            if (proviceValue) {
+                //this.FilteredUsers('province', proviceValue.value);
+            } else {
+                this.getAllActivities();
+            }
+        } else {
+            //this.FilteredUsers('district', value);
+        }
+        
+    }
+    onChangeArea(value: any) {
+        let districtValue = <HTMLInputElement> document.getElementById('district');
+        districtValue.value = '';
+        if (value == '') {
+            let proviceValue = <HTMLInputElement> document.getElementById('provice');
+            if (proviceValue) {
+                //this.FilteredUsers('province', proviceValue.value);
+            } else {
+                this.getAllActivities();
+            }
+        } else {
+            //this.FilteredUsers('area', value);
+        }
+        
+    }
   onChangeType(value: any) {
     if (value == '') {
       this.getAllActivities();
     } else {
-      this.getAllActivitiesByFiltter('actvitytype', value);
+
+      //this.getAllActivitiesByFiltter(value);
     }
   }
 
   getAllActivitiesByFiltter(field, value) {
+
     this._activityService
-      .GetAll()
+      .GetActivityBySearch(value)
       .subscribe( data => {
         this._allActivites = [];
         let cnt = 0;

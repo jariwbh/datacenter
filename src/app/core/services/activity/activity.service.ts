@@ -26,6 +26,7 @@ export class ActivityService {
             .get(this.actionUrl + 'activity')
             .map(res => <any>res.json());
     }
+    
     public GetById = (id: any): Observable<any> => {
        return this.http
            .get(this.actionUrl + 'activityById/' + id)
@@ -49,6 +50,12 @@ export class ActivityService {
        //console.log(id);
        return this.http
            .delete(this.actionUrl + 'activity/' + id + '/' + loginID)
+           .map(res => <any>res.json());
+    }
+
+     public GetActivityBySearch = (search: any): Observable<any> => {
+       const toAdd = JSON.stringify(search);
+       return this.http.post(this.actionUrl + '/search/activity', toAdd, { headers: this.headers })
            .map(res => <any>res.json());
     }
 

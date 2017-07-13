@@ -3,17 +3,44 @@
     <p-confirmDialog></p-confirmDialog>
     <div class="row">
         <div class="col-md-12">
-            <div class="row"> 
-                <div class="col-sm-4" style="margin-bottom: 20px;">
+            <div class="row" style="margin-bottom: 20px;"> 
+                <div class="col-sm-3" >
                     <select
                         id="type"
                         (change)="onChangeType($event.target.value)"
                         class="form-control">
-                        <option value="" selected>All Activity Type</option>
+                        <option value="" selected>---- Select Type ----</option>
                         <option value="hashtag">hashtag</option>
                         <option value="facebook">facebook</option>
                         <option value="telegram">telegram</option>
                         <option value="other">other</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select
+                        id="provice"
+                        (change)="onChangeProvince($event.target.value)"
+                        class="form-control">
+                        <option value="">---- Select Provice ----</option>
+                        <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select 
+                        id="district"
+                        (change)="onChangeDistrict($event.target.value)"
+                        class="form-control">
+                        <option value="">---- Select District ----</option>
+                        <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select 
+                        id="area"
+                        (change)="onChangeArea($event.target.value)"
+                        class="form-control">
+                        <option value="">---- Select Area ----</option>
+                        <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
                     </select>
                 </div>
             </div>

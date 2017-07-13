@@ -12,6 +12,8 @@ import { ActivityService } from '../../../../core/services/activity/activity.ser
 
 import { ConfirmDialogModule, ConfirmationService, GrowlModule } from 'primeng/primeng';
 
+import { FieldsService } from '../../../../core/services/dynamic-fields/fields.service';
+
 
 @NgModule({
   imports: [
@@ -29,6 +31,7 @@ import { ConfirmDialogModule, ConfirmationService, GrowlModule } from 'primeng/p
   providers: [
     ActivityService,
     ConfirmationService,
+    FieldsService,
   ],
 })
 export class ManageActivityModule {}
