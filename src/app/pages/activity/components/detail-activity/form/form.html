@@ -4,9 +4,20 @@
     <div class="col-md-12">
       <ba-card title="Activity Details" baCardClass="with-scroll">
         <div class="row">
+          
+           
+
           <div class="col-md-offset-2 col-md-8">
             <h1 class="mrb25">{{_activityDetail.name}}</h1>
-            <div class="form-group">
+            
+
+            <div class="form-group" *ngIf="imageCount">
+                <p-galleria 
+                    [images]="images" 
+                    showCaption="true">
+                </p-galleria> 
+            </div>
+            <div class="form-group" *ngIf="!imageCount">
               <img *ngIf="!_activityDetail.images" src="assets/img/developers/img1.jpg" alt="lorem pixel" class="img-responsive">
               <img *ngIf="_activityDetail.images" src="{{serverPath}}/{{_activityDetail.images[0]['imagevalue']}}" alt="lorem pixel" class="img-responsive">
             </div>

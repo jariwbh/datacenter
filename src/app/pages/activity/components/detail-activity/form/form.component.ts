@@ -21,6 +21,8 @@ msgs: Message[] = [];
 bindId: string;
 serverPath: string;
 
+ images: any[] = [];
+ imageCount: boolean = false;
 constructor(
     private _router: Router,
     private _route: ActivatedRoute,
@@ -50,6 +52,7 @@ constructor(
     if (this.bindId) {
       this.getActivityById(this.bindId);
     }
+        
   }
   
   getActivityById(id: any) {
@@ -67,6 +70,19 @@ constructor(
           let startDateTime = new Date(data.createdAt); 
           let startStamp = startDateTime.getTime();
           this._activityDetail.createdAt = this.updateClock(startStamp);
+
+          data.images.forEach(element => {
+            this.images.push({
+              source: this.serverPath + element.imagevalue,
+            });
+          });
+
+          if (this._activityDetail.images.length > 1) {
+            this.imageCount = true;
+          } else {
+            this.imageCount = false;
+          }
+          
         }
       });
   }

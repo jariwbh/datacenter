@@ -31,7 +31,8 @@ import { ConfirmationService } from 'primeng/primeng';
 
 export class FormComponent {
   usernamepasswordsubmitted: boolean;
-  bindId: number;
+  bindId: any;
+  formStatus: any;
   form: FormGroup;
   dynamicForm: FormGroup;
   usernamepasswordForm: FormGroup;
@@ -83,6 +84,7 @@ export class FormComponent {
       selectedPosition: any;
       infoWindow: any;
       draggable: boolean;
+      map: google.maps.Map;
   // Google Map End
 
   errorImage: any = {};
@@ -176,14 +178,15 @@ export class FormComponent {
       // Made Sample Json Data For Lookup
 
       // Google Map Start
-      this.options = {
-          center: { lat: 33.3128, lng: 44.3615 },
-          zoom: 12,
-      };
-       this.initOverlays();
-      // this.infoWindow = new google.maps.InfoWindow();
+        this.options = {
+            center: { lat: 33.3128, lng: 44.3615 },
+            zoom: 12,
+        };
+        this.initOverlays();
+        this.infoWindow = new google.maps.InfoWindow();
       // Google Map Start
   }
+
   ngOnInit() {
 
     //get URLid
@@ -198,28 +201,29 @@ export class FormComponent {
     this.getAllDistrict();
     this.getAllArea();
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
-    }
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
+    // }
   }
 
   
-  setPosition(position) {
-    this.location = position.coords;
-    let latitude = position.coords.latitude;
-    let longitude = position.coords.longitude;
+  // setPosition(position) {
+  //   this.location = position.coords;
+  //   let latitude = position.coords.latitude;
+  //   let longitude = position.coords.longitude;
 
-    if (latitude !== '' && longitude !== '') {
-        // Google Map Start
-          this.options = {
-              center: { lat: latitude, lng: longitude },
-              zoom: 12,
-          };
-          this.initOverlays();
-        // Google Map Start
-    }
+  //   if (latitude !== '' && longitude !== '') {
+  //       //this.options.center(new google.maps.LatLng(longitude, longitude));
+  //       // Google Map Start
+  //         this.options = {
+  //             center: new google.maps.center(longitude, longitude),
+  //             zoom: 12,
+  //         };
+  //         this.initOverlays();
+  //       // Google Map Start
+  //   }
     
-  }
+  // }
   getAllProvinceForCityBasedonAdmin() {
     this._fieldsService
       .GetAllProvince()
@@ -382,8 +386,10 @@ export class FormComponent {
             });
             this.dynamicForm = this.fb.group(group);
             if (this.bindId) {
+              this.formStatus = 'edit';
               this.getAdminDetailBasedonID(this.bindId);
             } else {
+              this.formStatus = 'add';
               this._usersModel.role = true;
             }
         });
@@ -533,23 +539,26 @@ export class FormComponent {
         });
         if (cnt == 0) {
             if (!this.bindId) {
-              this._usersService
-                .Add(value)
-                .subscribe(
-                data => {
-                  if (data) {
-                    this._needToSaveData = data['admin'];
-                    this.bindId = data._id;
-                    this._userloginService.updateProfileData();
-                  }
-                  this.msgs = [];
-                  this.msgs.push ({ 
-                    severity: 'info', summary: 'Insert Message', detail: 'Admin has been added Successfully!!!' });
-                  this._completedStep = 2;
-                  this.informationVisibilty = false;
-                  this.usernamepasswordVisibilty = true;
-                  this.accesscontrolVisibilty = false;
-              });
+              value.points = 0;
+              if (this.authId) {
+                this._usersService
+                  .Add(value, this.authId)
+                  .subscribe(
+                  data => {
+                    if (data) {
+                      this._needToSaveData = data['admin'];
+                      this.bindId = data._id;
+                      this._userloginService.updateProfileData();
+                    }
+                    this.msgs = [];
+                    this.msgs.push ({ 
+                      severity: 'info', summary: 'Insert Message', detail: 'Admin has been added Successfully!!!' });
+                    this._completedStep = 2;
+                    this.informationVisibilty = false;
+                    this.usernamepasswordVisibilty = true;
+                    this.accesscontrolVisibilty = false;
+                });
+              }
             } else {
               if (this._usersModel.role) {
                 value.role = 'A';
@@ -573,7 +582,7 @@ export class FormComponent {
                   this.msgs = [];
                   this.msgs.push ({ 
                     severity: 'info', summary: 'Update Message', detail: 'Admin has been Updated Successfully!!!' });
-                    this._completedStep = 3;
+                  this._completedStep = 3;
                   this.informationVisibilty = false;
                   this.usernamepasswordVisibilty = true;
                   this.accesscontrolVisibilty = false;
@@ -620,11 +629,14 @@ export class FormComponent {
           this.aclVisibility = true;
         } else {
           this.aclVisibility = false;
-
-          if (value.role) {
+          if (this.formStatus === 'add' && this.authRole === 'S') {
             this._needToSaveData['role'] = 'S';
           } else {
-            this._needToSaveData['role'] = 'A';
+            if (value.role) {
+              this._needToSaveData['role'] = 'S';
+            } else {
+              this._needToSaveData['role'] = 'A';
+            }
           }
           this._needToSaveData['acl'] = this.selectedcityRights;
           this._needToSaveData['cityRights'] = value.cityRights;

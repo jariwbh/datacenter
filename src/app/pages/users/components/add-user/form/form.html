@@ -58,24 +58,12 @@
                   
                   <div *ngSwitchCase="'text'">
                     <div *ngIf="fields.labelname == 'points'" style="display: none">
-                      <div *ngIf="bindId">
                         <input 
                           class="form-control" 
                           type="text" 
                           [formControlName]="fields.labelname" 
                           [(ngModel)]="fields.value" 
                           readonly>
-                      </div>
-                      <div *ngIf="!bindId">
-                        <input 
-                          class="form-control" 
-                          type="text" 
-                          [formControlName]="fields.labelname" 
-                          [(ngModel)]="fields.value" 
-                          readonly
-                          [value]="0">
-                      </div>
-                      
                       <span class="help-block sub-little-text" style="color: #ecc839">
                         You cannt add / edit this field. [ READ ONLY PROPERTY ]
                       </span>
@@ -186,6 +174,7 @@
                   <div *ngSwitchCase="'map'">
                       <p-gmap 
                           #gmap 
+                          *ngIf="options"
                           [style]="{'width':'100%','height':'320px'}" 
                           [options]="options" 
                           [overlays]="overlays[fields.labelname]" 
@@ -302,13 +291,13 @@
               <div class="input-demo radio-demo row">
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input  formControlName="role" [value]="0" [checked]="_usersModel.role" type="radio">
+                  <input formControlName="role" [value]="0" [checked]="_usersModel.role" type="radio">
                   <span translate="">Yes</span>
                 </label>
               </div>
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input id="inlineRadio2" checked  [value]="1" formControlName="role" [checked]="!_usersModel.role" type="radio">
+                  <input id="inlineRadio2" checked="checked" [value]="1" formControlName="role" [checked]="!_usersModel.role" type="radio">
                   <span>No</span>
                 </label>
               </div>

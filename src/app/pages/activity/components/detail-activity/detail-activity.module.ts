@@ -17,6 +17,8 @@ import { FieldsService } from '../../../../core/services/dynamic-fields/fields.s
 import { GrowlModule, AutoCompleteModule } from 'primeng/primeng';
 import { EditorModule, SharedModule, FileUploadModule } from 'primeng/primeng';
 
+import { GalleriaModule } from 'primeng/primeng';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { EditorModule, SharedModule, FileUploadModule } from 'primeng/primeng';
     EditorModule,
     SharedModule,
     FileUploadModule,
+    GalleriaModule,
   ],
   declarations: [
     DetailActivityComponent,

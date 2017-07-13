@@ -32,10 +32,10 @@ export class UsersService {
            .map(res => <any>res.json());
     }
 
-    public Add = (data: any): Observable<any> => {
+    public Add = (data: any, logonId: any): Observable<any> => {
        const toAdd = JSON.stringify(data);
        //console.log(toAdd);
-       return this.http.post(this.actionUrl + 'admin', toAdd, { headers: this.headers })
+    return this.http.post(this.actionUrl + 'admin/' + logonId, toAdd, { headers: this.headers })
            .map(res => <any>res.json());
     }
 
