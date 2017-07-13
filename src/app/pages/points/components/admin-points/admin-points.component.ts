@@ -185,7 +185,7 @@ constructor(
                 this._pointsModel.users = this._selectedUsers;
                 if (this.authId) {
                     this._pointsService
-                        .Add(this.authId, this._pointsModel)
+                        .AddAdminPoint(this.authId, this._pointsModel)
                         .subscribe(data => {
                             this.msgs = [];
                             this.msgs.push({

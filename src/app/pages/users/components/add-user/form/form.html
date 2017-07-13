@@ -47,14 +47,17 @@
               novalidate>
               <div *ngFor="let fields of fieldLists" class="form-group">
                 <div [ngSwitch]="fields.fieldtype">
-                  <label for="exampleInputname1">{{fields.displayname}}</label>
-                  <span *ngIf="authRole == 'A'">
-                    <a *ngIf="fields.issystemfield" style="margin-left: 20px;"> <i class="ion-locked"></i> </a>
-                    <a *ngIf="!fields.issystemfield" (click)="editFields(fields._id)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
-                    <a *ngIf="!fields.issystemfield" (click)="deleteFields(fields._id)" style="cursor: pointer; margin-left: 20px;"><i class="ion-trash-a"></i></a>
-                  </span>
+                  <div *ngIf="fields.labelname !== 'points'">
+                      <label for="exampleInputname1">{{fields.displayname}}</label>
+                      <span *ngIf="authRole == 'A'">
+                        <a *ngIf="fields.issystemfield" style="margin-left: 20px;"> <i class="ion-locked"></i> </a>
+                        <a *ngIf="!fields.issystemfield" (click)="editFields(fields._id)" style="cursor: pointer; margin-left: 20px;"> <i class="ion-edit"></i> </a>
+                        <a *ngIf="!fields.issystemfield" (click)="deleteFields(fields._id)" style="cursor: pointer; margin-left: 20px;"><i class="ion-trash-a"></i></a>
+                      </span>
+                  </div>
+                  
                   <div *ngSwitchCase="'text'">
-                    <div *ngIf="fields.labelname == 'points'">
+                    <div *ngIf="fields.labelname == 'points'" style="display: none">
                       <div *ngIf="bindId">
                         <input 
                           class="form-control" 
@@ -415,6 +418,26 @@
                   </div>
                   <div [hidden]="form.get('isMandatory').valid || (form.get('isMandatory').pristine && !submitted)" class="alert alert-danger">
                         isMandatory is required.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input01">Is display on Listing</label>
+                    <div class="input-demo radio-demo row">
+                    <div class="col-md-4">
+                      <label class="radio-inline custom-radio nowrap">
+                        <input id="inlineRadio1" formControlName="isDisplayOnList" [checked]="_fieldsModel.isDisplayOnList"  type="radio" [value]="0">
+                        <span translate="">Yes</span>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="radio-inline custom-radio nowrap">
+                        <input id="inlineRadio2" formControlName="isDisplayOnList"  type="radio" [value]="1">
+                        <span>No</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div [hidden]="form.get('isDisplayOnList').valid || (form.get('isDisplayOnList').pristine && !submitted)" class="alert alert-danger">
+                        isDisplayOnList is required.
                     </div>
                   </div>
                   <div class="form-group" *ngIf="_lookupVisibiity">

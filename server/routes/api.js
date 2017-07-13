@@ -98,7 +98,7 @@ function saveAdminPoints(adminid, activity, points)
             console.log("updated :" + updatepoints);
             Admin.findOneAndUpdate({ _id: adminid }, {
                 $set: {
-                    points: updatepoints
+                    "admin.points": updatepoints
                 }
             }, { new: true }, function(err, a) {
                 console.log(a);            
@@ -208,12 +208,14 @@ router.route('/pointadmin/:adminid')
         point.save(function(err, data) {
             if (err)
                 res.send(err);
-            
+            console.log("saveAdminPoints 1:" + addPointPointsAdmin);
+
             saveAdminPoints(req.params.adminid, "Point added" , addPointPointsAdmin);
 
             saveAudit("Point added", Date.now(), req.params.adminid);
 
             for (var i = 0, len = point.users.length; i < len; i++) {
+                console.log("saveAdminPoints:" + data.points);
                 saveAdminPoints(point.users[i], "Point added" , data.points);
             }
 

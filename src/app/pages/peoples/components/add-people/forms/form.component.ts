@@ -77,6 +77,8 @@ export class FormComponent {
   _lookupLists: any[] = [];
    lookupError = false;
 
+   location = {};
+
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -105,8 +107,8 @@ export class FormComponent {
         'id': [this._fieldsModel._id],
         'fieldtype': [this._fieldsModel.fieldtype, Validators.required],
         'lookupdata': [this._fieldsModel.lookupdata],
-        'displayname': [this._fieldsModel.displayname],
-        'labelname': [this._fieldsModel.labelname, Validators.required],
+        'displayname': [this._fieldsModel.displayname , Validators.required],
+        'labelname': [this._fieldsModel.labelname],
         'description': [this._fieldsModel.description, Validators.required],
         'isMandatory': [this._fieldsModel.isMandatory, Validators.required],
         'isDisplayOnList': [this._fieldsModel.isDisplayOnList, Validators.required],
@@ -137,7 +139,7 @@ export class FormComponent {
 
       // Google Map Start
       this.options = {
-          center: { lat: 21.1835034, lng: 72.8197083 },
+          center: { lat: 33.3128, lng: 44.3615 },
           zoom: 12,
       };
       this.initOverlays();
@@ -157,8 +159,32 @@ export class FormComponent {
     this.getAllProvince();
     this.getAllDistrict();
     this.getAllArea();
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
+    }
+
   }
 
+  setPosition(position) {
+    this.location = position.coords;
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+
+    if (latitude !== '' && longitude !== '') {
+        console.log('Map Mapped');
+        // Google Map Start
+          this.options = {
+              center: { lat: latitude, lng: longitude },
+              zoom: 12,
+          };
+          this.initOverlays();
+          this.infoWindow = new google.maps.InfoWindow();
+        // Google Map Start
+    }
+    
+  }
+  
   getAllProvince() {
     this._fieldsService
           .GetAllProvince()
@@ -435,9 +461,10 @@ export class FormComponent {
   onSubmit(value: any, isValid: boolean) {
       this.submitted = true;
       if (!isValid) {
+        
           return false;
       } else {
-
+        
         if (this._fieldsModel._id == null) {
             this._fieldsModel._id = (function () { return undefined; })();
         }
@@ -447,10 +474,12 @@ export class FormComponent {
         } else {
           this.isidexist = false;
         }
-
-        if (value.lookupdata.length == 0) {
-          this.lookupError = true;
+        if (value.lookupdata) {
+          if (value.lookupdata.length == 0) {
+            this.lookupError = true;
+          }
         }
+        
 
         const editedLabel = value.displayname.replace(/ /g, '_').toLowerCase() + this.uuid();
         this._fieldsModel.formname = 'people';

@@ -45,10 +45,10 @@ export class ActivityService {
            .map(res => <any>res.json());
     }
 
-    public Delete = (id: number): Observable<any> => {
+    public Delete = (id: number, loginID: any): Observable<any> => {
        //console.log(id);
        return this.http
-           .delete(this.actionUrl + 'activity/' + id)
+           .delete(this.actionUrl + 'activity/' + id + '/' + loginID)
            .map(res => <any>res.json());
     }
 

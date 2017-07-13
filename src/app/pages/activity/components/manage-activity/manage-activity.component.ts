@@ -6,6 +6,7 @@ import { ActivityModel } from '../../../../core/models/activity/activity.model';
 
 import { Message } from 'primeng/primeng';
 import { ConfirmationService } from 'primeng/primeng';
+import { AuthService } from '../../../../core/services/common/auth.service';
 import { Configuration } from '../../../../app.constants';
 
 @Component({
@@ -22,6 +23,7 @@ export class ManageActivityComponent {
   msgs: Message[] = [];
 
   serverPath: string;
+  authId: string;
 
   constructor(
     private _router: Router,
@@ -29,8 +31,15 @@ export class ManageActivityComponent {
     private _activityService: ActivityService,
     private confirmationService: ConfirmationService,
     private _configuration: Configuration,
+    private _authService: AuthService,
   ) {
     this.serverPath = this._configuration.Server;
+        
+        if (this._authService.auth_id === '') {
+          this.authId = null;
+        } else {
+          this.authId = this._authService.auth_id;
+        }
   }
 
   ngOnInit() {
@@ -122,17 +131,18 @@ export class ManageActivityComponent {
             header: 'Delete Confirmation',
             icon: 'fa fa-trash',
             accept: () => {
-                this._activityService
-                  .Delete(id)
-                  .subscribe( data => {
-                    this.getAllActivities();
-                    this.msgs = [{ 
-                      severity: 'info', 
-                      summary: 'Confirmed', 
-                      detail: 'Activity has been deleted Successfully!!',
-                    }];
-                  });
-                
+                if (this.authId) {
+                  this._activityService
+                    .Delete(id, this.authId)
+                    .subscribe( data => {
+                      this.getAllActivities();
+                      this.msgs = [{ 
+                        severity: 'info', 
+                        summary: 'Confirmed', 
+                        detail: 'Activity has been deleted Successfully!!',
+                      }];
+                    });
+                }
             },
             reject: () => {
                 this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];

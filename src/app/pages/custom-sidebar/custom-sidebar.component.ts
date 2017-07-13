@@ -18,6 +18,7 @@ export class CustomSidebarComponent {
   createNewActivity = false;
   viewManagePersonPage = false;
   managePointsPage = false;
+  viewDashboardPage = false;
 
   constructor(
     private _authService: AuthService) {
@@ -57,6 +58,9 @@ export class CustomSidebarComponent {
                 if (element == 'View Manage person page') {
                     this.viewManagePersonPage = true;
                 }
+                if (element == 'View Dashboard page') {
+                    this.viewDashboardPage = true;
+                }
             });
             // console.log(this.createNewAdmin);
             // console.log(this.viewUserHistory);
@@ -73,6 +77,7 @@ export class CustomSidebarComponent {
         this.createNewActivity = true;
         this.viewManagePersonPage = true;
         this.managePointsPage = true;
+        this.viewDashboardPage = true;
     }
   }
 

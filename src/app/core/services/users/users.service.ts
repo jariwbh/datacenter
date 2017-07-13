@@ -46,10 +46,10 @@ export class UsersService {
            .map(res => <any>res.json());
     }
 
-    public Delete = (id: number): Observable<any> => {
+    public Delete = (id: number, logonId: any): Observable<any> => {
        //console.log(id);
        return this.http
-           .delete(this.actionUrl + 'admin/' + id)
+           .delete(this.actionUrl + 'admin/' + id + '/' + logonId)
            .map(res => <any>res.json());
     }
 
