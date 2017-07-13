@@ -1,3 +1,4 @@
+import { UserloginService } from './../../../../../core/services/userlogin/userlogin.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
@@ -103,7 +104,9 @@ export class FormComponent {
     private _usersService: UsersService,
     private _authService: AuthService,
     private confirmationService: ConfirmationService,
-    private _configuration: Configuration) {
+    private _configuration: Configuration,
+    private _userloginService: UserloginService,
+  ) {
 
       if (this._authService.auth_id === '') {
         this.authId = null;
@@ -537,6 +540,7 @@ export class FormComponent {
                   if (data) {
                     this._needToSaveData = data['admin'];
                     this.bindId = data._id;
+                    this._userloginService.updateProfileData();
                   }
                   this.msgs = [];
                   this.msgs.push ({ 
@@ -564,6 +568,7 @@ export class FormComponent {
                   if (data) {
                     this._needToSaveData = data['admin'];
                     this.bindId = data._id;
+                    this._userloginService.updateProfileData();
                   }
                   this.msgs = [];
                   this.msgs.push ({ 

@@ -1,3 +1,4 @@
+import { UserloginService } from './../../../../core/services/userlogin/userlogin.service';
 import { Configuration } from './../../../../app.constants';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -44,7 +45,8 @@ export class MyprofileComponent {
     private _fieldsService: FieldsService,
     private _usersService: UsersService,
     private _authService: AuthService,
-    private _configuration: Configuration) {
+    private _configuration: Configuration,
+    private _userloginService: UserloginService) {
 
       if (this._authService.auth_id === '') {
         this.authId = null;
@@ -186,6 +188,7 @@ export class MyprofileComponent {
         this.msgs = [];
         this.msgs.push ({ 
           severity: 'info', summary: 'Updated Message', detail: 'Admin has been Updated Successfully!!!' });
+          this._userloginService.updateProfileData();
         this.fieldLists.forEach(element => {
           if (element.labelname == labelname) {
             element.value = newValue;
