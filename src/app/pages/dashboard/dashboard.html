@@ -8,10 +8,10 @@
   <div class="col-md-12">
     <ba-card title="USERS ACROSS THE STATES" baCardClass="with-scroll">
       <div class="row show-grid">
-        <div class="col-6">
+        <div class="col-6 col-xs-12">
           <users-map></users-map>
         </div>
-        <div class="col-6">
+        <div class="col-6 col-xs-12">
           <traffic-chart></traffic-chart>
         </div>
       </div>
@@ -46,16 +46,19 @@
   </ba-card>
   <!--<ba-card class="col-xlg-6 col-lg-6 col-md-12 col-sm-12 col-12" title="SITE VISIT CHART" baCardClass="xmedium-card feed-comply-panel with-scroll calendar-panel">
   </ba-card>-->
+  <!-- baCardClass="xmedium-card feed-comply-panel calendar-panel with-scroll" -->
   <ba-card 
-      class="col-xlg-6 col-lg-6 col-md-12 col-sm-12 col-12" 
+      class="col-xlg-6 col-lg-6 col-md-12 col-sm-12 col-12 " 
       title="ADMIN POINTS HISTORY" 
-      baCardClass="xmedium-card feed-comply-panel with-scroll calendar-panel">
-      <ba-chartist-chart
+      baCardClass="xmedium-card feed-comply-panel with-scroll todo-panel">
+      
+      <ba-chartist-chart class="horizontal-scroll"
           baChartistChartClass="ct-chart" 
           baChartistChartType="Bar" 
           [baChartistChartData]="_userMapHistory"
           [baChartistChartOptions]="_userMapHistory['simpleBarOptions']">
       </ba-chartist-chart>
+      
   </ba-card>
 </div>
 
