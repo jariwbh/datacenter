@@ -32,6 +32,7 @@ export const routes: Routes = [
       { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' },
       { path: 'no-permission', loadChildren: './no-permission/no-permission.module#NoPermissionModule' },
       { path: 'points', loadChildren: './points/points.module#PointsModule' },
+      { path: 'test', loadChildren: './test/test.module#TestModule' },
     ],
     canActivate: [AuthGuard],
   },

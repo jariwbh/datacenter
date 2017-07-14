@@ -436,6 +436,7 @@ export class FormComponent {
             }
           }
         });
+        
         if (cnt == 0) {
           if (this.bindId) {
             this._managepeopleService
@@ -449,6 +450,7 @@ export class FormComponent {
             });
           } else {
             if (this.authId) {
+              value.points = 0;
               this._managepeopleService
                 .Add(this.authId, value)
                 .subscribe(
