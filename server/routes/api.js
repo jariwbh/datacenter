@@ -94,7 +94,7 @@ function saveAdminPoints(adminid, activity, points)
                     res.send(err);
             });
 
-            var updatepoints = parseInt(data.points) + parseInt(points);                                    
+            var updatepoints = parseInt(data.admin.points) + parseInt(points);                                    
             console.log("updated :" + updatepoints);
             Admin.findOneAndUpdate({ _id: adminid }, {
                 $set: {
@@ -131,7 +131,7 @@ router.route('/search/activity')
         var province = req.body.province;
         var district = req.body.district;
         var area = req.body.area;
-       
+        
         Activity.find({ activitytype: { $in: type } })
                 .populate({
                     path: 'persons',

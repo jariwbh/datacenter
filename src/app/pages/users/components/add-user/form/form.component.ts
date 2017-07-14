@@ -462,6 +462,9 @@ export class FormComponent {
                     title: this.markerTitle, draggable: this.draggable }));
               }
             }
+          } else if (element.fieldtype == 'image') {
+            const ispath = <HTMLInputElement> document.getElementById('imagePath_' + element.labelname);
+            ispath.src = this._configuration.Server + data.admin[element.labelname];
           }
 
         });

@@ -72,15 +72,18 @@ export class Dashboard {
               }
             });
             if (this._topAdminlist) {
-              // array sorting
-              this._topAdminlist.sort(function(a, b) {
-                return parseFloat(b.customCount) - parseFloat(a.customCount);
-              });
-              setTimeout(() => {  
-                if (document.getElementById('row_' + this._topAdminlist[0]['custom_id'])) {
-                  document.getElementById('row_' + this._topAdminlist[0]['custom_id']).click();  
-                }
-              }, 2000);
+              if (this._topAdminlist.length !== 0) {
+                  // array sorting
+                  this._topAdminlist.sort(function(a, b) {
+                    return parseFloat(b.customCount) - parseFloat(a.customCount);
+                  });
+                  setTimeout(() => {  
+                    if (document.getElementById('row_' + this._topAdminlist[0]['custom_id'])) {
+                      document.getElementById('row_' + this._topAdminlist[0]['custom_id']).click();  
+                    }
+                  }, 2000);
+              }
+              
             }
           }
      });
@@ -165,7 +168,6 @@ export class Dashboard {
               this._data[i] = [];
             }
             for (let j = 0; j < this._selectedfields.length; j++) {
-              console.log(this._selectedfields[j]);
               const fieldName = this._selectedfields[j].toLowerCase();
               const fieldValue = this._adminlist[i][fieldName];
               const group = {

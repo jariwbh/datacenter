@@ -147,7 +147,11 @@
   }
 
   @media (max-width: $resM) {
-
+    .col-sm-chart-12 {
+    -moz-box-flex: 0;
+    flex: 0 0 100%;
+    max-width: 100%;
+    }
     .card.medium-card.traffic-panel {
       height: auto;
     }
@@ -155,7 +159,7 @@
     div.channels-info {
       display: block;
       width: calc(100% - 88px);
-      margin-top: -65px;
+      margin-top: 15px;
       margin-bottom: 10px;
     }
     .traffic-chart {
@@ -166,6 +170,9 @@
     .chart-bg {
       left: calc(50% - 90px);
     }
+  }
+  @media (max-width: $resL) {
+    
   }
 
   @media (max-width: 1465px) and (min-width: 1199px) {
@@ -208,4 +215,42 @@
       height: 142px;
     }
   }
+}
+@media screen and (max-width: 767px)  {
+    .col-xs-12 {
+      max-width: 100% !important;
+      flex: 0 0 100% !important;
+    }
+    .channels-info {
+    display: inline-block;
+    width: calc(100% - 100px);
+    margin-left: 40px !important;
+    margin-top: -20px;
+   }
+  div.channels-info {
+      display: block;
+      width: calc(100% - 54px) !important;
+      margin-top: -65px;
+      margin-bottom: 10px;
+    }
+
+   .channels-info {    
+    .col-6 {
+      padding-right: 0;
+    }
+  }
+  }
+@media (min-width: 1024px) and (max-width: 1199px) {
+    .channels-block .channels-info div.col-6:nth-child(odd) {
+    padding-right: 50px;
+    -moz-box-flex: 0;
+    flex: 0 0 60%;
+    max-width: 60%;
+    }
+  .channels-block .channels-info div.col-6:nth-child(even) {
+    padding-right:0;
+    -moz-box-flex: 0;
+    flex: 0 0 40%;
+    max-width: 40%;
+    }
 }
