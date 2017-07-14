@@ -10,6 +10,8 @@ import { AppTranslationModule } from '../../../../app.translation.module';
 
 import { AuditService } from '../../../../core/services/audit/audit.service';
 
+import { MultiSelectModule } from 'primeng/primeng';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -17,6 +19,7 @@ import { AuditService } from '../../../../core/services/audit/audit.service';
     FormsModule,
     NgaModule,
     routing,
+    MultiSelectModule,
   ],
   declarations: [
     UserHistoryComponent,

@@ -44,7 +44,7 @@ export class ManageActivityComponent {
   _allAreaLists: any[] = [];
   _allActivityTypes: any[] = [];
 
-  
+  noRecoredFound: boolean = false;
 
   constructor(
     private _router: Router,
@@ -304,8 +304,12 @@ export class ManageActivityComponent {
       .GetActivityBySearch(value)
       .subscribe( data => {
         this._allActivites = [];
+        data.forEach(element => {
+          if (element.persons.length !== 0) {
+            this._allActivites.push(element);
+          }
+        });
         let cnt = 0;
-        this._allActivites = data;
         this._allActivites.forEach(element => {
             if ( cnt % 2 === 0) {
               element.customClass = '';
@@ -317,6 +321,13 @@ export class ManageActivityComponent {
             element.customSinceTime = this.updateClock(startStamp);
           cnt++;
         });
+
+        if (this._allActivites.length == 0) {
+          this.noRecoredFound = true;
+        } else {
+          this.noRecoredFound = false;
+        }
+        
       });
   }
   getAllActivities() {
@@ -336,6 +347,11 @@ export class ManageActivityComponent {
           element.customSinceTime = this.updateClock(startStamp);
         cnt++;
       });
+        if (this._allActivites.length == 0) {
+          this.noRecoredFound = true;
+        } else {
+          this.noRecoredFound = false;
+        }
       //console.log(this._allActivites);
       });
   }

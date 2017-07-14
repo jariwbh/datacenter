@@ -97,7 +97,7 @@
         <div class="alert alert-danger col-md-8" *ngIf="!_countPerson" style="margin: 20px; width: 1200px;">
           <strong>Oops! </strong> No Record Found!!!
         </div>
-        <div *ngIf="_countPerson">
+        <div *ngIf="_countPerson" style="word-break: break-word">
           <p-dataTable 
               #dt 
               tableStyleClass="table table-hover"

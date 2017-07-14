@@ -324,6 +324,13 @@ export class FormComponent {
                     title: this.markerTitle, draggable: this.draggable }));
               }
             }
+          } else if (element.fieldtype == 'image') {
+            if ( document.getElementById('imagePath_' + element.labelname) ) {
+              const ispath = <HTMLInputElement> document.getElementById('imagePath_' + element.labelname);
+              if (data.person[element.labelname] != '') {
+                ispath.src = this._configuration.Server + data.person[element.labelname];
+              }
+            }
           }
         });
       });
