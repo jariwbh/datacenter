@@ -1,3 +1,4 @@
+
 @media screen and (min-width: 1620px) {
   .row.shift-up {
     > * {
@@ -26,3 +27,11 @@
 .blurCalendar {
   height: 475px;
 }
+@media screen and (max-width: 1023px) {
+    .col-sm-chart-12 {
+    -moz-box-flex: 0;
+    flex: 0 0 100%;
+    max-width: 100%;
+    }
+}
+  
