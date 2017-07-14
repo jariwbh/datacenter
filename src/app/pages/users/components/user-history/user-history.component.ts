@@ -6,6 +6,8 @@ import { AuditModel } from '../../../../core/models/audit/audit.model';
 
 import { AuthService } from '../../../../core/services/common/auth.service';
 
+import { SelectItem } from 'primeng/primeng';
+
 @Component({
   selector: 'nga-user-history',
   templateUrl: './user-history.html',
@@ -17,6 +19,8 @@ export class UserHistoryComponent {
   authId: string;
   _auditModel = new AuditModel();
   _auditLists: any [] = [];
+
+  cars: SelectItem[];
 
   constructor(
     private _router: Router,
@@ -30,6 +34,19 @@ export class UserHistoryComponent {
       } else {
         this.authId = this._authService.auth_id;
       }
+
+      this.cars = [];
+        this.cars.push({ label: 'Audi', value: 'Audi' });
+        this.cars.push({ label: 'BMW', value: 'BMW' });
+        this.cars.push({ label: 'Fiat', value: 'Fiat' });
+        this.cars.push({ label: 'Ford', value: 'Ford' });
+        this.cars.push({ label: 'Honda', value: 'Honda' });
+        this.cars.push({ label: 'Jaguar', value: 'Jaguar' });
+        this.cars.push({ label: 'Mercedes', value: 'Mercedes' });
+        this.cars.push({ label: 'Renault', value: 'Renault' });
+        this.cars.push({ label: 'VW', value: 'VW' });
+        this.cars.push({ label: 'Volvo', value: 'Volvo' });
+
   }
 
   ngOnInit() {

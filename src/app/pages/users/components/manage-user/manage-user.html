@@ -4,7 +4,7 @@
 <section class="managepeople">
   <div class="row" >
     <ba-card title="Users Detail" baCardClass="with-scroll">
-      <div class="row"> 
+      <div class="row" style="margin-bottom: 20px; margin-top: 20px;"> 
           <div class="col-sm-4">
               <select
                   id="provice"
@@ -38,7 +38,7 @@
        <div class="alert alert-danger col-md-8" *ngIf="!_countAdmin" style="margin: 20px; width: 1200px;">
         <strong>Oops! </strong> No Record Found!!!
       </div> 
-    <div *ngIf="_countAdmin">
+    <div *ngIf="_countAdmin" style="word-break: break-word">
       <p-dataTable
           #dt 
           tableStyleClass="table table-hover"
