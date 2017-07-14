@@ -34,9 +34,7 @@ export class BaPageTop {
             // this.username = this.authService.auth_email;
         }
     this._commonDataService.updatePData.subscribe(data => {
-      if (this._commonDataService.profilePicPath !== '') {
-           this.profilePicPath = this._commonDataService.profilePicPath;
-      }
+        this.profilePicPath = this._commonDataService.profilePicPath;
     });
   }
 
