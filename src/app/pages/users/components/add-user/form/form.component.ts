@@ -98,6 +98,8 @@ export class FormComponent {
 
    location = {};
 
+   _serverPath: any;
+
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -122,6 +124,8 @@ export class FormComponent {
       } else {
         this.authRole = this._authService.auth_user.role;
       }
+
+       this._serverPath = this._configuration.Server;
 
     // Default Sub Admin
       this.form = fb.group({
