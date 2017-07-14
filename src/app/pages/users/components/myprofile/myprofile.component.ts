@@ -73,7 +73,9 @@ export class MyprofileComponent {
                 let isImage = <HTMLInputElement> document.getElementById('image_' + element.labelname);
                 let isImageDisplay = <HTMLInputElement> document.getElementById('imagePath_' + element.labelname);
                 isImage.value = this.userData[element.labelname];
-                isImageDisplay.src = this._configuration.Server + this.userData[element.labelname];
+                if (this.userData[element.labelname] != '') {
+                  isImageDisplay.src = this._configuration.Server + this.userData[element.labelname];
+                }
               }
               element.value = this.userData[element.labelname];
               element.visiblity = false;

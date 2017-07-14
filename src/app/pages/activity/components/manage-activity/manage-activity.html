@@ -45,8 +45,10 @@
                 </div>
             </div>
             <ba-card title="Activity Timeline" baCardClass="with-scroll">
-                <ul class="timeline">
-                    <!--<li><div class="tldate">Apr 2014</div></li>-->
+                <div class="alert alert-danger col-md-8" *ngIf="noRecoredFound" style="margin: 20px; width: 1200px;">
+                    <strong>Oops! </strong> No Activity Found!!!
+                </div> 
+                <ul class="timeline" *ngIf="!noRecoredFound">
                     <li *ngFor="let act of _allActivites" [class]="act.customClass">
                         <div class="tl-circ"></div>
                         <div class="timeline-panel">

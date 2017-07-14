@@ -464,7 +464,10 @@ export class FormComponent {
             }
           } else if (element.fieldtype == 'image') {
             const ispath = <HTMLInputElement> document.getElementById('imagePath_' + element.labelname);
-            ispath.src = this._configuration.Server + data.admin[element.labelname];
+            if (data.admin[element.labelname] != '') {
+              ispath.src = this._configuration.Server + data.admin[element.labelname];
+            }
+            
           }
 
         });

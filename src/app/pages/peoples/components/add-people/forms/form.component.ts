@@ -327,7 +327,9 @@ export class FormComponent {
           } else if (element.fieldtype == 'image') {
             if ( document.getElementById('imagePath_' + element.labelname) ) {
               const ispath = <HTMLInputElement> document.getElementById('imagePath_' + element.labelname);
-              ispath.src = this._configuration.Server + data.person[element.labelname];
+              if (data.person[element.labelname] != '') {
+                ispath.src = this._configuration.Server + data.person[element.labelname];
+              }
             }
           }
         });
