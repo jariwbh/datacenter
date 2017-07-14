@@ -37,7 +37,14 @@ export class ManageActivityComponent {
   _districtOptionLists: any[] = [];
   _areaOptionLists: any[] = [];
 
-  _filteredArray: any [] = [];
+  _filteredArray: any = {};
+
+  _allProvinceLists: any[] = [];
+  _allDistrictLists: any[] = [];
+  _allAreaLists: any[] = [];
+  _allActivityTypes: any[] = [];
+
+  
 
   constructor(
     private _router: Router,
@@ -55,7 +62,14 @@ export class ManageActivityComponent {
         } else {
           this.authId = this._authService.auth_id;
         }
-  }
+        
+        this._filteredArray.activitytype = {};
+        this._filteredArray.province = {};
+        this._filteredArray.district = {};
+        this._filteredArray.area = {};
+
+        this._allActivityTypes = ['hashtag', 'facebook', 'telegram', 'other'];
+  } 
 
   ngOnInit() {
     this.getAllActivities();
@@ -63,7 +77,6 @@ export class ManageActivityComponent {
     this.getAllProvince();
     this.getAllDistrict();
     this.getAllArea();
-
   }
 
   getAllProvince() {
@@ -71,6 +84,9 @@ export class ManageActivityComponent {
           .GetAllProvince()
           .subscribe(
           data => {
+            data.forEach(element => {
+              this._allProvinceLists.push(element.name);
+            });
               this._provinceLists  = data;
           });
   }
@@ -81,6 +97,7 @@ export class ManageActivityComponent {
           data => {
               this._districtLists  = data;
               this._districtLists.forEach(element => {
+                this._allDistrictLists.push(element.district);
               const index = element.province;
               if ( !this._districtBasedOnProvince[index] ) {
                   this._districtBasedOnProvince[index] = [];
@@ -98,6 +115,7 @@ export class ManageActivityComponent {
           data => {
               this._areaLists  = data;
               this._areaLists.forEach(element => {
+                this._allAreaLists.push(element.area);
               const index = element.province;
               if ( !this._areaBasedOnProvince[index] ) {
                   this._areaBasedOnProvince[index] = [];
@@ -108,14 +126,92 @@ export class ManageActivityComponent {
           });
     }
   
+  onChangeType(value: any) {
+    
+    this._filteredArray['activitytype'] = [];
+    this._filteredArray['province'] = [];
+    this._filteredArray['district'] = [];
+    this._filteredArray['area'] = [];
+    
+    let proviceValue = <HTMLInputElement> document.getElementById('provice');
+    let districtValue = <HTMLInputElement> document.getElementById('district');
+    let areaValue = <HTMLInputElement> document.getElementById('area');
+
+    if (value == '' && proviceValue.value == '') {
+
+      this.getAllActivities();
+
+    } else {
+
+      if ( value == '') {
+        this._filteredArray['activitytype'] = this._allActivityTypes;
+      } else {
+        this._filteredArray['activitytype'].push(value);
+      }
+
+      if (proviceValue.value == '') {
+         this._filteredArray['province'] = this._allProvinceLists;
+      } else {
+        this._filteredArray['province'].push(proviceValue.value);
+      }
+
+      if (districtValue.value == '') {
+         this._filteredArray['district'] = this._allDistrictLists;
+      } else {
+        this._filteredArray['district'].push(districtValue.value);
+      }
+
+      if (areaValue.value == '') {
+         this._filteredArray['area'] = this._allAreaLists;
+      } else {
+        this._filteredArray['area'].push(areaValue.value);
+      }
+
+      this.getAllActivitiesByFiltter(this._filteredArray);
+    }
+  }
+
   onChangeProvince(value: any) {
-        this._allActivites = [];
-        if (value == '') {
+    
+        this._filteredArray['activitytype'] = [];
+        this._filteredArray['province'] = [];
+        this._filteredArray['district'] = [];
+        this._filteredArray['area'] = [];
+
+        let typeValue = <HTMLInputElement> document.getElementById('activitytype');
+        let districtValue = <HTMLInputElement> document.getElementById('district');
+        let areaValue = <HTMLInputElement> document.getElementById('area');
+
+          if (value == '' && typeValue.value == '') {
             this.getAllActivities();
-        } else {
-            //this.FilteredUsers('province', value);
-        }
-        
+          } else {
+            
+            if ( value == '') {
+              this._filteredArray['province'] = this._allProvinceLists;
+            } else {
+              this._filteredArray['province'].push(value);
+            }
+
+            if (typeValue.value == '') {
+              this._filteredArray['activitytype'] = this._allActivityTypes;
+            } else {
+              this._filteredArray['activitytype'].push(typeValue.value);
+            }
+
+            if (districtValue.value == '') {
+              this._filteredArray['district'] = this._allDistrictLists;
+            } else {
+              this._filteredArray['district'].push(districtValue.value);
+            }
+
+            if (areaValue.value == '') {
+              this._filteredArray['area'] = this._allAreaLists;
+            } else {
+              this._filteredArray['area'].push(areaValue.value);
+            }
+
+            this.getAllActivitiesByFiltter(this._filteredArray);
+          }
 
         this._districtOptionLists = [];
         this._areaOptionLists = [];
@@ -125,56 +221,91 @@ export class ManageActivityComponent {
   }
 
   onChangeDistrict(value: any) {
+        
+        this._filteredArray['activitytype'] = [];
+        this._filteredArray['province'] = [];
+        this._filteredArray['district'] = [];
+        this._filteredArray['area'] = [];
+        
+        let typeValue = <HTMLInputElement> document.getElementById('activitytype');
+        let proviceValue = <HTMLInputElement> document.getElementById('provice');
         let areaValue = <HTMLInputElement> document.getElementById('area');
         areaValue.value = '';
-        if (value == '') {
-            let proviceValue = <HTMLInputElement> document.getElementById('provice');
-            if (proviceValue) {
-                //this.FilteredUsers('province', proviceValue.value);
-            } else {
-                this.getAllActivities();
-            }
+
+        if ( (value == '') && (typeValue.value == '') && (proviceValue.value == '')) {
+          this.getAllActivities();
         } else {
-            //this.FilteredUsers('district', value);
+
+            if ( value == '') {
+              this._filteredArray['district'] = this._allDistrictLists;
+            } else {
+              this._filteredArray['district'].push(value);
+            }
+
+            if (typeValue.value == '') {
+              this._filteredArray['activitytype'] = this._allActivityTypes;
+            } else {
+              this._filteredArray['activitytype'].push(typeValue.value);
+            }
+
+            if (proviceValue.value == '') {
+              this._filteredArray['province'] = this._allProvinceLists;
+            } else {
+              this._filteredArray['province'].push(proviceValue.value);
+            }
+
+            this._filteredArray['area'] = this._allAreaLists;
+            this.getAllActivitiesByFiltter(this._filteredArray);
         }
         
     }
     onChangeArea(value: any) {
+        this._filteredArray['activitytype'] = [];
+        this._filteredArray['province'] = [];
+        this._filteredArray['district'] = [];
+        this._filteredArray['area'] = [];
+        
+        let typeValue = <HTMLInputElement> document.getElementById('activitytype');
+        let proviceValue = <HTMLInputElement> document.getElementById('provice');
         let districtValue = <HTMLInputElement> document.getElementById('district');
         districtValue.value = '';
-        if (value == '') {
-            let proviceValue = <HTMLInputElement> document.getElementById('provice');
-            if (proviceValue) {
-                //this.FilteredUsers('province', proviceValue.value);
-            } else {
-                this.getAllActivities();
-            }
+
+        if ( (value == '') && (typeValue.value == '') && (proviceValue.value == '')) {
+          this.getAllActivities();
         } else {
-            //this.FilteredUsers('area', value);
-        }
+
+            if ( value == '') {
+              this._filteredArray['area'] = this._allAreaLists;
+            } else {
+              this._filteredArray['area'].push(value);
+            }
+
+            if (typeValue.value == '') {
+              this._filteredArray['activitytype'] = this._allActivityTypes;
+            } else {
+              this._filteredArray['activitytype'].push(typeValue.value);
+            }
+
+            if (proviceValue.value == '') {
+              this._filteredArray['province'] = this._allProvinceLists;
+            } else {
+              this._filteredArray['province'].push(proviceValue.value);
+            }
+
+            this._filteredArray['district'] = this._allDistrictLists;
+            this.getAllActivitiesByFiltter(this._filteredArray);
+      }
         
     }
-  onChangeType(value: any) {
-    if (value == '') {
-      this.getAllActivities();
-    } else {
+  
 
-      //this.getAllActivitiesByFiltter(value);
-    }
-  }
-
-  getAllActivitiesByFiltter(field, value) {
-
+  getAllActivitiesByFiltter(value) {
     this._activityService
       .GetActivityBySearch(value)
       .subscribe( data => {
         this._allActivites = [];
         let cnt = 0;
-        data.forEach(element => {
-          if (element[field] == value) {
-            this._allActivites.push(element);
-          }
-        });
+        this._allActivites = data;
         this._allActivites.forEach(element => {
             if ( cnt % 2 === 0) {
               element.customClass = '';
