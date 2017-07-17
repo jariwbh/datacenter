@@ -1,3 +1,4 @@
+import { FieldsModel } from './../../../../core/models/dynamic-fields/fields.model';
 
 import { forEach } from '@angular/router/src/utils/collection';
 import { Component, OnInit } from '@angular/core';
@@ -7,7 +8,7 @@ import { ChartistJsService } from './chartistJs.service';
 import { ReportService } from './../../../../core/services/report/report.service';
 import { Message } from 'primeng/primeng';
 import { SettingsService } from './../../../../core/services/settings/settings.service';
-
+import { FieldsService } from './../../../../core/services/dynamic-fields/fields.service';
 
 @Component({
   selector: 'nga-chartist-js',
@@ -32,10 +33,20 @@ export class ChartistJsComponent {
   selectProvince: string = '';
   selectDistrict: string = '';
   xAxisField: string = '';
-
+  xAxisFieldValue: string = '';
+  fieldDyCountReport: any;
+  fieldDyBestReport: any = {};
+  fieldDyCompareReport: any = {};
+  fieldValueDyCountReport: any = {};
+  fieldValueDyBestReport: any = {};
+  fieldValueDyCompareReport: any = {};
+  
   showGenCompareReport = false;
   showGenSelectReport = false;
   showGenDynamicReport = false;
+  showGenDyCountReport = false;
+  showGenDyBestReport = false;
+  showGenDyCompareReport = false;
 
   dataComparePointHistory: any = {};
   dataCompareUserHistory: any = {};
@@ -45,6 +56,10 @@ export class ChartistJsComponent {
   dataSelectUserHistory: any = {};
   dataSelectResultHistory: any = {};
 
+  dataDyCountUserHistory: any = {};
+  dataDyBestUserHistory: any = {};
+  dataDyCompareUserHistory: any = {};
+
   msgs: Message[] = [];
   data: any;
   // allView: boolean = true;
@@ -52,8 +67,18 @@ export class ChartistJsComponent {
   selectedView: boolean = false;
   dynamicView: boolean = false;
 
+  countDyView: boolean = true;
+  bestDyView: boolean = false;
+  compareDyView: boolean = false;
+
   provinceList: any[] = [];
   districtList: any[] = [];
+  areaList: any[] = [];
+
+  districtListforDD: any[] = [];
+  areaListforDD: any[] = [];
+  
+  fieldList: any[] = [];
 
   defaultLabelArr: string[] = [];
   defaultseriesArr: number[] = [];
@@ -71,6 +96,7 @@ export class ChartistJsComponent {
   constructor(private _chartistJsService: ChartistJsService,
     private _ReportService: ReportService,
     private _Settings: SettingsService,
+    private _fieldsService: FieldsService,
   ) {
     this.defaultLabelArr = _ReportService.defaultLabelArr;
     this.defaultseriesArr = _ReportService.defaultseriesArr;
@@ -99,6 +125,18 @@ export class ChartistJsComponent {
       labels: this.defaultLabelArr,
       series: [this.defaultseriesArr],
     };
+    this.dataDyCountUserHistory = {
+      labels: this.defaultLabelArr,
+      series: [this.defaultseriesArr],
+    };
+    this.dataDyBestUserHistory = {
+      labels: this.defaultLabelArr,
+      series: [this.defaultseriesArr],
+    };
+    this.dataDyCompareUserHistory = {
+      labels: this.defaultLabelArr,
+      series: [this.defaultseriesArr],
+    };
     
   }
 
@@ -106,6 +144,8 @@ export class ChartistJsComponent {
     this.data = this._chartistJsService.getAll();
     this.getAllProvince();
     this.getAllDistrict();
+    this.getAllAreas();
+    this.getAllFields();
   }
 
   getAllProvince() {
@@ -122,6 +162,26 @@ export class ChartistJsComponent {
       }
     });
   }
+  getAllAreas() {
+    this._ReportService.GetAllArea().subscribe(data => {
+      if (data) {
+        this.areaList = data;
+      }
+    });
+  }
+  getAllFields() {
+    this._fieldsService
+          .GetAll('people')
+          .subscribe(
+          data => {
+            if (data) {
+               this.fieldList = data;
+              //  this.fieldList = this.fieldList.filter(ele => (ele.labelname !== 'province' &&
+              //   ele.labelname !== 'district' &&
+              //   ele.labelname !== 'area'));
+            }
+          });
+   }
   switchView(view: string) {
    
     this.selectType = '';
@@ -154,6 +214,44 @@ export class ChartistJsComponent {
     }
   }
 
+  switchDyView(view: string) {
+   
+    // this.selectType = '';
+    // this.compareTwo = '';
+    // this.firstProvince = '';
+    // this.secondProvince = '';
+    // this.firstDistrict = '';
+    // this.secondDistrict = '';
+    // this.selectProvince = '';
+    // this.selectDistrict = '';
+
+    // this.showGenCompareReport = false;
+    // this.showGenSelectReport = false;
+    // this.showGenDynamicReport = false;
+
+    this.showGenDyCountReport = false;
+    this.showGenDyBestReport = false;
+    this.showGenDyCompareReport = false;
+
+    this.xAxisField = '';
+    this.xAxisFieldValue = '';
+
+    if (view === 'CountDyView') {
+      
+      this.countDyView = true;
+      this.bestDyView = false;
+      this.compareDyView = false;
+    } else if (view === 'BestDyView') {
+      this.countDyView = false;
+      this.bestDyView = true;
+      this.compareDyView = false;
+    } else if (view === 'CompareDyView') {
+      this.countDyView = false;
+      this.bestDyView = false;
+      this.compareDyView = true;
+    }
+  }
+
   onChangeFieldToCompare(fieldsToCompare) {
     this.showGenCompareReport = false;
     this.firstProvince = '';
@@ -182,8 +280,43 @@ export class ChartistJsComponent {
      this.showGenDynamicReport = false;
      this.xAxisField = selectedField;
   }
-  onChangeAxisforDynamicReport(selectedAxis) {
-      
+  onChangeFieldValueforDynamicReport(selectedField) {
+     this.showGenDynamicReport = false;
+     this.xAxisFieldValue = selectedField;
+  }
+  onChangeFieldforDyCountReport(selectedField) {
+      this.showGenDyCountReport = false;
+      this.fieldDyCountReport = JSON.parse(selectedField);
+      // console.log(JSON.parse(selectedField));
+      this.xAxisField = this.fieldDyCountReport.displayname;
+  }
+  onChangeFieldforDyBestReport(selectedField) {
+      this.showGenDyBestReport = false;
+      this.fieldDyBestReport = selectedField;
+       // console.log(JSON.parse(selectedField));
+      this.xAxisField = this.fieldDyCountReport.displayname;
+  }
+  onChangeFieldforDyCompareReport(selectedField) {
+      this.showGenDyCompareReport = false;
+      this.fieldDyCompareReport = selectedField;
+  }
+  onChangeFieldValueforDyCountReport(selectedField) {
+      this.showGenDyCountReport = false;
+      this.fieldValueDyCountReport = selectedField;
+      // console.log(JSON.parse(selectedField));
+      this.xAxisFieldValue = selectedField;
+  }
+  // onChangeFieldValueforDyBestReport(selectedField) {
+  //     this.showGenDyBestReport = false;
+  //     this.fieldValueDyBestReport = selectedField;
+  //     // console.log(JSON.parse(selectedField));
+  //     this.xAxisFieldValue = selectedField;
+  // }
+  onChangeFieldValueforDyCompareReport(selectedField) {
+      this.showGenDyCompareReport = false;
+      this.fieldValueDyCompareReport = selectedField;
+      // console.log(JSON.parse(selectedField));
+      this.xAxisFieldValue = selectedField;
   }
 
   onChangeFirstProvince(firstProvince) {
@@ -214,8 +347,38 @@ export class ChartistJsComponent {
     this.selectDistrict = selectDistrict;
   }
 
-  genrateReportForDynamic() {
-   this.showGenDynamicReport = true;
+   onChangeDyProvince(province) {
+    if (province !== '') {
+      this.districtListforDD = this.districtList.filter(element => element.province === province);
+      this.areaListforDD = this.areaList.filter(element => element.province === province);
+    } else {
+      this.districtListforDD = [];
+      this.areaListforDD = [];
+    }
+  }
+
+  genrateReportForDyCount() {
+    this.dataDyCountUserHistory.series = [
+             [15, 24, 43, 57, 65, 70, 77, 82, 98, 100, 125, 200],
+        //     [13, 22, 49, 22, 4, 6, 24, 46, 57, 148, 22, 4],
+           ];
+   this.showGenDyCountReport = true;
+  }
+  genrateReportForDyBest() {
+     this.dataDyBestUserHistory.labels = ['Basra', 'Muthanna', 'Najaf', 'Babylon', 'Baghdad'];
+     this.dataDyBestUserHistory.series = [
+               [82, 98, 100, 125, 200],
+          //   [15, 24, 43, 37, 65, 80, 77, 82, 98, 100, 125, 200],
+        //     [13, 22, 49, 22, 4, 6, 24, 46, 57, 148, 22, 4],
+           ];
+   this.showGenDyBestReport = true;
+  }
+  genrateReportForDyCompare() {
+     this.dataDyCompareUserHistory.series = [
+             [15, 54, 43, 107, 65, 127, 87, 62, 98, 100, 125, 200],
+             [13, 22, 52, 62, 104, 76, 54, 96, 107, 148, 180, 190],
+           ];
+   this.showGenDyCompareReport = true;
   }
 
   genrateReportForCompare() {

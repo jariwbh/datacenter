@@ -48,7 +48,7 @@ export class UsersMap {
           { title: 'كركوك', id: 'IQ-KI', color: '#ffff77', customData: '0', groupId: '11', custtitle: 'كركوك' },
           { title: 'ميسان', id: 'IQ-MA', color: '#997463', customData: '0', groupId: '12', custtitle: 'ميسان' },
           { title: 'نينوى (الموصل)', id: 'IQ-NI', color: '#55cc20', customData: '0', groupId: '13', custtitle: 'نينوى (الموصل)' },
-          { title: 'حكم', id: 'IQ-WA', color: '#cc5520', customData: '0', groupId: '14', custtitle: 'حكم' },
+          { title: 'واسط', id: 'IQ-WA', color: '#cc5520', customData: '0', groupId: '14', custtitle: 'واسط' },
           { title: 'الانبار', id: 'IQ-AN', color: '#ccffcc', customData: '0', groupId: '15', custtitle: 'الانبار' },
           { title: 'اربيل', id: 'IQ-AR', color: '#ff9900', customData: '0', groupId: '16', custtitle: 'اربيل' },
           { title: 'دهوك', id: 'IQ-DA', color: '#ffcc00', customData: '0', groupId: '17', custtitle: 'دهوك' },

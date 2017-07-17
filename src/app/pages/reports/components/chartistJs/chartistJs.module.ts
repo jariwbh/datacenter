@@ -8,6 +8,7 @@ import { routing } from './chartistJs.routing';
 import { ChartistJsComponent } from './chartistJs.component';
 import { ChartistJsService } from './chartistJs.service';
 import { ReportService } from './../../../../core/services/report/report.service';
+import { FieldsService } from './../../../../core/services/dynamic-fields/fields.service';
 
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { GrowlModule } from 'primeng/primeng';
@@ -27,6 +28,7 @@ import { GrowlModule } from 'primeng/primeng';
   providers: [
     ChartistJsService,
     ReportService,
+    FieldsService,
   ],
 })
 export class ChartistJsModule {}
