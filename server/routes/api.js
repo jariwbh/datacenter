@@ -361,6 +361,39 @@ router.route('/reportpoint/district/:district')
         });    
 });
 
+router.route('/report/top5query')
+    .post(function(req, res)  {
+   
+        var provinces = req.body.province;
+        var districts = req.body.district;
+        var areas = req.body.area;
+        var id = "$person." + req.body.groupby;
+        var matchfield = "person." + req.body.groupby;
+    
+        Person.aggregate(
+        [     
+            { $match : { 
+                    "person.province" : { $in : provinces },
+                    "person.district" : { $in : districts },
+                    "person.area" : { $in : areas }
+            }},                           
+            {                      
+                $group : {
+                _id : id,
+                count: { $sum: 1 }                    
+            }},
+            { $sort: { count : -1 } },
+            { $limit: 5 }
+        ], function(err, data){
+            if (err)
+                {
+                    res.json(err);
+                }
+            res.json(data);
+        });
+     
+});
+
 router.route('/dashboard/province')
     
     .get(function(req, res) {        

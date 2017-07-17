@@ -9,7 +9,7 @@ export class Configuration {
        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
             this.Server = 'http://localhost:4200/';
        } else {
-            this.Server = 'https://datacenter-1234.herokuapp.com/';
+            this.Server = 'http://www.almuadin.net/';
        }
     }
 }
