@@ -422,70 +422,267 @@
   <div class="row" *ngIf="dynamicView">
     <ba-card title="Dynamic Reports" baCardClass="with-scroll" class="col-md-12">
       <div class="col-md-12">
-        <ba-card class="pie-chart-item-container col-md-12">
-          <div class="horizontal-scroll">
-            <div class="row">
-
-              <div class="col-md-2">
-                Select Field For X-Axis:
-              </div>
-              <div class="col-md-3">
-                <!--<select id="compare" class="form-control" value="State" [(ngModel)]="compareTwo">-->
-                <select id="dynamic" class="form-control" value="Province" (change)="onChangeFieldforDynamicReport($event.target.value)">
-                            <option value="">--- Select ---</option>
-                            <option value="Province">Province</option>
-                            <option value="Gender">Gender</option>
-                            <option value="Age">Age</option>
-                          </select>
-              </div>
-               <!--<div class="col-md-1">
-                 Select Field For Y-Axis:
-              </div>
-              <div class="col-md-3">
-                 <select id="compare" class="form-control" value="Province" (change)="onChangeFieldforDynamicReport($event.target.value)">
-                            <option value="">--- Select ---</option>
-                            <option value="Province">Province</option>
-                            <option value="Gender">Gender</option>
-                            <option value="Age">Age</option>
-                          </select>
-              </div>-->
-              <div class="form-group col-sm-2">
-                    <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForDynamic()">Generate Report</button>
-              </div>
+        <ba-card title="Scope" baCardClass="with-scroll">
+          <div class="row">
+            <div class="col-sm-4">
+              <select class="form-control" id="dyprovince" (change)="onChangeDyProvince($event.target.value)">
+                    <option value="">--Select Province--</option>
+                    <option [value]="p.name" *ngFor="let p of provinceList">{{p.name}}</option>
+                    <!--<option value="Baghdad">Baghdad</option>-->
+                  </select>
             </div>
-            <div class="col-md-12" >
-
+            <div class="col-sm-4">
+              <select class="form-control" id="dydistrict" (change)="onChangeDyDistrict($event.target.value)">
+                    <option value="">--Select District--</option>
+                    <option [value]="p.district" *ngFor="let p of districtListforDD">{{p.district}}</option>
+                    <!--<option value="Baghdad">Baghdad</option>
+                    <option value="Sadr">Sadr</option>-->
+                  </select>
             </div>
-
+            <div class="col-sm-4">
+              <select class="form-control" id="dyarea" (change)="onChangeDyArea($event.target.value)">
+                    <option value="">--Select Area--</option>
+                    <option [value]="p.area" *ngFor="let p of areaListforDD">{{p.area}}</option>
+                    <!--<option value="Baghdad">Baghdad</option>
+                    <option value="Sadr">Sadr</option>-->
+                  </select>
+            </div>
           </div>
         </ba-card>
-      </div>
-      <div class="col-md-12" *ngIf="showGenDynamicReport">
-         <div class="row">
-          <div class="col-md-12">
-             <ba-card title="Person History" baCardClass="with-scroll">
+        <div class="row">
+          <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-danger btn-rounded" (click)="switchDyView('CountDyView')"><span>Count Reports</span> </button></a></div>
+          <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-danger btn-rounded" (click)="switchDyView('BestDyView')"><span>Best Reports</span> </button></a></div>
+          <div class="col-lg-2 col-sm-4 col-xs-12"><a><button class="btn btn-block btn-danger btn-rounded" (click)="switchDyView('CompareDyView')"><span>Compare Reports</span> </button></a></div>
+        </div>
+        <div class="row" *ngIf="countDyView">
+          <ba-card title="Count Report" baCardClass="with-scroll" class="col-md-12">
+            <div class="col-md-12">
+              <ba-card class="pie-chart-item-container col-md-12">
+                <div class="horizontal-scroll">
+                  <div class="row">
+
+                    <div class="col-md-2">
+                      Select Field :
+                    </div>
+                    <div class="col-md-3">
+                      <select id="dynamic" class="form-control" value="" (change)="onChangeFieldforDyCountReport($event.target.value)">
+                            <option value="">--- Select ---</option>
+                            <option [value]="p | json" *ngFor="let p of fieldList">{{p.displayname}}</option>
+                            <!-- <option value="Province">Province</option>
+                            <option value="Gender">Gender</option>
+                            <option value="Age">Age</option> -->
+                          </select>
+                    </div>
+                    <div class="col-md-2">
+                      Select FieldValues :
+                    </div>
+                    <div class="col-md-3">
+                      <select id="compare" class="form-control" value="" (change)="onChangeFieldValueforDyCountReport($event.target.value)">
+                            <option value="">--- Select ---</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                          </select>
+                    </div>
+                    <div class="form-group col-sm-2">
+                      <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForDyCount()">Generate Report</button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+
+                  </div>
+
+                </div>
+              </ba-card>
+            </div>
+            <div class="col-md-12" *ngIf="showGenDyCountReport">
               <div class="row">
-                <h5 translate class="col-md-6">Person History Chart</h5>
-                <div class="col-md-6 row">
-                  <!--<div class="col-sm-1">
+                <div class="col-md-12">
+                  <ba-card title="Person History" baCardClass="with-scroll">
+                    <div class="row">
+                      <h5 translate class="col-md-4">Person History Chart</h5>
+                      <div class="col-md-8 row">
+                        <div class="col-sm-3">
+                          Selected Field :
+                        </div>
+                        <span class="col-sm-2 custom-margin">{{xAxisField}}</span>
+                        <div class="col-sm-3">
+                          Field Value :
+                        </div>
+                        <div class="col-sm-1">
+                          <button class="btn btn-block btn-danger btn-rounded" disabled><span>&nbsp;&nbsp;</span></button>
+                        </div>
+                        <span class="col-sm-2 custom-margin">{{xAxisFieldValue}}</span>
+                      </div>
+                    </div>
+                    <!-- <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
+                      [baChartistChartOptions]="data['simpleLineOptions']">
+                    </ba-chartist-chart> -->
+                    <!-- <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="dataDyCountUserHistory"
+                      [baChartistChartOptions]="data['simpleLineOptions']">
+                    </ba-chartist-chart> -->
+                    <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="dataDyCountUserHistory"
+                       [baChartistChartOptions]="data['simpleBarOptions']">
+                    </ba-chartist-chart>
+                  </ba-card>
+                </div>
+              </div>
+            </div>
+          </ba-card>
+        </div>
+        <div class="row" *ngIf="bestDyView">
+          <ba-card title="Best Report" baCardClass="with-scroll" class="col-md-12">
+            <div class="col-md-12">
+              <ba-card class="pie-chart-item-container col-md-12">
+                <div class="horizontal-scroll">
+                  <div class="row">
+
+                    <div class="col-md-2">
+                      Select Field :
+                    </div>
+                    <div class="col-md-3">
+                      <!--<select id="compare" class="form-control" value="State" [(ngModel)]="compareTwo">-->
+                      <select id="dynamic" class="form-control" value="Province" (change)="onChangeFieldforDynamicReport($event.target.value)">
+                            <option value="">--- Select ---</option>
+                            <option value="Province">Province</option>
+                            <option value="Gender">Gender</option>
+                            <option value="Age">Age</option>
+                          </select>
+                    </div>
+                   
+                    <div class="form-group col-sm-2">
+                      <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForDyBest()">Generate Report</button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+
+                  </div>
+
+                </div>
+              </ba-card>
+            </div>
+            <div class="col-md-12" *ngIf="showGenDyBestReport">
+              <div class="row">
+                <div class="col-md-12">
+                  <ba-card title="Person History" baCardClass="with-scroll">
+                    <div class="row">
+                      <h5 translate class="col-md-4">Person History Chart</h5>
+                      <div class="col-md-8 row">
+                        <!--<div class="col-sm-1">
                     <button class="btn btn-block btn-danger btn-rounded" disabled><span>&nbsp;&nbsp;</span></button>
                   </div>
                   <span class="col-sm-4 custom-margin" *ngIf="compareTwo === 'Province'">{{firstProvince}}</span>
                   <span class="col-sm-4 custom-margin" *ngIf="compareTwo === 'District'">{{firstDistrict}}</span>-->
-                  <div class="col-sm-3">
-                    X Axis Field :
-                  </div>
-                  <span class="col-sm-3 custom-margin">{{xAxisField}}</span>
-                  
+                        <div class="col-sm-3">
+                          Selected Field :
+                        </div>
+                        <span class="col-sm-2 custom-margin">{{xAxisField}}</span>
+                        <!-- <div class="col-sm-3">
+                          Field Value :
+                        </div>
+                        <div class="col-sm-1">
+                          <button class="btn btn-block btn-danger btn-rounded" disabled><span>&nbsp;&nbsp;</span></button>
+                        </div>
+                        <span class="col-sm-2 custom-margin">{{xAxisFieldValue}}</span> -->
+                      </div>
+                    </div>
+                    <!-- <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
+                      [baChartistChartOptions]="data['simpleLineOptions']">
+                    </ba-chartist-chart> -->
+                     <!-- <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="dataDyBestUserHistory"
+                      [baChartistChartOptions]="data['simpleLineOptions']">
+                    </ba-chartist-chart> -->
+                    <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="dataDyBestUserHistory"
+                       [baChartistChartOptions]="data['simpleBarOptions']">
+                    </ba-chartist-chart>
+                  </ba-card>
                 </div>
               </div>
-              <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
-                [baChartistChartOptions]="data['simpleLineOptions']">
-              </ba-chartist-chart>
-            </ba-card>
-          </div>
-         </div>
+            </div>
+          </ba-card>
+        </div>
+        <div class="row" *ngIf="compareDyView">
+          <ba-card title="Compare Report" baCardClass="with-scroll" class="col-md-12">
+             <div class="col-md-12">
+              <ba-card class="pie-chart-item-container col-md-12">
+                <div class="horizontal-scroll">
+                  <div class="row">
+
+                    <div class="col-md-2">
+                      Select Field :
+                    </div>
+                    <div class="col-md-3">
+                      <!--<select id="compare" class="form-control" value="State" [(ngModel)]="compareTwo">-->
+                      <select id="dynamic" class="form-control" value="Province" (change)="onChangeFieldforDynamicReport($event.target.value)">
+                            <option value="">--- Select ---</option>
+                            <option value="Province">Province</option>
+                            <option value="Gender">Gender</option>
+                            <option value="Age">Age</option>
+                          </select>
+                    </div>
+                    <div class="col-md-2">
+                      Select FieldValues :
+                    </div>
+                    <div class="col-md-3">
+                      <select id="compare" class="form-control" value="Province" (change)="onChangeFieldValueforDyCompareReport($event.target.value)">
+                            <option value="">--- Select ---</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                          </select>
+                    </div>
+                    <div class="form-group col-sm-2">
+                      <button class="btn btn-block btn-warning btn-rounded" (click)="genrateReportForDyCompare()">Generate Report</button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+
+                  </div>
+
+                </div>
+              </ba-card>
+            </div>
+            <div class="col-md-12" *ngIf="showGenDyCompareReport">
+              <div class="row">
+                <div class="col-md-12">
+                  <ba-card title="Person History" baCardClass="with-scroll">
+                    <div class="row">
+                      <h5 translate class="col-md-4">Person History Chart</h5>
+                      <div class="col-md-8 row">
+                        <!--<div class="col-sm-1">
+                    <button class="btn btn-block btn-danger btn-rounded" disabled><span>&nbsp;&nbsp;</span></button>
+                  </div>
+                  <span class="col-sm-4 custom-margin" *ngIf="compareTwo === 'Province'">{{firstProvince}}</span>
+                  <span class="col-sm-4 custom-margin" *ngIf="compareTwo === 'District'">{{firstDistrict}}</span>-->
+                        <div class="col-sm-3">
+                          Selected Field :
+                        </div>
+                        <span class="col-sm-2 custom-margin">{{xAxisField}}</span>
+                        <!-- <div class="col-sm-3">
+                          Field Value :
+                        </div>
+                        <div class="col-sm-1">
+                          <button class="btn btn-block btn-danger btn-rounded" disabled><span>&nbsp;&nbsp;</span></button>
+                        </div>
+                        <span class="col-sm-2 custom-margin">{{xAxisFieldValue}}</span> -->
+                      </div>
+                    </div>
+                    <!-- <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="data['simpleLineData']"
+                      [baChartistChartOptions]="data['simpleLineOptions']">
+                    </ba-chartist-chart> -->
+                     <!-- <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Line" [baChartistChartData]="dataDyCompareUserHistory"
+                      [baChartistChartOptions]="data['simpleLineOptions']">
+                    </ba-chartist-chart> -->
+                     <ba-chartist-chart baChartistChartClass="ct-chart" baChartistChartType="Bar" [baChartistChartData]="dataDyCompareUserHistory"
+                       [baChartistChartOptions]="data['simpleBarOptions']">
+                    </ba-chartist-chart>
+                  </ba-card>
+                </div>
+              </div>
+            </div>
+          </ba-card>
+        </div>
+
       </div>
+
 
     </ba-card>
   </div>

@@ -1,1 +1,68 @@
-<h1> Test Page </h1>
+<div class="horizontal-scroll">
+    <!-- <ba-card title="Users Detail" baCardClass="with-scroll"> -->
+    <ba-card title="Admin Detail" >
+         <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="align-right">Full Name</th>
+                    <th class="align-right">Email</th>
+                    <th class="align-right">Province</th>
+                    <th class="align-right">District</th>
+                    <th class="align-right">Area</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="align-right">
+                        <p-multiSelect 
+                            [options]="_searchAdmin" 
+                            [(ngModel)]="_selectedAdmins"
+                            (onChange)="onChange($event)">
+                        </p-multiSelect>
+                         <!-- <span>Selected Admins: {{_selectedAdmins}}</span>  -->
+                    </td>
+                    <td class="align-right">
+                        <select 
+                            class="form-control">
+                            <option value="">---- Select Email ----</option>
+                        </select>
+                    </td>
+                    <td class="align-right">
+                        <select 
+                            id="provice"
+                            (change)="onChangeProvince($event.target.value)"
+                            class="form-control">
+                            <option value="">---- Select Province ----</option>
+                            <option *ngFor="let pro of _provinceLists" [value]="pro.name">{{pro.name}}</option>
+                        </select>
+                    </td>
+                    <td class="align-right">
+                        <select 
+                            id="district"
+                            (change)="onChangeDistrict($event.target.value)"
+                            class="form-control">
+                            <option value="">---- Select District ----</option>
+                            <option *ngFor="let dist of _districtOptionLists" [value]="dist">{{dist}}</option>
+                        </select>
+                    </td>
+                    <td class="align-right">
+                        <select 
+                            id="area"
+                            (change)="onChangeArea($event.target.value)"
+                            class="form-control">
+                            <option value="">---- Select Area ----</option>
+                            <option *ngFor="let areas of _areaOptionLists" [value]="areas">{{areas}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr *ngFor="let user of adminlist">
+                    <td class="align-right">{{ user.fullname }}</td>
+                    <td class="align-right"><a class="email-link" href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                    <td class="align-right">{{ user.province }}</td>
+                    <td class="align-right">{{ user.district }}</td>
+                    <td class="align-right">{{ user.area }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </ba-card>
+</div>
