@@ -361,6 +361,50 @@ router.route('/reportpoint/district/:district')
         });    
 });
 
+router.route('/report/countquery')
+    .post(function(req, res)  {
+        var provinces = req.body.province;
+        var districts = req.body.district;
+        var areas = req.body.area;
+        var id = "$person." + req.body.groupby;
+        var matchfield = "person." + req.body.groupby;
+        var matchvalue = req.body.searchvalue;
+        
+        var fulldata = [];
+        var interval=0;
+
+        for (var i = 0, len = matchvalue.length; i < len; i++) {
+            var matchCriteria = {};    
+            matchCriteria[matchfield] = matchvalue[i];
+
+                Person.aggregate(
+                [     
+                    { $match : { 
+                            "person.province" : { $in : provinces },
+                            "person.district" : { $in : districts },
+                            "person.area" : { $in : areas }
+                    }},                 
+                    { $match : matchCriteria },                 
+                    {                      
+                        $group : {
+                        _id : { year: { $year : "$createdAt" }, month: { $month : "$createdAt" }},
+                        count: { $sum: 1 }                    
+                    }}
+                ]).exec()
+                .then(function(data){                              
+                    fulldata.push(data);
+                    interval +=1;                             
+                    if (interval==matchvalue.length){
+                        res.json(fulldata);
+                    }
+                })
+                .catch(function(err){
+                    console.log(err);
+                });       
+
+        }         
+});
+
 router.route('/report/top5query')
     .post(function(req, res)  {
    
