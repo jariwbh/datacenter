@@ -8,6 +8,9 @@
     "type": "git",
     "url": "https://github.com/akveo/ng2-admin.git"
   },
+  "engines": {
+    "node": "6.11.1"
+  }
   "bugs": {
     "url": "https://github.com/akveo/ng2-admin/issues"
   },
