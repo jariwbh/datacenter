@@ -19,6 +19,7 @@ export class BaPageTop {
   public username: string;
   public profilePicPath: string;
   public serverPath: string;
+  public currUser: any;
   constructor(private _state: GlobalState, private userloginService: UserloginService,
    private _router: Router, private authService: AuthService,
    private _commonDataService: CommonDataService,
@@ -32,6 +33,10 @@ export class BaPageTop {
             //this.roleList = JSON.parse(localStorage.getItem('currentUser')).roleList;
             this.profilePicPath = JSON.parse(localStorage.getItem('currentUser')).user.profile_picture;
             // this.username = this.authService.auth_email;
+            if (JSON.parse(localStorage.getItem('profilePicPath')) !== null) {
+               this.profilePicPath = JSON.parse(localStorage.getItem('profilePicPath'));
+            }
+            
         }
     this._commonDataService.updatePData.subscribe(data => {
         this.profilePicPath = this._commonDataService.profilePicPath;

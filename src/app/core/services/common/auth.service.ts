@@ -29,7 +29,7 @@ export class AuthService {
      this.auth_role = user.role;
      this.auth_id = user._id;
      this.auth_user = user.user;
-     
+     localStorage.setItem('profilePicPath', JSON.stringify(user.user.profile_picture));
   }
 
   isLoggedIn() {

@@ -52,6 +52,7 @@ export class UserloginService {
             if (data) {
                 //console.log(data.admin.profile_picture);
                 this._commonDataService.profilePicPath = data.admin.profile_picture;
+                localStorage.setItem('profilePicPath', JSON.stringify(data.admin.profile_picture));
                 this._commonDataService.updatePData.emit();
             }
          });
