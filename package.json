@@ -1,19 +1,19 @@
 {
-  "name": "datacenter",
-  "version": "0.0.0",
-  "license": "MIT",
-  "angular-cli": {},
-  "engines": {
-  "node": "8.1.4"
+  "name": "ng2-admin",
+  "version": "1.0.0",
+  "description": "Angular and Bootstrap 4 Admin Template.",
+  "author": "Akveo <contact@akveo.com>",
+  "homepage": "http://akveo.github.io/ng2-admin/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akveo/ng2-admin.git"
   },
+  "bugs": {
+    "url": "https://github.com/akveo/ng2-admin/issues"
+  },
+  "license": "MIT",
   "scripts": {
-    "start": "node server.js",
-    "lint": "tslint \"src/**/*.ts\"",
-    "test": "ng test",
-    "pree2e": "webdriver-manager update",
-    "e2e": "protractor",
-    "preinstall": "npm install -g angular-cli && npm install -g webpack && npm install -g @ngtools/webpack",
-    "postinstall": "ng build"
+    "serve-api": "node server.js"
   },
   "private": true,
   "dependencies": {
