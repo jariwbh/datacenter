@@ -7,12 +7,12 @@
   "node": "8.1.4"
   },
   "scripts": {
-    "start": "http-server",
+    "start": "node server.js",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "preinstall": "npm install -g angular-cli && npm install -g webpack && npm install -g @ngtools/webpack && npm install -g yarn",
+    "preinstall": "npm install -g angular-cli && npm install -g webpack && npm install -g @ngtools/webpack",
     "postinstall": "ng build"
   },
   "private": true,
