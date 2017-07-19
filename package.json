@@ -13,7 +13,7 @@
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
     "preinstall": "npm install -g angular-cli && npm install -g webpack && npm install -g @ngtools/webpack"
-    "postinstall": "ng build* ."
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {
